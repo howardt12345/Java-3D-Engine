@@ -7,7 +7,7 @@ public class Camera {
 	/** The lookAt Coordinate.*/
 	private Coordinate lookAt = new Coordinate (0, 0, 1);
 	/** The lookUp Coordinate.*/
-	private Coordinate lookUp = Coordinate.up;
+	private Coordinate lookUp = new Coordinate (0, 1, 0);
 	/** Internal values of the Camera.*/
 	private double nearClip = 0.3, farClip = 1000, FOV = 60, aspectRatio = 16/9;
 	/** The LookAt Translation Matrix.*/
@@ -103,7 +103,7 @@ public class Camera {
         
         double d = 1/Math.tan(FOV/2 * Math.PI/180);
         
-        projectionMatrix.set(d/aspectRatio, 0, 0);
+        projectionMatrix.set(d, 0, 0);
         
         projectionMatrix.set(d, 1, 1);
         
@@ -136,8 +136,10 @@ public class Camera {
 		System.out.println("***************");
 		new Matrix (transform).print();
 		System.out.println("***************");
-		lookFrom = Coordinate.Transform(Coordinate.center, new Matrix (transform.getPosition()));
-		lookAt = Coordinate.Transform(Coordinate.center, Matrix.multiply(new Matrix (transform), lookAtTranslate));
+		Matrix.multiply(new Matrix (transform), lookAtTranslate).print();
+		System.out.println("***************");
+		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
+		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform));
 		System.out.println ("LookFrom: " + lookFrom.asString());
 		System.out.println ("LookAt: " + lookAt.asString());
 	}
@@ -145,7 +147,7 @@ public class Camera {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addTranslate (float amount, Axis axis) {
+	public void addTranslate (double amount, Axis axis) {
 		switch (axis) {
 		case X:
 			transform.setPosX(transform.getPosX()+amount);
@@ -162,7 +164,7 @@ public class Camera {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setTranslate (float amount, Axis axis) {
+	public void setTranslate (double amount, Axis axis) {
 		switch (axis) {
 		case X:
 			transform.setPosX(amount);
@@ -179,7 +181,7 @@ public class Camera {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (float amount, Rotate axis) {
+	public void addRotate (double amount, Rotate axis) {
 		switch (axis) {
 		case X_Axis:
 			transform.setRotX(transform.getRotX()+amount);
@@ -196,7 +198,7 @@ public class Camera {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (float value, Rotate axis) {
+	public void setRotate (double value, Rotate axis) {
 		switch (axis) {
 		case X_Axis:
 			transform.setRotX(value);
@@ -213,7 +215,7 @@ public class Camera {
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addTranslate (float amount, Direction dir) {
+	public void addTranslate (double amount, Direction dir) {
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(transform.getPosZ()+amount);
@@ -239,7 +241,7 @@ public class Camera {
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setTranslate (float value, Direction dir) {
+	public void setTranslate (double value, Direction dir) {
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(value);
@@ -258,6 +260,58 @@ public class Camera {
 			break;
 		case Down:
 			transform.setPosY(value);
+			break;
+		}
+	}
+	/** Adds an amount to the specified Direction. 
+	 * @param amount the amount.
+	 * @param dir the Direction.
+	 */
+	public void addRotate (double amount, Direction dir) {
+		switch (dir) {
+		case Forward:
+			transform.setRotZ(transform.getRotZ()+amount);
+			break;
+		case Backward:
+			transform.setRotZ(transform.getRotZ()-amount);
+			break;
+		case Left:
+			transform.setRotX(transform.getRotX()-amount);
+			break;
+		case Right:
+			transform.setRotX(transform.getRotX()+amount);
+			break;
+		case Up:
+			transform.setRotY(transform.getRotY()-amount);
+			break;
+		case Down:
+			transform.setRotY(transform.getRotY()+amount);
+			break;
+		}
+	}
+	/** Sets a value to the specified Direction. 
+	 * @param value the value.
+	 * @param dir the Direction.
+	 */
+	public void setRotate (double value, Direction dir) {
+		switch (dir) {
+		case Forward:
+			transform.setRotZ(value);
+			break;
+		case Backward:
+			transform.setRotZ(-value);
+			break;
+		case Left:
+			transform.setRotX(-value);
+			break;
+		case Right:
+			transform.setRotX(value);
+			break;
+		case Up:
+			transform.setRotY(-value);
+			break;
+		case Down:
+			transform.setRotY(value);
 			break;
 		}
 	}

@@ -10,12 +10,25 @@ public class Main extends JPanel {
 	public static JFrame f = new JFrame();
 	public static void main (String[] args) {
 		Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
-		GameObject gameObject = new GameObject (new Transform (new Coordinate (0, 0, 160), new Rotation (0, 0, 0)), 
-				"Enterprise.txt", true);
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
-		
+		int[][] maze;
 		scene = new Scene (cam);
-		scene.add(gameObject);
+
+		try {
+			Scanner sc = new Scanner (new FileReader ("maze.txt"));
+			maze = new int[sc.nextInt()][sc.nextInt()];
+			for (int a = 0; a < maze.length; a++) {
+				for (int b = 0; b < maze[a].length; b++) {
+					if (sc.nextInt() == 1) {
+						scene.add(new GameObject (new Transform (new Coordinate (a*8, 0, b*8), new Rotation (0, 0, 0), new Scale (8)), "cube.txt", true));
+					}
+				}
+			}
+			
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		f.addKeyListener(new KeyListener () {
 			public void keyTyped(KeyEvent e) {
 				scene.get(e.toString());

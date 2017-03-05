@@ -98,7 +98,7 @@ public class GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addTranslate (float amount, Axis axis) {
+	public void addTranslate (double amount, Axis axis) {
 		switch (axis) {
 		case X:
 			transform.setPosX(transform.getPosX()+amount);
@@ -115,7 +115,7 @@ public class GameObject implements Serializable {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setTranslate (float amount, Axis axis) {
+	public void setTranslate (double amount, Axis axis) {
 		switch (axis) {
 		case X:
 			transform.setPosX(amount);
@@ -132,7 +132,7 @@ public class GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (float amount, Rotate axis) {
+	public void addRotate (double amount, Rotate axis) {
 		switch (axis) {
 		case X_Axis:
 			transform.setRotX(transform.getRotX()+amount);
@@ -149,7 +149,7 @@ public class GameObject implements Serializable {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (float value, Rotate axis) {
+	public void setRotate (double value, Rotate axis) {
 		switch (axis) {
 		case X_Axis:
 			transform.setRotX(value);
@@ -166,7 +166,7 @@ public class GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addTranslate (float amount, Direction dir) {
+	public void addTranslate (double amount, Direction dir) {
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(transform.getPosZ()+amount);
@@ -192,7 +192,7 @@ public class GameObject implements Serializable {
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setTranslate (float value, Direction dir) {
+	public void setTranslate (double value, Direction dir) {
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(value);
@@ -214,10 +214,62 @@ public class GameObject implements Serializable {
 			break;
 		}
 	}
+	/** Adds an amount to the specified Direction. 
+	 * @param amount the amount.
+	 * @param dir the Direction.
+	 */
+	public void addRotate (double amount, Direction dir) {
+		switch (dir) {
+		case Forward:
+			transform.setRotZ(transform.getRotZ()+amount);
+			break;
+		case Backward:
+			transform.setRotZ(transform.getRotZ()-amount);
+			break;
+		case Left:
+			transform.setRotX(transform.getRotX()-amount);
+			break;
+		case Right:
+			transform.setRotX(transform.getRotX()+amount);
+			break;
+		case Up:
+			transform.setRotY(transform.getRotY()-amount);
+			break;
+		case Down:
+			transform.setRotY(transform.getRotY()+amount);
+			break;
+		}
+	}
+	/** Sets a value to the specified Direction. 
+	 * @param value the value.
+	 * @param dir the Direction.
+	 */
+	public void setRotate (double value, Direction dir) {
+		switch (dir) {
+		case Forward:
+			transform.setRotZ(value);
+			break;
+		case Backward:
+			transform.setRotZ(-value);
+			break;
+		case Left:
+			transform.setRotX(-value);
+			break;
+		case Right:
+			transform.setRotX(value);
+			break;
+		case Up:
+			transform.setRotY(-value);
+			break;
+		case Down:
+			transform.setRotY(value);
+			break;
+		}
+	}
 	/** Returns the GameObject transformed by the ModelView Matrix.*/
 	private GameObject modelView(Matrix viewMatrix){
-		GameObject g = (GameObject) GameObject.deepClone(this);
-		Matrix modelView = Matrix.multiply(new Matrix (g.transform), viewMatrix);
+		GameObject g = (GameObject) deepClone(this);
+		Matrix modelView = Matrix.multiply(viewMatrix, new Matrix (g.transform));
 		for (int a = 0; a < g.object.size(); a++) {
 			ArrayList<Coordinate>poly = g.object.get(a);
 			for (int b = 0; b < g.object.get(a).size(); b++) {
@@ -232,11 +284,11 @@ public class GameObject implements Serializable {
 	 * @param cam the Camera to transform to.
 	 */
 	public static GameObject MVP (GameObject gameObject, Camera cam) {
-		GameObject g = gameObject.modelView(cam.LookAtMatrix());
+		GameObject g = (GameObject) deepClone(gameObject);
 		for (int a = 0; a < g.object.size(); a++) {
 			ArrayList<Coordinate> poly = g.object.get(a);
 			for (int b = 0; b < g.object.get(a).size(); b++) {
-				poly.set(b, poly.get(b).Transform(cam.perspectiveMatrix()).Normalized());
+				poly.set(b, poly.get(b).Transform(Matrix.multiply(Matrix.multiply(cam.perspectiveMatrix(), cam.LookAtMatrix()), new Matrix (g.transform))).Normalized());
 			}
 			g.object.set(a, poly);
 		}
