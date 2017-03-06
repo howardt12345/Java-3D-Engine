@@ -71,7 +71,7 @@ public class Camera {
 	 */
 	public Matrix LookAtMatrix () {
 		Coordinate vForward = Coordinate.subtract(lookAt, lookFrom).normalized();
-		Coordinate vUpNorm = lookUp.normalized().normalized();
+		Coordinate vUpNorm = lookUp.normalized();
 		Coordinate vSide = vUpNorm.cross(vForward).normalized();
 		vUpNorm = vForward.cross(vSide).normalized();
 		
@@ -139,9 +139,10 @@ public class Camera {
 		Matrix.multiply(new Matrix (transform), lookAtTranslate).print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
-		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform));
+		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1).Transform(new Matrix (transform.getRotation())), new Matrix (transform.getPosition()));
 		System.out.println ("LookFrom: " + lookFrom.asString());
 		System.out.println ("LookAt: " + lookAt.asString());
+		System.out.println ("LookUp: " + lookUp.asString());
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.

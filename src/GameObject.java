@@ -288,7 +288,7 @@ public class GameObject implements Serializable {
 		for (int a = 0; a < g.object.size(); a++) {
 			ArrayList<Coordinate> poly = g.object.get(a);
 			for (int b = 0; b < g.object.get(a).size(); b++) {
-				poly.set(b, poly.get(b).Transform(Matrix.multiply(Matrix.multiply(cam.perspectiveMatrix(), cam.LookAtMatrix()), new Matrix (g.transform))).Normalized());
+				poly.set(b, poly.get(b).Transform(new Matrix (g.transform)).Transform(cam.LookAtMatrix()).Transform(cam.perspectiveMatrix()).Normalized());
 			}
 			g.object.set(a, poly);
 		}
