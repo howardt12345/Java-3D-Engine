@@ -266,19 +266,6 @@ public class GameObject implements Serializable {
 			break;
 		}
 	}
-	/** Returns the GameObject transformed by the ModelView Matrix.*/
-	private GameObject modelView(Matrix viewMatrix){
-		GameObject g = (GameObject) deepClone(this);
-		Matrix modelView = Matrix.multiply(viewMatrix, new Matrix (g.transform));
-		for (int a = 0; a < g.object.size(); a++) {
-			ArrayList<Coordinate>poly = g.object.get(a);
-			for (int b = 0; b < g.object.get(a).size(); b++) {
-				poly.set(b, poly.get(b).Transform(modelView));
-			}
-			g.object.set(a, poly);
-		}
-		return g;
-	}
 	/** The Model View Perspective Matrix Transformation.
 	 * @param gameObject the GameObject to transform.
 	 * @param cam the Camera to transform to.

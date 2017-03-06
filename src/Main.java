@@ -20,13 +20,12 @@ public class Main extends JPanel {
 			for (int a = 0; a < maze.length; a++) {
 				for (int b = 0; b < maze[a].length; b++) {
 					if (sc.nextInt() == 1) {
-						scene.add(new GameObject (new Transform (new Coordinate (a*8, 0, b*8), new Rotation (0, 0, 0), new Scale (8)), "cube.txt", true));
+						scene.add(new GameObject (new Transform (new Coordinate ((a+1)*8, 0, (b+1)*8), new Rotation (0, 0, 0), new Scale (8)), "house.txt", true));
 					}
 				}
 			}
-			
+			sc.close();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		f.addKeyListener(new KeyListener () {

@@ -133,7 +133,7 @@ public class Matrix {
 	 * @param m1 the first Matrix.
 	 * @param m2 the second Matrix.
 	 */
-	public static Matrix multiply (Matrix m1, Matrix m2) {
+	public static Matrix multiplyx4 (Matrix m1, Matrix m2) {
 		Matrix m = new Matrix ();
 		for (int a = 0; a < 4; a++) {
 			m.set(m1.get(0, 0)*m2.get(0, a)+m1.get(0, 1)*m2.get(1, a)

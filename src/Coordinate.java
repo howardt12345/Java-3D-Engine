@@ -48,8 +48,8 @@ public class Coordinate implements Serializable{
 		);
 	}
 	/** Returns the Magnitude of this coordinate.*/
-	public float magnitude () {
-		return (float) Math.abs(
+	public double magnitude () {
+		return Math.abs(
 		Math.sqrt(
 				Math.pow(X, 2) + Math.pow(Y, 2) + Math.pow(Z, 2)
 			)
@@ -131,9 +131,11 @@ public class Coordinate implements Serializable{
 	 * @param vec Vector to add to Coordinate.
 	 */
 	public static Coordinate getVector (Coordinate c1, Coordinate c2) {
-		return new Coordinate (c2.X - c1.X, 
+		return new Coordinate 
+				(c2.X - c1.X, 
 				c2.Y - c1.Y, 
-				c2.Z - c1.Z, 0);
+				c2.Z - c1.Z, 
+				0);
 	}
 
 	/** Returns a Coordinate of the getMidpoint of 2 Coordinates.

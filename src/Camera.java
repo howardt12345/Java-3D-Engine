@@ -7,7 +7,7 @@ public class Camera {
 	/** The lookAt Coordinate.*/
 	private Coordinate lookAt = new Coordinate (0, 0, 1);
 	/** The lookUp Coordinate.*/
-	private Coordinate lookUp = new Coordinate (0, 1, 0);
+	private Coordinate lookUp = new Coordinate (0, 1, 0, 1);
 	/** Internal values of the Camera.*/
 	private double nearClip = 0.3, farClip = 1000, FOV = 60, aspectRatio = 16/9;
 	/** The LookAt Translation Matrix.*/
@@ -105,7 +105,7 @@ public class Camera {
         
         projectionMatrix.set(d, 0, 0);
         
-        projectionMatrix.set(d, 1, 1);
+        projectionMatrix.set(d*aspectRatio, 1, 1);
         
         projectionMatrix.set(-(nearClip+farClip)/(nearClip-farClip), 2, 2);
         projectionMatrix.set(-1, 2, 3);
@@ -136,10 +136,10 @@ public class Camera {
 		System.out.println("***************");
 		new Matrix (transform).print();
 		System.out.println("***************");
-		Matrix.multiply(new Matrix (transform), lookAtTranslate).print();
+		Matrix.multiplyx4(new Matrix (transform), lookAtTranslate).print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
-		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1).Transform(new Matrix (transform.getRotation())), new Matrix (transform.getPosition()));
+		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();
 		System.out.println ("LookFrom: " + lookFrom.asString());
 		System.out.println ("LookAt: " + lookAt.asString());
 		System.out.println ("LookUp: " + lookUp.asString());
