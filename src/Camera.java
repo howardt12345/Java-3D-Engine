@@ -136,7 +136,7 @@ public class Camera {
 		System.out.println("***************");
 		new Matrix (transform).print();
 		System.out.println("***************");
-		Matrix.multiplyx4(new Matrix (transform), lookAtTranslate).print();
+		Matrix.multiply(new Matrix (transform), lookAtTranslate).print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
 		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();

@@ -9,25 +9,23 @@ public class Main extends JPanel {
 	public static Scene scene;
 	public static JFrame f = new JFrame();
 	public static void main (String[] args) {
-		Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
+		Matrix m = new Matrix (5, 4);
+		Matrix m2 = new Matrix (new Transform (new Coordinate(0, 7, 5)));
+		m.print();
+		System.out.println("*********");
+		m2.print();
+		System.out.println("*********");
+		Matrix.multiply(m, m2).print();
+		/*Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
 		int[][] maze;
 		scene = new Scene (cam);
-
-		try {
-			Scanner sc = new Scanner (new FileReader ("maze.txt"));
-			maze = new int[sc.nextInt()][sc.nextInt()];
-			for (int a = 0; a < maze.length; a++) {
-				for (int b = 0; b < maze[a].length; b++) {
-					if (sc.nextInt() == 1) {
-						scene.add(new GameObject (new Transform (new Coordinate ((a+1)*8, 0, (b+1)*8), new Rotation (0, 0, 0), new Scale (8)), "house.txt", true));
-					}
-				}
-			}
-			sc.close();
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		scene.add(new GameObject 
+				(new Transform (0, 0, 160), 
+						"Enterprise.txt", 
+						true)
+				);
+		
 		f.addKeyListener(new KeyListener () {
 			public void keyTyped(KeyEvent e) {
 				scene.get(e.toString());
@@ -87,16 +85,7 @@ public class Main extends JPanel {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.add(new Main());
 		f.setSize(800, 600);
-		f.setVisible(true);
-		/*while (true) {
-			try {
-				Robot r = new Robot();
-				r.keyPress(KeyEvent.VK_LEFT);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}*/
+		f.setVisible(true);*/
 	}
 	public void paint(Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight());

@@ -7,7 +7,7 @@ public class Matrix {
 			{0, 0, 1, 0},
 			{0, 0, 0, 1}
 		};
-	/** New Matrix.*/
+	/** New Matrix. Default 4x4 Matrix.*/
 	public Matrix () {}
 	/** New Transformation matrix from Transform.
 	 * @param t
@@ -34,6 +34,14 @@ public class Matrix {
 	 */
 	public Matrix (Scale s) {
 		Scale (s);
+	}
+	public Matrix (int rows, int columns) {
+		matrix = new double[rows][columns];
+		for (int a = 0; a < rows; a++) {
+			for (int b = 0; b < columns; b++) {
+				matrix[a][b] = a == b ? 1 : 0;
+			}
+		}
 	}
 	/** Applies translation to matrix.
 	 * @param c the Coordinate to translate by.
@@ -133,19 +141,21 @@ public class Matrix {
 	 * @param m1 the first Matrix.
 	 * @param m2 the second Matrix.
 	 */
-	public static Matrix multiplyx4 (Matrix m1, Matrix m2) {
-		Matrix m = new Matrix ();
-		for (int a = 0; a < 4; a++) {
-			m.set(m1.get(0, 0)*m2.get(0, a)+m1.get(0, 1)*m2.get(1, a)
-					+m1.get(0, 2)*m2.get(2, a)+m1.get(0, 3)*m2.get(3, a), 0, a);
-			m.set(m1.get(1, 0)*m2.get(0, a)+m1.get(1, 1)*m2.get(1, a)
-					+m1.get(1, 2)*m2.get(2, a)+m1.get(1, 3)*m2.get(3, a), 1, a);
-			m.set(m1.get(2, 0)*m2.get(0, a)+m1.get(2, 1)*m2.get(1, a)
-					+m1.get(2, 2)*m2.get(2, a)+m1.get(2, 3)*m2.get(3, a), 2, a);
-			m.set(m1.get(3, 0)*m2.get(0, a)+m1.get(3, 1)*m2.get(1, a)
-					+m1.get(3, 2)*m2.get(2, a)+m1.get(3, 3)*m2.get(3, a), 3, a);
+	public static Matrix multiply (Matrix m1, Matrix m2) {
+		if (m1.columnLength() != m2.rowLength()) return null;
+		else {
+			Matrix m = new Matrix (m1.rowLength(), m2.columnLength());
+			for (int a = 0; a < m1.rowLength(); a++) {
+				for (int b = 0; b < m2.columnLength(); b++) {
+					int sum = 0;
+					for (int c = 0; c < m2.rowLength(); c++) {
+						sum += m1.get(a, c)*m2.get(c, b);
+					}
+					m.set(sum, a, b);
+				}
+			}
+			return m;
 		}
-		return m;
 	}
 	/** Sets the Matrix at the provided index.
 	 * @param value the value to set.
@@ -163,10 +173,16 @@ public class Matrix {
 	public double get (int row, int column) {
 		return matrix[row][column];
 	}
+	public int rowLength () {
+		return matrix.length;
+	}
+	public int columnLength () {
+		return matrix[0].length;
+	}
 	/** Prints the Matrix.*/
 	public void print () {
-		for (int a = 0; a < 4; a++) {
-			for (int b = 0; b < 4; b++) {
+		for (int a = 0; a < rowLength(); a++) {
+			for (int b = 0; b < columnLength(); b++) {
 				System.out.print(matrix[a][b] + " ");
 			}
 			System.out.println("");
