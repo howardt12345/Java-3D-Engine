@@ -43,6 +43,17 @@ public class Matrix {
 			}
 		}
 	}
+	/** Identity Matrix.
+	 */
+	public static Matrix identity () {
+		Matrix m = new Matrix ();
+		for (int a = 0; a < m.rowLength(); a++) {
+			for (int b = 0; b < m.columnLength(); b++) {
+				m.matrix[a][b] = a == b ? 1 : 0;
+			}
+		}
+		return m;
+	}
 	/** Identity Matrix from rows and columns.
 	 * @param rows
 	 * @param columns
@@ -57,11 +68,44 @@ public class Matrix {
 		}
 		return m;
 	}
-	/** Converts Matrix to identity Matrix.*/
-	public void identity () {
+	/** Overrides values of Matrix with identity Matrix.*/
+	public void toIdentity () {
 		for (int a = 0; a < rowLength(); a++) {
 			for (int b = 0; b < columnLength(); b++) {
 				matrix[a][b] = a == b ? 1 : 0;
+			}
+		}
+	}
+	/** Matrix with all values at 0.
+	 */
+	public static Matrix zero () {
+		Matrix m = new Matrix ();
+		for (int a = 0; a < m.rowLength(); a++) {
+			for (int b = 0; b < m.columnLength(); b++) {
+				m.matrix[a][b] = 0;
+			}
+		}
+		return m;
+	}
+	/** Matrix with all values at 0 from rows and columns.
+	 * @param rows
+	 * @param columns
+	 */
+	public static Matrix zero (int rows, int columns) {
+		Matrix m = new Matrix (rows, columns);
+		m.matrix = new double[rows][columns];
+		for (int a = 0; a < rows; a++) {
+			for (int b = 0; b < columns; b++) {
+				m.matrix[a][b] = 0;
+			}
+		}
+		return m;
+	}
+	/** Overrides values of Matrix with Matrix with all values at 0.*/
+	public void toZero () {
+		for (int a = 0; a < rowLength(); a++) {
+			for (int b = 0; b < columnLength(); b++) {
+				matrix[a][b] = 0;
 			}
 		}
 	}

@@ -12,13 +12,14 @@ public class Main extends JPanel {
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
 		scene = new Scene (cam);
 		
-		for (int a = 0; a < 10; a++) {
+		scene.add(new GameObject (new Transform (0, 0, 160), "Enterprise.txt", true));
+/*		for (int a = 0; a < 10; a++) {
 			for (int b = 0; b < 10; b++) {
 				scene.add(new GameObject (new Transform (
 						new Coordinate (a*10, 0, b*10), Rotation.zero, new Scale (10)), 
 						"cube.txt", true));
 			}
-		}
+		}*/
 		f.addKeyListener(new KeyListener () {
 			public void keyTyped(KeyEvent e) {
 				scene.get(e.toString());

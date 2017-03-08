@@ -70,29 +70,28 @@ public class Camera {
 	 * @return the lookAt Matrix.
 	 */
 	public Matrix LookAtMatrix () {
-		Coordinate vForward = Coordinate.subtract(lookFrom, lookAt).normalized();
-		Coordinate vUpNorm = lookUp.normalized();
-		Coordinate vSide = vUpNorm.cross(vForward).normalized();
-		vUpNorm = vForward.cross(vSide).normalized();
+		Coordinate Vz = Coordinate.subtract (lookAt, lookFrom).normalized();
+		Coordinate Vx = Coordinate.cross(Vz, lookUp).normalized();
+		Coordinate Vy = Coordinate.cross(Vx, Vz).normalized();
 		
 		Matrix viewMatrix = new Matrix();
 		
-		viewMatrix.set(vSide.getX(), 0, 0);
-		viewMatrix.set(vSide.getY(), 1, 0);
-		viewMatrix.set(vSide.getZ(), 2, 0);
+		viewMatrix.set(Vx.getX(), 0, 0);
+		viewMatrix.set(Vx.getY(), 0, 1);
+		viewMatrix.set(Vx.getZ(), 0, 2);
 
-		viewMatrix.set(vUpNorm.getX(), 0, 1);
-		viewMatrix.set(vUpNorm.getY(), 1, 1);
-		viewMatrix.set(vUpNorm.getZ(), 2, 1);
+		viewMatrix.set(Vy.getX(), 1, 0);
+		viewMatrix.set(Vy.getY(), 1, 1);
+		viewMatrix.set(Vy.getZ(), 1, 2);
 
-		viewMatrix.set(vForward.getX(), 0, 2);
-		viewMatrix.set(vForward.getY(), 1, 2);
-		viewMatrix.set(vForward.getZ(), 2, 2);
+		viewMatrix.set(Vz.getX(), 2, 0);
+		viewMatrix.set(Vz.getY(), 2, 1);
+		viewMatrix.set(Vz.getZ(), 2, 2);
 		
-		viewMatrix.set(-lookFrom.getX(), 0, 3);
-		viewMatrix.set(-lookFrom.getY(), 1, 3);
-		viewMatrix.set(-lookFrom.getZ(), 2, 3);
-				
+		viewMatrix.set(-Coordinate.dot(lookFrom, Vx), 0, 3);
+		viewMatrix.set(-Coordinate.dot(lookFrom, Vy), 1, 3);
+		viewMatrix.set(-Coordinate.dot(lookFrom, Vz), 2, 3);
+		
 		return viewMatrix;
 	}
 	/** The Camera Perspective projection Matrix.
@@ -135,7 +134,7 @@ public class Camera {
 		System.out.println("***************");
 		transform.print();
 		System.out.println("***************");
-		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
+		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform));
 		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();
 		System.out.println ("LookFrom: " + lookFrom.asString());
 		System.out.println ("LookAt: " + lookAt.asString());
@@ -228,10 +227,10 @@ public class Camera {
 			transform.setPosX(transform.getPosX()+amount);
 			break;
 		case Up:
-			transform.setPosY(transform.getPosY()-amount);
+			transform.setPosY(transform.getPosY()+amount);
 			break;
 		case Down:
-			transform.setPosY(transform.getPosY()+amount);
+			transform.setPosY(transform.getPosY()-amount);
 			break;
 		}
 	}
@@ -254,10 +253,10 @@ public class Camera {
 			transform.setPosX(value);
 			break;
 		case Up:
-			transform.setPosY(-value);
+			transform.setPosY(value);
 			break;
 		case Down:
-			transform.setPosY(value);
+			transform.setPosY(-value);
 			break;
 		}
 	}
@@ -280,10 +279,10 @@ public class Camera {
 			transform.setRotX(transform.getRotX()+amount);
 			break;
 		case Up:
-			transform.setRotY(transform.getRotY()-amount);
+			transform.setRotY(transform.getRotY()+amount);
 			break;
 		case Down:
-			transform.setRotY(transform.getRotY()+amount);
+			transform.setRotY(transform.getRotY()-amount);
 			break;
 		}
 	}
@@ -306,10 +305,10 @@ public class Camera {
 			transform.setRotX(value);
 			break;
 		case Up:
-			transform.setRotY(-value);
+			transform.setRotY(value);
 			break;
 		case Down:
-			transform.setRotY(value);
+			transform.setRotY(-value);
 			break;
 		}
 	}
