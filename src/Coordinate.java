@@ -82,13 +82,13 @@ public class Coordinate implements Serializable{
 		return (coord1.X*coord2.X) + (coord1.Y*coord2.Y) + (coord1.Z*coord2.Z) + (coord1.W*coord2.W);
 	}
 	/** Returns the Cross Product of two Coordinates.
-	 * @param vec1 Vector #1
-	 * @param vec2 Vector #2*/
-	public static Coordinate cross (Coordinate vec1, Coordinate vec2) {
+	 * @param c1 Vector #1
+	 * @param c2 Vector #2*/
+	public static Coordinate cross (Coordinate c1, Coordinate c2) {
 		return new Coordinate (
-				vec1.Y*vec2.Z - vec1.Z*vec2.Y,
-				vec1.Z*vec2.X - vec1.X*vec2.Z,
-				vec1.X*vec2.Y - vec1.Y*vec2.X,
+				c1.Y*c2.Z - c1.Z*c2.Y,
+				c1.Z*c2.X - c1.X*c2.Z,
+				c1.X*c2.Y - c1.Y*c2.X,
 				0
 				);
 	}

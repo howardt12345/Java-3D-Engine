@@ -70,7 +70,7 @@ public class Camera {
 	 * @return the lookAt Matrix.
 	 */
 	public Matrix LookAtMatrix () {
-		Coordinate vForward = Coordinate.subtract(lookAt, lookFrom).normalized();
+		Coordinate vForward = Coordinate.subtract(lookFrom, lookAt).normalized();
 		Coordinate vUpNorm = lookUp.normalized();
 		Coordinate vSide = vUpNorm.cross(vForward).normalized();
 		vUpNorm = vForward.cross(vSide).normalized();
@@ -101,16 +101,17 @@ public class Camera {
     public Matrix perspectiveMatrix () {
         Matrix projectionMatrix = new Matrix ();
         
-        double d = 1/Math.tan(FOV/2 * Math.PI/180);
+        double right = nearClip * Math.tan(Math.toRadians(FOV)/2);
+        double top = right / aspectRatio;
         
-        projectionMatrix.set(d, 0, 0);
+        projectionMatrix.set(nearClip/right, 0, 0);
         
-        projectionMatrix.set(d, 1, 1);
+        projectionMatrix.set(nearClip/top, 1, 1);
         
-        projectionMatrix.set(-(nearClip+farClip)/(nearClip-farClip), 2, 2);
+        projectionMatrix.set(-(farClip+nearClip)/(farClip-nearClip), 2, 2);
         projectionMatrix.set(-1, 3, 2);
         
-        projectionMatrix.set(-(2*farClip*nearClip)/(nearClip-farClip), 2, 3);
+        projectionMatrix.set(-(2*farClip*nearClip)/(farClip-nearClip), 2, 3);
         projectionMatrix.set(0, 3, 3);
         
         return projectionMatrix;
@@ -133,8 +134,6 @@ public class Camera {
 	public void Transform () {
 		System.out.println("***************");
 		transform.print();
-		System.out.println("***************");
-		new Matrix (transform).print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
 		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();

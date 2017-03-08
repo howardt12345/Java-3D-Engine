@@ -15,7 +15,7 @@ public class Matrix {
 	public Matrix (Transform t) {
 		Translate (t.getPosition());
 		RotateXYZ (t.getRotation());
-		Scale (t.getScale());
+		//Scale (t.getScale());
 	}
 	/** New Translation Matrix from Coordinate.
 	 * @param c the Coordinate.
@@ -88,6 +88,9 @@ public class Matrix {
 	 * @param r the Rotation.
 	 */
 	public void RotateXYZ (Rotation r) {
+		/*rotateX (r);
+		rotateY (r);
+		rotateZ (r);*/
 		set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
 		set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
 				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
@@ -109,6 +112,9 @@ public class Matrix {
 	 */
 	public Matrix rotationXYZ (Rotation r) {
 		Matrix m = new Matrix ();
+		/*m.rotationX (r);
+		m.rotationY (r);
+		m.rotationZ (r);*/
 		m.set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
 		m.set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
 				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
@@ -127,6 +133,9 @@ public class Matrix {
 		return m;
 	}
 	public void RotateZYX (Rotation r) {
+		/*rotateZ (r);
+		rotateY (r);
+		rotateX (r);*/
 		set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
 		set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
 		set((Math.sin(r.getRadianY())), 0, 2);
@@ -149,6 +158,9 @@ public class Matrix {
 	}
 	public Matrix rotationZYX (Rotation r) {
 		Matrix m = new Matrix();
+		/*m.rotationZ (r);
+		m.rotationY (r);
+		m.rotationX (r);*/
 		m.set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
 		m.set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
 		m.set( (Math.sin(r.getRadianY())), 0, 2);
