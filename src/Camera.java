@@ -105,12 +105,12 @@ public class Camera {
         
         projectionMatrix.set(d, 0, 0);
         
-        projectionMatrix.set(d*aspectRatio, 1, 1);
+        projectionMatrix.set(d, 1, 1);
         
         projectionMatrix.set(-(nearClip+farClip)/(nearClip-farClip), 2, 2);
-        projectionMatrix.set(-1, 2, 3);
+        projectionMatrix.set(-1, 3, 2);
         
-        projectionMatrix.set(-(2*farClip*nearClip)/(nearClip-farClip), 3, 2);
+        projectionMatrix.set(-(2*farClip*nearClip)/(nearClip-farClip), 2, 3);
         projectionMatrix.set(0, 3, 3);
         
         return projectionMatrix;
@@ -135,8 +135,6 @@ public class Camera {
 		transform.print();
 		System.out.println("***************");
 		new Matrix (transform).print();
-		System.out.println("***************");
-		Matrix.multiply(new Matrix (transform), lookAtTranslate).print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform.getPosition()));
 		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();

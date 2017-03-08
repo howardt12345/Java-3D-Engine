@@ -275,7 +275,7 @@ public class GameObject implements Serializable {
 		for (int a = 0; a < g.object.size(); a++) {
 			ArrayList<Coordinate> poly = g.object.get(a);
 			for (int b = 0; b < g.object.get(a).size(); b++) {
-				poly.set(b, poly.get(b).Transform(new Matrix (g.transform)).Transform(cam.LookAtMatrix()).Transform(cam.perspectiveMatrix()).Normalized());
+				poly.set(b, poly.get(b).Transform(new Matrix (g.transform).rotationXYZ(g.transform.getRotation())).Transform(cam.LookAtMatrix()).Transform(cam.perspectiveMatrix()).Normalized());
 			}
 			g.object.set(a, poly);
 		}
@@ -287,8 +287,8 @@ public class GameObject implements Serializable {
 			xCoord = new int [object.get(a).size()];
 			yCoord = new int [object.get(a).size()];
 			for (int b = 0; b < object.get(a).size(); b++) {
-				xCoord[b] = (int) Math.rint((cam.getNearClip()*object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
-				yCoord[b] = (int) Math.rint((cam.getNearClip()*object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
+				xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
+				yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
 			}
 			g.drawPolygon(xCoord, yCoord, xCoord.length);
 		}

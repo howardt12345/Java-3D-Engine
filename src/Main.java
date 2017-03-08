@@ -9,14 +9,7 @@ public class Main extends JPanel {
 	public static Scene scene;
 	public static JFrame f = new JFrame();
 	public static void main (String[] args) {
-		Matrix m = new Matrix (5, 4);
-		Matrix m2 = new Matrix (new Transform (new Coordinate(0, 7, 5)));
-		m.print();
-		System.out.println("*********");
-		m2.print();
-		System.out.println("*********");
-		Matrix.multiply(m, m2).print();
-		/*Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
+		Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
 		int[][] maze;
 		scene = new Scene (cam);
@@ -85,7 +78,7 @@ public class Main extends JPanel {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.add(new Main());
 		f.setSize(800, 600);
-		f.setVisible(true);*/
+		f.setVisible(true);
 	}
 	public void paint(Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight());

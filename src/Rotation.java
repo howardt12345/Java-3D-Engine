@@ -40,6 +40,18 @@ public class Rotation implements Serializable{
 	public double getZ () {
 		return Z;
 	}
+	/** Returns the X value of the Rotation in Radians.*/
+	public double getRadianX () {
+		return Math.toRadians(X);
+	}
+	/** Returns the Y value of the Rotation in Radians.*/
+	public double getRadianY () {
+		return Math.toRadians(Y);
+	}
+	/** Returns the Z value of the Rotation in Radians.*/
+	public double getRadianZ () {
+		return Math.toRadians(Z);
+	}
 	/** Set x, y and z components of an existing Rotation.
 	 * @param new_x new X component.
 	 * @param new_y new Y component.

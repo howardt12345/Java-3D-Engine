@@ -14,7 +14,7 @@ public class Matrix {
 	 */
 	public Matrix (Transform t) {
 		Translate (t.getPosition());
-		Rotate (t.getRotation());
+		RotateXYZ (t.getRotation());
 		Scale (t.getScale());
 	}
 	/** New Translation Matrix from Coordinate.
@@ -27,7 +27,7 @@ public class Matrix {
 	 * @param r the Rotation.
 	 */
 	public Matrix (Rotation r) {
-		Rotate (r);
+		RotateXYZ (r);
 	}
 	/** new Scaling Matrix from Scale.
 	 * @param s the Scale.
@@ -39,6 +39,28 @@ public class Matrix {
 		matrix = new double[rows][columns];
 		for (int a = 0; a < rows; a++) {
 			for (int b = 0; b < columns; b++) {
+				matrix[a][b] = a == b ? 1 : 0;
+			}
+		}
+	}
+	/** Identity Matrix from rows and columns.
+	 * @param rows
+	 * @param columns
+	 */
+	public static Matrix identity (int rows, int columns) {
+		Matrix m = new Matrix (rows, columns);
+		m.matrix = new double[rows][columns];
+		for (int a = 0; a < rows; a++) {
+			for (int b = 0; b < columns; b++) {
+				m.matrix[a][b] = a == b ? 1 : 0;
+			}
+		}
+		return m;
+	}
+	/** Converts Matrix to identity Matrix.*/
+	public void identity () {
+		for (int a = 0; a < rowLength(); a++) {
+			for (int b = 0; b < columnLength(); b++) {
 				matrix[a][b] = a == b ? 1 : 0;
 			}
 		}
@@ -62,54 +84,150 @@ public class Matrix {
 		m.set(c.getW(), 3, 3);
 		return m;
 	}
-	/** Applies rotation to Matrix.
+	/** Applies XYZ rotation to Matrix .
 	 * @param r the Rotation.
 	 */
-	public void Rotate (Rotation r) {
-		set((Math.cos(Math.toRadians(r.getY()))*Math.cos(Math.toRadians(r.getZ()))), 0, 0);
-		set((-Math.cos(Math.toRadians(r.getY()))*Math.sin(Math.toRadians(r.getZ()))), 0, 1);
-		set( (Math.sin(Math.toRadians(r.getY()))), 0, 2);
+	public void RotateXYZ (Rotation r) {
+		set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
+		set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
+		set(Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())*Math.sin(r.getRadianY())
+				+ Math.sin(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 2);
 		
-		set((Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getZ()))
-				+Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.cos(Math.toRadians(r.getZ()))), 1, 0);
-		set((Math.cos(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getZ()))
-				-Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.sin(Math.toRadians(r.getZ()))), 1, 1);
-		set(-(Math.sin(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getY()))), 1, 2);
+		set(Math.cos(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 0);
+		set(Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())
+			+Math.sin(r.getRadianX())*Math.sin(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 1);
+		set(-Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())
+			+Math.cos(r.getRadianX())*Math.sin(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 2);
 		
-		set((Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getZ()))
-				-Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.cos(Math.toRadians(r.getZ()))), 2, 0);
-		set((Math.sin(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getZ()))
-				+Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.sin(Math.toRadians(r.getZ()))), 2, 1);
-		set((Math.cos(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getY()))), 2, 2);
+		set(-Math.sin(r.getRadianY()), 2, 0);
+		set(Math.cos(r.getRadianY())*Math.sin(r.getRadianX()), 2, 1);
+		set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);
 	}
-	/** Returns a Matrix with rotation applied.
+	/** Returns a Matrix with XYZ rotation applied.
 	 * @param r the Rotation.
 	 */
-	public Matrix rotationMatrix (Rotation r) {
+	public Matrix rotationXYZ (Rotation r) {
+		Matrix m = new Matrix ();
+		m.set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
+		m.set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
+		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())*Math.sin(r.getRadianY())
+				+ Math.sin(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 2);
+		
+		m.set(Math.cos(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 0);
+		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())
+			+Math.sin(r.getRadianX())*Math.sin(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 1);
+		m.set(-Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())
+			+Math.cos(r.getRadianX())*Math.sin(r.getRadianY())*Math.sin(r.getRadianZ()), 1, 2);
+		
+		m.set(-Math.sin(r.getRadianY()), 2, 0);
+		m.set(Math.cos(r.getRadianY())*Math.sin(r.getRadianX()), 2, 1);
+		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);
+		return m;
+	}
+	public void RotateZYX (Rotation r) {
+		set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
+		set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
+		set((Math.sin(r.getRadianY())), 0, 2);
+		
+		set((Math.cos(r.getRadianX())*Math.sin(r.getRadianZ())
+				+Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.cos(r.getRadianZ())), 1, 0);
+		set((Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())
+				-Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.sin(r.getRadianZ())), 1, 1);
+		set(-(Math.sin(r.getRadianX())*Math.cos(r.getRadianY())), 1, 2);
+		
+		set((Math.sin(r.getRadianX())*Math.sin(r.getRadianZ())
+				-Math.cos(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.cos(r.getRadianZ())), 2, 0);
+		set((Math.sin(r.getRadianX())*Math.cos(r.getRadianZ())
+				+Math.cos(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.sin(r.getRadianZ())), 2, 1);
+		set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);
+	}
+	public Matrix rotationZYX (Rotation r) {
 		Matrix m = new Matrix();
-		m.set((Math.cos(Math.toRadians(r.getY()))*Math.cos(Math.toRadians(r.getZ()))), 0, 0);
-		m.set((-Math.cos(Math.toRadians(r.getY()))*Math.sin(Math.toRadians(r.getZ()))), 0, 1);
-		m.set( (Math.sin(Math.toRadians(r.getY()))), 0, 2);
+		m.set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
+		m.set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
+		m.set( (Math.sin(r.getRadianY())), 0, 2);
 		
-		m.set((Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getZ()))
-				+Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.cos(Math.toRadians(r.getZ()))), 1, 0);
-		m.set((Math.cos(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getZ()))
-				-Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.sin(Math.toRadians(r.getZ()))), 1, 1);
-		m.set(-(Math.sin(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getY()))), 1, 2);
+		m.set((Math.cos(r.getRadianX())*Math.sin(r.getRadianZ())
+				+Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.cos(r.getRadianZ())), 1, 0);
+		m.set((Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())
+				-Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.sin(r.getRadianZ())), 1, 1);
+		m.set(-(Math.sin(r.getRadianX())*Math.cos(r.getRadianY())), 1, 2);
 		
-		m.set((Math.sin(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getZ()))
-				-Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.cos(Math.toRadians(r.getZ()))), 2, 0);
-		m.set((Math.sin(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getZ()))
-				+Math.cos(Math.toRadians(r.getX()))*Math.sin(Math.toRadians(r.getY()))
-				*Math.sin(Math.toRadians(r.getZ()))), 2, 1);
-		m.set((Math.cos(Math.toRadians(r.getX()))*Math.cos(Math.toRadians(r.getY()))), 2, 2);
+		m.set((Math.sin(r.getRadianX())*Math.sin(r.getRadianZ())
+				-Math.cos(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.cos(r.getRadianZ())), 2, 0);
+		m.set((Math.sin(r.getRadianX())*Math.cos(r.getRadianZ())
+				+Math.cos(r.getRadianX())*Math.sin(r.getRadianY())
+				*Math.sin(r.getRadianZ())), 2, 1);
+		m.set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);
+		return m;
+	}
+	/** Applies Rotational values on X Axis to Matrix.
+	 * @param r the rotation.
+	 */
+	public void rotateX (Rotation r) {
+		set(Math.cos(r.getRadianX()), 1, 1);
+		set(-Math.sin(r.getRadianX()), 1, 2);
+		set(Math.sin(r.getRadianX()), 2, 1);
+		set(Math.cos(r.getRadianX()), 2, 2);
+	}
+	/** Returns the Rotational Matrix on the X Axis of the Rotation.
+	 * @param r the rotation.
+	 */
+	public Matrix rotationX (Rotation r) {
+		Matrix m = new Matrix ();
+		m.set(Math.cos(r.getRadianX()), 1, 1);
+		m.set(-Math.sin(r.getRadianX()), 1, 2);
+		m.set(Math.sin(r.getRadianX()), 2, 1);
+		m.set(Math.cos(r.getRadianX()), 2, 2);
+		return m;
+	}
+	/** Applied Rotational values on Y Axis to Matrix.
+	 * @param r the rotation.
+	 */
+	public void rotateY (Rotation r) {
+		set(Math.cos(r.getRadianY()), 0, 0);
+		set(Math.sin(r.getRadianY()), 0, 2);
+		set(-Math.sin(r.getRadianY()), 2, 0);
+		set(Math.cos(r.getRadianY()), 2, 2);
+	}
+	/** Returns the Rotational Matrix on the Y Axis of the Rotation.
+	 * @param r the rotation.
+	 */
+	public Matrix rotationY (Rotation r) {
+		Matrix m = new Matrix ();
+		m.set(Math.cos(r.getRadianY()), 0, 0);
+		m.set(Math.sin(r.getRadianY()), 0, 2);
+		m.set(-Math.sin(r.getRadianY()), 2, 0);
+		m.set(Math.cos(r.getRadianY()), 2, 2);
+		return m;
+	}
+	/** Applied Rotational values on Z Axis to Matrix.
+	 * @param r the rotation.
+	 */
+	public void rotateZ (Rotation r) {
+		set(Math.cos(r.getRadianZ()), 0, 0);
+		set(-Math.sin(r.getRadianZ()), 0, 1);
+		set(Math.sin(r.getRadianZ()), 1, 0);
+		set(Math.cos(r.getRadianZ()), 1, 1);
+	}
+	/** Returns the Rotational Matrix on the Z Axis of the Rotation.
+	 * @param r the rotation.
+	 */
+	public Matrix rotationZ (Rotation r) {
+		Matrix m = new Matrix ();
+		m.set(Math.cos(r.getRadianZ()), 0, 0);
+		m.set(-Math.sin(r.getRadianZ()), 0, 1);
+		m.set(Math.sin(r.getRadianZ()), 1, 0);
+		m.set(Math.cos(r.getRadianZ()), 1, 1);
 		return m;
 	}
 	public Matrix scale (Scale s) {
