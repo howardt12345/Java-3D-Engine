@@ -92,7 +92,7 @@ public class Camera {
 		viewMatrix.set(-lookFrom.getX(), 0, 3);
 		viewMatrix.set(-lookFrom.getY(), 1, 3);
 		viewMatrix.set(-lookFrom.getZ(), 2, 3);
-		
+				
 		return viewMatrix;
 	}
 	/** The Camera Perspective projection Matrix.

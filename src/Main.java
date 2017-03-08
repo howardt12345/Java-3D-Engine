@@ -9,12 +9,10 @@ public class Main extends JPanel {
 	public static Scene scene;
 	public static JFrame f = new JFrame();
 	public static void main (String[] args) {
-		Matrix m = new Matrix (new Transform (new Coordinate (1.5, 1, 1.5), new Rotation (180, 90, 0)));
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
-		int[][] maze;
 		scene = new Scene (cam);
 		scene.add(new GameObject 
-				(new Transform (0, 0, 160), 
+				(new Transform (0, 0, 320), 
 						"Enterprise.txt", 
 						true)
 				);
