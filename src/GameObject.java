@@ -287,14 +287,14 @@ public class GameObject implements Serializable {
 	/** Draws the GameObject*/
 	public void paint (Graphics g, Camera cam, int width, int height) {
 		int[] xCoord, yCoord;
-		for (int a = 0; a < this.object.size(); a++) {
-			xCoord = new int [this.object.get(a).size()];
-			yCoord = new int [this.object.get(a).size()];
-			if (cam.isVisible(this.object.get(a).get(0), 
-					Coordinate.getNormal(object.get(a).get(0), this.object.get(a).get(1), this.object.get(a).get(2)))) {
-				for (int b = 0; b < this.object.get(a).size(); b++) {
-					xCoord[b] = (int) Math.rint((this.object.get(a).get(b).getX()/this.object.get(a).get(b).getZ()*300)+width/2);
-					yCoord[b] = (int) Math.rint((this.object.get(a).get(b).getY()/this.object.get(a).get(b).getZ()*300)+height/2);
+		for (int a = 0; a < object.size(); a++) {
+			xCoord = new int [object.get(a).size()];
+			yCoord = new int [object.get(a).size()];
+			if (cam.isVisible(object.get(a).get(0), 
+					Coordinate.getNormal(object.get(a).get(0), object.get(a).get(1), object.get(a).get(2)))) {
+				for (int b = 0; b < object.get(a).size(); b++) {
+					xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
+					yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
 				}
 				g.setColor(Color.gray);
 				g.fillPolygon(xCoord, yCoord, xCoord.length);
