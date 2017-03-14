@@ -207,6 +207,12 @@ public class Coordinate implements Serializable{
 	public Coordinate Transform (Matrix m) {
 		return m.multiply(this);
 	}
+	public static Coordinate getNormal (Coordinate c1, Coordinate c2, Coordinate c3) {
+		Coordinate a, b;
+		a = Coordinate.subtract(c1, c2);
+		b = Coordinate.subtract(c1, c3);
+		return Coordinate.cross(a, b);
+	}
 	/** Returns true if the Coordinates are equal.
 	 * @param pt Coordinate to compare Coordinate to.
 	 */

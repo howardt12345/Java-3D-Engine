@@ -47,8 +47,8 @@ public class Matrix {
 	 */
 	public static Matrix identity () {
 		Matrix m = new Matrix ();
-		for (int a = 0; a < m.rowLength(); a++) {
-			for (int b = 0; b < m.columnLength(); b++) {
+		for (int a = 0; a < m.getRow(); a++) {
+			for (int b = 0; b < m.getColumn(); b++) {
 				m.matrix[a][b] = a == b ? 1 : 0;
 			}
 		}
@@ -70,8 +70,8 @@ public class Matrix {
 	}
 	/** Overrides values of Matrix with identity Matrix.*/
 	public void toIdentity () {
-		for (int a = 0; a < rowLength(); a++) {
-			for (int b = 0; b < columnLength(); b++) {
+		for (int a = 0; a < getRow(); a++) {
+			for (int b = 0; b < getColumn(); b++) {
 				matrix[a][b] = a == b ? 1 : 0;
 			}
 		}
@@ -80,8 +80,8 @@ public class Matrix {
 	 */
 	public static Matrix zero () {
 		Matrix m = new Matrix ();
-		for (int a = 0; a < m.rowLength(); a++) {
-			for (int b = 0; b < m.columnLength(); b++) {
+		for (int a = 0; a < m.getRow(); a++) {
+			for (int b = 0; b < m.getColumn(); b++) {
 				m.matrix[a][b] = 0;
 			}
 		}
@@ -103,8 +103,8 @@ public class Matrix {
 	}
 	/** Overrides values of Matrix with Matrix with all values at 0.*/
 	public void toZero () {
-		for (int a = 0; a < rowLength(); a++) {
-			for (int b = 0; b < columnLength(); b++) {
+		for (int a = 0; a < getRow(); a++) {
+			for (int b = 0; b < getColumn(); b++) {
 				matrix[a][b] = 0;
 			}
 		}
@@ -155,11 +155,11 @@ public class Matrix {
 	 * @param r the Rotation.
 	 */
 	public Matrix rotationXYZ (Rotation r) {
-		Matrix m = new Matrix ();
+		Matrix m = Matrix.multiply(Matrix.multiply(rotationX(r), rotationY(r)), rotationZ(r));
 		/*m.rotationX (r);
 		m.rotationY (r);
 		m.rotationZ (r);*/
-		m.set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
+		/*m.set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
 		m.set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
 				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
 		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianZ())*Math.sin(r.getRadianY())
@@ -173,7 +173,7 @@ public class Matrix {
 		
 		m.set(-Math.sin(r.getRadianY()), 2, 0);
 		m.set(Math.cos(r.getRadianY())*Math.sin(r.getRadianX()), 2, 1);
-		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);
+		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);*/
 		return m;
 	}
 	public void RotateZYX (Rotation r) {
@@ -201,11 +201,11 @@ public class Matrix {
 		set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);
 	}
 	public Matrix rotationZYX (Rotation r) {
-		Matrix m = new Matrix();
+		Matrix m = Matrix.multiply(Matrix.multiply(rotationZ(r), rotationY(r)), rotationX(r));
 		/*m.rotationZ (r);
 		m.rotationY (r);
 		m.rotationX (r);*/
-		m.set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
+		/*m.set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
 		m.set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
 		m.set( (Math.sin(r.getRadianY())), 0, 2);
 		
@@ -223,7 +223,7 @@ public class Matrix {
 		m.set((Math.sin(r.getRadianX())*Math.cos(r.getRadianZ())
 				+Math.cos(r.getRadianX())*Math.sin(r.getRadianY())
 				*Math.sin(r.getRadianZ())), 2, 1);
-		m.set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);
+		m.set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);*/
 		return m;
 	}
 	/** Applies Rotational values on X Axis to Matrix.
@@ -316,14 +316,33 @@ public class Matrix {
 	 * @param m2 the second Matrix.
 	 */
 	public static Matrix multiply (Matrix m1, Matrix m2) {
-		if (m1.columnLength() != m2.rowLength()) return null;
+		if (m1.getColumn() != m2.getRow()) return null;
 		else {
-			Matrix m = new Matrix (m1.rowLength(), m2.columnLength());
-			for (int a = 0; a < m1.rowLength(); a++) {
-				for (int b = 0; b < m2.columnLength(); b++) {
+			Matrix m = new Matrix (m1.getRow(), m2.getColumn());
+			for (int a = 0; a < m1.getRow(); a++) {
+				for (int b = 0; b < m2.getColumn(); b++) {
 					int sum = 0;
-					for (int c = 0; c < m2.rowLength(); c++) {
+					for (int c = 0; c < m2.getRow(); c++) {
 						sum += m1.get(a, c)*m2.get(c, b);
+					}
+					m.set(sum, a, b);
+				}
+			}
+			return m;
+		}
+	}
+	/** Multiplies current Matrix by another Matrix.
+	 * @param m1 the Matrix.
+	 */
+	public Matrix multiply (Matrix m1) {
+		if (getColumn() != m1.getRow()) return null;
+		else {
+			Matrix m = new Matrix (getRow(), m1.getColumn());
+			for (int a = 0; a < getRow(); a++) {
+				for (int b = 0; b < m1.getColumn(); b++) {
+					int sum = 0;
+					for (int c = 0; c < m1.getRow(); c++) {
+						sum += get(a, c)*m1.get(c, b);
 					}
 					m.set(sum, a, b);
 				}
@@ -347,16 +366,18 @@ public class Matrix {
 	public double get (int row, int column) {
 		return matrix[row][column];
 	}
-	public int rowLength () {
+	/** Returns the length of the rows in the Matrix.*/
+	public int getRow () {
 		return matrix.length;
 	}
-	public int columnLength () {
+	/** Returns the length of the columns in the Matrix.*/
+	public int getColumn () {
 		return matrix[0].length;
 	}
 	/** Prints the Matrix.*/
 	public void print () {
-		for (int a = 0; a < rowLength(); a++) {
-			for (int b = 0; b < columnLength(); b++) {
+		for (int a = 0; a < getRow(); a++) {
+			for (int b = 0; b < getColumn(); b++) {
 				System.out.print(matrix[a][b] + " ");
 			}
 			System.out.println("");

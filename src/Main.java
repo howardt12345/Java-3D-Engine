@@ -12,8 +12,10 @@ public class Main extends JPanel {
 		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
 		scene = new Scene (cam);
 		
-		scene.add(new GameObject (new Transform (0, 0, 160), "Enterprise.txt", true));
-/*		for (int a = 0; a < 10; a++) {
+		scene.add(new GameObject (new Transform (
+				new Coordinate (0, 0, 160), new Rotation (0, 0, 0), new Scale (10)), 
+				"Enterprise.txt", true));
+		/*for (int a = 0; a < 10; a++) {
 			for (int b = 0; b < 10; b++) {
 				scene.add(new GameObject (new Transform (
 						new Coordinate (a*10, 0, b*10), Rotation.zero, new Scale (10)), 
@@ -58,6 +60,12 @@ public class Main extends JPanel {
 					break;
 				case KeyEvent.VK_DOWN:
 					scene.getCamera().addRotate(-1, Rotate.X_Axis);
+					break;
+				case KeyEvent.VK_EQUALS:
+					scene.getCamera().setFarClip(scene.getCamera().getFarClip()+1);
+					break;
+				case KeyEvent.VK_MINUS:
+					scene.getCamera().setFarClip(scene.getCamera().getFarClip()-1);
 					break;
 				}
 				scene.getCamera().Transform();

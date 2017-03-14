@@ -9,7 +9,7 @@ public class Camera {
 	/** The lookUp Coordinate.*/
 	private Coordinate lookUp = new Coordinate (0, 1, 0, 1);
 	/** Internal values of the Camera.*/
-	private double nearClip = 0.3, farClip = 1000, FOV = 60, aspectRatio = 16/9;
+	private double nearClip = 0.1, farClip = 0.9, FOV = 60, aspectRatio = 16/9;
 	/** The LookAt Translation Matrix.*/
 	private Matrix lookAtTranslate = new Matrix (new Coordinate (0, 0, 1));
 	/** Creaes a Camera from a lookFrom Coordinate, lookAt Coordinate, lookUp Coordinate, 
@@ -70,9 +70,9 @@ public class Camera {
 	 * @return the lookAt Matrix.
 	 */
 	public Matrix LookAtMatrix () {
-		Coordinate Vz = Coordinate.subtract (lookAt, lookFrom).normalized();
-		Coordinate Vx = Coordinate.cross(Vz, lookUp).normalized();
-		Coordinate Vy = Coordinate.cross(Vx, Vz).normalized();
+		Coordinate Vz = Coordinate.subtract (lookFrom, lookAt).normalized();
+		Coordinate Vx = Coordinate.cross(lookUp, Vz).normalized();
+		Coordinate Vy = Coordinate.cross(Vz, Vx).normalized();
 		
 		Matrix viewMatrix = new Matrix();
 		
@@ -87,7 +87,7 @@ public class Camera {
 		viewMatrix.set(Vz.getX(), 2, 0);
 		viewMatrix.set(Vz.getY(), 2, 1);
 		viewMatrix.set(Vz.getZ(), 2, 2);
-		
+				
 		viewMatrix.set(-Coordinate.dot(lookFrom, Vx), 0, 3);
 		viewMatrix.set(-Coordinate.dot(lookFrom, Vy), 1, 3);
 		viewMatrix.set(-Coordinate.dot(lookFrom, Vz), 2, 3);
@@ -99,19 +99,15 @@ public class Camera {
 	 */
     public Matrix perspectiveMatrix () {
         Matrix projectionMatrix = new Matrix ();
+           
+        projectionMatrix.set((1/Math.tan(Math.toRadians(FOV/2))/aspectRatio), 0, 0);
         
-        double right = nearClip * Math.tan(Math.toRadians(FOV)/2);
-        double top = right / aspectRatio;
+        projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 1, 1);
         
-        projectionMatrix.set(nearClip/right, 0, 0);
-        
-        projectionMatrix.set(nearClip/top, 1, 1);
-        
-        projectionMatrix.set(-(farClip+nearClip)/(farClip-nearClip), 2, 2);
+        projectionMatrix.set(farClip/farClip-nearClip, 2, 2);
         projectionMatrix.set(-1, 3, 2);
         
-        projectionMatrix.set(-(2*farClip*nearClip)/(farClip-nearClip), 2, 3);
-        projectionMatrix.set(0, 3, 3);
+        projectionMatrix.set((nearClip*farClip/farClip-nearClip), 2, 3);
         
         return projectionMatrix;
     }
@@ -134,11 +130,19 @@ public class Camera {
 		System.out.println("***************");
 		transform.print();
 		System.out.println("***************");
+		LookAtMatrix().print();
+		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform));
 		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();
 		System.out.println ("LookFrom: " + lookFrom.asString());
 		System.out.println ("LookAt: " + lookAt.asString());
 		System.out.println ("LookUp: " + lookUp.asString());
+		System.out.println("Near Clip: " + nearClip);
+		System.out.println("Far Clip: " + farClip);
+	}
+	public boolean isVisible (Coordinate c, Coordinate normal) {
+		Coordinate view = Coordinate.subtract(c, lookFrom);
+		return lookFrom.getZ() >= 0 ? Coordinate.dot(normal, view) <= 0 : Coordinate.dot(normal, view) >= 0;
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.

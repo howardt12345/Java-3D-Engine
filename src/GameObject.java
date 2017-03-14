@@ -274,25 +274,33 @@ public class GameObject implements Serializable {
 		GameObject g = (GameObject) deepClone(gameObject);
 		for (int a = 0; a < g.object.size(); a++) {
 			ArrayList<Coordinate> poly = g.object.get(a);
-			for (int b = 0; b < g.object.get(a).size(); b++) {
+			for (int b = 0; b < poly.size(); b++) {
 				poly.set(b, poly.get(b).Transform(new Matrix (g.transform)));
-				poly.set(b, poly.get(b).Transform(cam.LookAtMatrix()).Normalized());
+				poly.set(b, poly.get(b).Transform(cam.LookAtMatrix()));
 				poly.set(b, poly.get(b).Transform(cam.perspectiveMatrix()).Normalized());
+				//poly.get(b).print();
 			}
 			g.object.set(a, poly);
 		}
 		return g;
 	}
+	/** Draws the GameObject*/
 	public void paint (Graphics g, Camera cam, int width, int height) {
 		int[] xCoord, yCoord;
-		for (int a = 0; a < object.size(); a++) {
-			xCoord = new int [object.get(a).size()];
-			yCoord = new int [object.get(a).size()];
-			for (int b = 0; b < object.get(a).size(); b++) {
-				xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
-				yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
+		for (int a = 0; a < this.object.size(); a++) {
+			xCoord = new int [this.object.get(a).size()];
+			yCoord = new int [this.object.get(a).size()];
+			if (cam.isVisible(this.object.get(a).get(0), 
+					Coordinate.getNormal(object.get(a).get(0), this.object.get(a).get(1), this.object.get(a).get(2)))) {
+				for (int b = 0; b < this.object.get(a).size(); b++) {
+					xCoord[b] = (int) Math.rint((this.object.get(a).get(b).getX()/this.object.get(a).get(b).getZ()*300)+width/2);
+					yCoord[b] = (int) Math.rint((this.object.get(a).get(b).getY()/this.object.get(a).get(b).getZ()*300)+height/2);
+				}
+				g.setColor(Color.gray);
+				g.fillPolygon(xCoord, yCoord, xCoord.length);
+				g.setColor(Color.BLACK);
+				g.drawPolygon(xCoord, yCoord, xCoord.length);
 			}
-			g.drawPolygon(xCoord, yCoord, xCoord.length);
 		}
 	}
 	/** Prints the information on the GameObject.*/
