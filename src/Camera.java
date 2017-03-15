@@ -100,7 +100,7 @@ public class Camera {
     public Matrix perspectiveMatrix () {
         Matrix projectionMatrix = new Matrix ();
            
-        projectionMatrix.set((1/Math.tan(Math.toRadians(FOV/2))/aspectRatio), 0, 0);
+        projectionMatrix.set((1/Math.tan(Math.toRadians(FOV/2))), 0, 0);
         
         projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 1, 1);
         
@@ -127,9 +127,9 @@ public class Camera {
 	 * @param transform the Transform.
 	 */
 	public void Transform () {
-		System.out.println("***************");
+		System.out.println("*************** Camera Transform:");
 		transform.print();
-		System.out.println("***************");
+		System.out.println("*************** LookAt Matrix: ");
 		LookAtMatrix().print();
 		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform));

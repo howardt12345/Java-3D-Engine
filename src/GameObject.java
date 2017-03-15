@@ -291,7 +291,10 @@ public class GameObject implements Serializable {
 			xCoord = new int [object.get(a).size()];
 			yCoord = new int [object.get(a).size()];
 			if (cam.isVisible(object.get(a).get(0), 
-					Coordinate.getNormal(object.get(a).get(0), object.get(a).get(1), object.get(a).get(2)))) {
+					Coordinate.getNormal(object.get(a).get(0), object.get(a).get(1), object.get(a).get(2)))
+					&& object.get(a).get(0).getX() >= -1 && object.get(a).get(0).getX() <= 1
+					&& object.get(a).get(0).getY() >= -1 && object.get(a).get(0).getY() <= 1
+					&& object.get(a).get(0).getZ() < -cam.getNearClip() && object.get(a).get(0).getZ() > -cam.getFarClip()) {
 				for (int b = 0; b < object.get(a).size(); b++) {
 					xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
 					yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
