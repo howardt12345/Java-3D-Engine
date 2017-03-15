@@ -296,8 +296,8 @@ public class GameObject implements Serializable {
 					&& object.get(a).get(0).getY() >= -1 && object.get(a).get(0).getY() <= 1
 					&& object.get(a).get(0).getZ() < -cam.getNearClip() && object.get(a).get(0).getZ() > -cam.getFarClip()) {
 				for (int b = 0; b < object.get(a).size(); b++) {
-					xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*300)+width/2);
-					yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*300)+height/2);
+					xCoord[b] = (int) Math.rint((object.get(a).get(b).getX()/object.get(a).get(b).getZ()*width/2)+width/2);
+					yCoord[b] = (int) Math.rint((object.get(a).get(b).getY()/object.get(a).get(b).getZ()*width/2)+height/2);
 				}
 				g.setColor(Color.gray);
 				g.fillPolygon(xCoord, yCoord, xCoord.length);
