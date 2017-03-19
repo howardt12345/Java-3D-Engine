@@ -15,6 +15,7 @@ public class Matrix {
 	public Matrix (Transform t) {
 		Translate (t.getPosition());
 		RotateXYZ (t.getRotation());
+		//this.Multiply(scale (t.getScale()));
 	}
 	/** New Translation Matrix from Coordinate.
 	 * @param c the Coordinate.
@@ -213,15 +214,6 @@ public class Matrix {
 		m.set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);*/
 		return m;
 	}
-	/** Applies Rotational values on X Axis to Matrix.
-	 * @param r the rotation.
-	 */
-	public void rotateX (Rotation r) {
-		set(Math.cos(r.getRadianX()), 1, 1);
-		set(-Math.sin(r.getRadianX()), 1, 2);
-		set(Math.sin(r.getRadianX()), 2, 1);
-		set(Math.cos(r.getRadianX()), 2, 2);
-	}
 	/** Returns the Rotational Matrix on the X Axis of the Rotation.
 	 * @param r the rotation.
 	 */
@@ -232,15 +224,6 @@ public class Matrix {
 		m.set(Math.sin(r.getRadianX()), 2, 1);
 		m.set(Math.cos(r.getRadianX()), 2, 2);
 		return m;
-	}
-	/** Applied Rotational values on Y Axis to Matrix.
-	 * @param r the rotation.
-	 */
-	public void rotateY (Rotation r) {
-		set(Math.cos(r.getRadianY()), 0, 0);
-		set(Math.sin(r.getRadianY()), 0, 2);
-		set(-Math.sin(r.getRadianY()), 2, 0);
-		set(Math.cos(r.getRadianY()), 2, 2);
 	}
 	/** Returns the Rotational Matrix on the Y Axis of the Rotation.
 	 * @param r the rotation.
@@ -253,15 +236,6 @@ public class Matrix {
 		m.set(Math.cos(r.getRadianY()), 2, 2);
 		return m;
 	}
-	/** Applied Rotational values on Z Axis to Matrix.
-	 * @param r the rotation.
-	 */
-	public void rotateZ (Rotation r) {
-		set(Math.cos(r.getRadianZ()), 0, 0);
-		set(-Math.sin(r.getRadianZ()), 0, 1);
-		set(Math.sin(r.getRadianZ()), 1, 0);
-		set(Math.cos(r.getRadianZ()), 1, 1);
-	}
 	/** Returns the Rotational Matrix on the Z Axis of the Rotation.
 	 * @param r the rotation.
 	 */
@@ -273,7 +247,13 @@ public class Matrix {
 		m.set(Math.cos(r.getRadianZ()), 1, 1);
 		return m;
 	}
-	
+	public Matrix scale (Scale s) {
+		Matrix m = new Matrix ();
+		m.set (s.getX(), 0, 0);
+		m.set (s.getY(), 1, 1);
+		m.set (s.getZ(), 2, 2);
+		return m;
+	}
 	/** Multiplies a Coordinate by the Matrix.
 	 * @param c the Coordinate to multiply.
 	 * @return the multiplied Coordinate.
@@ -325,6 +305,24 @@ public class Matrix {
 				}
 			}
 			return m;
+		}
+	}
+	/** Multiplies current Matrix by another Matrix.
+	 * @param m1 the Matrix.
+	 */
+	public void Multiply (Matrix m1) {
+		if (getColumn() != m1.getRow());
+		else {
+			for (int a = 0; a < getRow(); a++) {
+				for (int b = 0; b < m1.getColumn(); b++) {
+					int sum = 0;
+					for (int c = 0; c < m1.getRow(); c++) {
+						sum += get(a, c)*m1.get(c, b);
+					}
+					set(sum, a, b);
+					sum = 0;
+				}
+			}
 		}
 	}
 	/** Sets the Matrix at the provided index.

@@ -39,7 +39,7 @@ public class Coordinate implements Serializable{
 	 * @param c2 Coordinate #2.
 	 */
 	public static double getDistance (Coordinate c1, Coordinate c2) {
-		return  Math.abs(
+		return Math.abs(
 		Math.sqrt(
 				Math.pow(c2.X - c1.X, 2) + 
 				Math.pow(c2.Y - c1.Y, 2) + 
@@ -214,10 +214,10 @@ public class Coordinate implements Serializable{
 		return Coordinate.cross(a, b);
 	}
 	/** Returns true if the Coordinates are equal.
-	 * @param pt Coordinate to compare Coordinate to.
+	 * @param c Coordinate to compare Coordinate to.
 	 */
-	public boolean equals (Coordinate pt) {
-		return X == pt.X && Y == pt.Y && Z == pt.Z && W == pt.W;
+	public boolean equals (Coordinate c) {
+		return X == c.X && Y == c.Y && Z == c.Z && W == c.W;
 	}
 	/** Prints out the values of the Coordinate, structured as "X, Y, Z, W".*/
 	public void print() {

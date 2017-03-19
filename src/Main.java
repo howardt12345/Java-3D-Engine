@@ -12,17 +12,17 @@ public class Main extends JPanel {
 		Camera cam = new Camera (new Coordinate (0, 0, -4));
 		scene = new Scene (cam);
 		
-		scene.add(new Model (new Transform 
+		/*scene.add(new Model (new Transform 
 				(new Coordinate (0, 0, 160), new Rotation (-90, 90, 0), new Scale (1)
-				), "Enterprise.txt", true));
+				), "Enterprise.txt", true));*/
 		
-		/*for (int a = -10; a < 10; a++) {
+		for (int a = -10; a < 10; a++) {
 			for (int b = -10; b < 10; b++) {
 				scene.add(new Model (new Transform (
 						new Coordinate (a*10, 0, b*10), new Rotation (0, 0, 0)), 
 						"cube.txt", true));
 			}
-		}*/
+		}
 		f.addKeyListener(new KeyListener () {
 			public void keyTyped(KeyEvent e) {
 				scene.get(e.toString());
@@ -61,6 +61,12 @@ public class Main extends JPanel {
 					break;
 				case KeyEvent.VK_DOWN:
 					scene.getCamera().addRotate(-1, Rotate.X_Axis);
+					break;
+				case KeyEvent.VK_EQUALS:
+					scene.get(0).getTransform().setScale(new Scale (scene.get(0).getTransform().getScale().getAverage()+0.1));
+					break;
+				case KeyEvent.VK_MINUS:
+					scene.get(0).getTransform().setScale(new Scale (scene.get(0).getTransform().getScale().getAverage()-0.1));
 					break;
 				}
 				System.out.println(e.getKeyChar());

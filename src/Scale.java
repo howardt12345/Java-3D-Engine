@@ -85,10 +85,7 @@ public class Scale implements Serializable{
 	 * @return
 	 */
 	public boolean equals (Scale sc) {
-		if (X == sc.X && Y == sc.Y && Z == sc.Z) {
-			return true;
-		}
-		else return false;
+		return X == sc.X && Y == sc.Y && Z == sc.Z ? true : false;
 	}
 	/** Prints out the values of the Scale, structured as "X, Y, Z".*/
 	public void print() {
