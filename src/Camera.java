@@ -1,6 +1,6 @@
-
+import java.io.*;
 @SuppressWarnings("serial")
-public class Camera extends GameObject{
+public class Camera extends GameObject implements Serializable{
 	/** The lookFrom Coordinate.*/
 	private Coordinate lookFrom = Coordinate.center;
 	/** The lookAt Coordinate.*/
