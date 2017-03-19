@@ -1,7 +1,6 @@
 
-public class Camera {
-	/** The Transform for the Camera.*/
-	private Transform transform = new Transform ();
+@SuppressWarnings("serial")
+public class Camera extends GameObject{
 	/** The lookFrom Coordinate.*/
 	private Coordinate lookFrom = Coordinate.center;
 	/** The lookAt Coordinate.*/
@@ -10,8 +9,6 @@ public class Camera {
 	private Coordinate lookUp = new Coordinate (0, 1, 0, 1);
 	/** Internal values of the Camera.*/
 	private double nearClip = 0.1, farClip = 0.9, FOV = 60, aspectRatio = 16/9;
-	/** The LookAt Translation Matrix.*/
-	private Matrix lookAtTranslate = new Matrix (new Coordinate (0, 0, 1));
 	/** Creaes a Camera from a lookFrom Coordinate, lookAt Coordinate, lookUp Coordinate, 
 	 * near clip value, far clip value, FOV (Field of View) value, and aspect ratio value.
 	 * @param lookFrom the lookFrom.
@@ -24,6 +21,7 @@ public class Camera {
 	 */
 	public Camera (Coordinate lookFrom, Coordinate lookAt, Coordinate lookUp,
 			double nearClip, double farClip, double FOV, double aspectRatio) {
+		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
 		this.lookUp = lookUp;
@@ -40,6 +38,7 @@ public class Camera {
 	 * @param aspectRatio the aspect ratio.
 	 */
 	public Camera (double nearClip, double farClip, double FOV, double aspectRatio) {
+		super (new Transform ());
 		this.nearClip = nearClip;
 		this.farClip = farClip;
 		this.FOV = FOV;
@@ -51,6 +50,7 @@ public class Camera {
 	 * @param lookUp the lookUp.
 	 */
 	public Camera (Coordinate lookFrom, Coordinate lookAt, Coordinate lookUp) {
+		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
 		this.lookUp = lookUp;
@@ -60,8 +60,17 @@ public class Camera {
 	 * @param lookAt the lookAt.
 	 */
 	public Camera (Coordinate lookFrom, Coordinate lookAt) {
+		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
+	}
+	/** Creates a Camera from a lookFrom Coordinate.
+	 * @param lookFrom the lookFrom.
+	 */
+	public Camera (Coordinate lookFrom) {
+		super (new Transform (lookFrom));
+		this.lookFrom = lookFrom;
+		lookAt = new Coordinate (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
 	}
 	/** The lookAt Matrix.
 	 * @param lookFrom the lookFrom.
@@ -111,38 +120,23 @@ public class Camera {
         
         return projectionMatrix;
     }
-	/** Gets the transform.
-	 * @return the transform
-	 */
-	public Transform getTransform() {
-		return transform;
-	}
 	/** Sets the Transform.
 	 * @param transform the transform to set.
 	 */
 	public void setTransform (Transform transform) {
 		this.transform = transform;
+		Transform ();
 	}
 	/** Transforms the Camera by a Transform.
 	 * @param transform the Transform.
 	 */
 	public void Transform () {
-		System.out.println("*************** Camera Transform:");
-		transform.print();
-		System.out.println("*************** LookAt Matrix: ");
-		LookAtMatrix().print();
-		System.out.println("***************");
 		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform));
-		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform)).Normalized();
-		System.out.println ("LookFrom: " + lookFrom.asString());
-		System.out.println ("LookAt: " + lookAt.asString());
-		System.out.println ("LookUp: " + lookUp.asString());
-		System.out.println("Near Clip: " + nearClip);
-		System.out.println("Far Clip: " + farClip);
+		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform));
 	}
 	public boolean isVisible (Coordinate c, Coordinate normal) {
 		Coordinate view = Coordinate.subtract(c, lookFrom);
-		return lookFrom.getZ() >= 0 ? Coordinate.dot(normal, view) <= 0 : Coordinate.dot(normal, view) >= 0;
+		return lookAt.getZ() > 0 ? Coordinate.dot(view, normal) < 0 : Coordinate.dot(view, normal) > 0;
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
@@ -160,6 +154,7 @@ public class Camera {
 			transform.setPosZ(transform.getPosZ()+amount);
 			break;
 		}
+		Transform ();
 	}
 	/** Sets a value to the specified Axis. 
 	 * @param value the value.
@@ -177,6 +172,7 @@ public class Camera {
 			transform.setPosZ(amount);
 			break;
 		}
+		Transform ();
 	}
 	/** Adds an amount to the Rotation.
 	 * @param amount the amount.
@@ -194,6 +190,7 @@ public class Camera {
 			transform.setRotZ(transform.getRotZ()+amount);
 			break;
 		}
+		Transform ();
 	}
 	/** Sets a value to the Rotation.
 	 * @param value the value.
@@ -211,6 +208,7 @@ public class Camera {
 			transform.setRotZ(value);
 			break;
 		}
+		Transform ();
 	}
 	/** Adds an amount to the specified Direction. 
 	 * @param amount the amount.
@@ -237,6 +235,7 @@ public class Camera {
 			transform.setPosY(transform.getPosY()-amount);
 			break;
 		}
+		Transform ();
 	}
 	/** Sets a value to the specified Direction. 
 	 * @param value the value.
@@ -263,6 +262,7 @@ public class Camera {
 			transform.setPosY(-value);
 			break;
 		}
+		Transform ();
 	}
 	/** Adds an amount to the specified Direction. 
 	 * @param amount the amount.
@@ -289,6 +289,7 @@ public class Camera {
 			transform.setRotY(transform.getRotY()-amount);
 			break;
 		}
+		Transform ();
 	}
 	/** Sets a value to the specified Direction. 
 	 * @param value the value.
@@ -315,18 +316,7 @@ public class Camera {
 			transform.setRotY(-value);
 			break;
 		}
-	}
-	/** Gets the LookAt Translation Matrix.
-	 * @return the lookAtTranslate.
-	 */
-	public Matrix getLookAtTranslate() {
-		return lookAtTranslate;
-	}
-	/** Sets the LookAt Translation Matrix.
-	 * @param lookAtTranslate the lookAtTranslate to set.
-	 */
-	public void setLookAtTranslate(Matrix lookAtTranslate) {
-		this.lookAtTranslate = lookAtTranslate;
+		Transform ();
 	}
 	/** Gets the LookAt Coordinate.*/
 	public Coordinate getLookAt() {
@@ -386,9 +376,7 @@ public class Camera {
 	 * @param fov the FOV to set.
 	 */
 	public void setFOV(double fov) {
-		if (fov <= 1) FOV = 1;
-		else if (fov > 179) FOV = 179;
-		else FOV = fov;
+		FOV = fov >= 179 || fov <= 1 ? fov >= 179 ? 179 : 1 : fov; 
 	}
 	/** Gets the Aspect Ratio of the Camera.*/
 	public double getAspectRatio() {

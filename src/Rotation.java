@@ -8,10 +8,19 @@ public class Rotation implements Serializable{
 	 * @param Z the Z Rotation.
 	 */
 	private double X = 0, Y = 0, Z = 0;
+	/** Creates a new Rotation with a X value, Y value, and Z value.
+	 * @param x the X value.
+	 * @param y the Y value.
+	 * @param z the Z value.
+	 */
 	public Rotation (double x, double y, double z) {
 		X = x;
 		Y = y;
 		Z = z;
+	}
+	/** Checks if two Rotations are equal.*/
+	public boolean equals (Rotation r) {
+		return X == r.X && Y == r.Y && Z == r.Z;
 	}
 	/** Prints out the values of the Rotation, structured as "X, Y, Z".*/
 	public void print() {

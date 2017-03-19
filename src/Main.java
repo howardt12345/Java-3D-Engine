@@ -9,16 +9,17 @@ public class Main extends JPanel {
 	public static Scene scene;
 	public static JFrame f = new JFrame();
 	public static void main (String[] args) {
-		Camera cam = new Camera (new Coordinate (0, 0, -4), new Coordinate (0, 0, 1), Coordinate.up);
+		Camera cam = new Camera (new Coordinate (0, 0, -4));
 		scene = new Scene (cam);
 		
-		scene.add(new GameObject (new Transform (
-				new Coordinate (0, 0, 160), new Rotation (0, 0, 0), new Scale (10)), 
-				"Enterprise.txt", true));
-		/*for (int a = 0; a < 10; a++) {
-			for (int b = 0; b < 10; b++) {
-				scene.add(new GameObject (new Transform (
-						new Coordinate (a*10, 0, b*10), Rotation.zero, new Scale (10)), 
+		scene.add(new Model (new Transform 
+				(new Coordinate (0, 0, 160), new Rotation (-90, 90, 0), new Scale (1)
+				), "Enterprise.txt", true));
+		
+		/*for (int a = -10; a < 10; a++) {
+			for (int b = -10; b < 10; b++) {
+				scene.add(new Model (new Transform (
+						new Coordinate (a*10, 0, b*10), new Rotation (0, 0, 0)), 
 						"cube.txt", true));
 			}
 		}*/
@@ -61,14 +62,7 @@ public class Main extends JPanel {
 				case KeyEvent.VK_DOWN:
 					scene.getCamera().addRotate(-1, Rotate.X_Axis);
 					break;
-				case KeyEvent.VK_EQUALS:
-					scene.getCamera().setFarClip(scene.getCamera().getFarClip()+1);
-					break;
-				case KeyEvent.VK_MINUS:
-					scene.getCamera().setFarClip(scene.getCamera().getFarClip()-1);
-					break;
 				}
-				scene.getCamera().Transform();
 				System.out.println(e.getKeyChar());
 				f.repaint();
 			}

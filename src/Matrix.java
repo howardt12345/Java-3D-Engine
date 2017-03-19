@@ -15,7 +15,6 @@ public class Matrix {
 	public Matrix (Transform t) {
 		Translate (t.getPosition());
 		RotateXYZ (t.getRotation());
-		//Scale (t.getScale());
 	}
 	/** New Translation Matrix from Coordinate.
 	 * @param c the Coordinate.
@@ -28,12 +27,6 @@ public class Matrix {
 	 */
 	public Matrix (Rotation r) {
 		RotateXYZ (r);
-	}
-	/** new Scaling Matrix from Scale.
-	 * @param s the Scale.
-	 */
-	public Matrix (Scale s) {
-		Scale (s);
 	}
 	public Matrix (int rows, int columns) {
 		matrix = new double[rows][columns];
@@ -132,9 +125,6 @@ public class Matrix {
 	 * @param r the Rotation.
 	 */
 	public void RotateXYZ (Rotation r) {
-		/*rotateX (r);
-		rotateY (r);
-		rotateZ (r);*/
 		set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
 		set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
 				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
@@ -177,9 +167,6 @@ public class Matrix {
 		return m;
 	}
 	public void RotateZYX (Rotation r) {
-		/*rotateZ (r);
-		rotateY (r);
-		rotateX (r);*/
 		set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
 		set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
 		set((Math.sin(r.getRadianY())), 0, 2);
@@ -286,18 +273,6 @@ public class Matrix {
 		m.set(Math.cos(r.getRadianZ()), 1, 1);
 		return m;
 	}
-	public Matrix scale (Scale s) {
-		Matrix m = new Matrix ();
-		m.set(s.getX(), 0, 0);
-		m.set(s.getY(), 1, 1);
-		m.set(s.getZ(), 2, 2);
-		return m;
-	}
-	public void Scale (Scale s) {
-		set(get(0,0)*s.getX(),0,0);
-		set(get(1,1)*s.getY(),1,1);
-		set(get(2,2)*s.getZ(),2,2);
-	}
 	
 	/** Multiplies a Coordinate by the Matrix.
 	 * @param c the Coordinate to multiply.
@@ -326,6 +301,7 @@ public class Matrix {
 						sum += m1.get(a, c)*m2.get(c, b);
 					}
 					m.set(sum, a, b);
+					sum = 0;
 				}
 			}
 			return m;
@@ -345,6 +321,7 @@ public class Matrix {
 						sum += get(a, c)*m1.get(c, b);
 					}
 					m.set(sum, a, b);
+					sum = 0;
 				}
 			}
 			return m;

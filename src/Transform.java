@@ -34,7 +34,7 @@ public class Transform implements Serializable {
 		scale = new Scale (1);
 	}
 	/** Creates a new Transform.*/
-	public Transform() {}
+	public Transform () {}
 	public Transform(double posX, double posY, double posZ) {
 		position = new Coordinate (posX, posY, posZ);
 	}
@@ -45,6 +45,9 @@ public class Transform implements Serializable {
 		position.print();
 		rotation.print();
 		scale.print();
+	}
+	public boolean equals (Transform t) {
+		return position.equals(t.position) && rotation.equals(t.rotation) && scale.equals(t.scale);
 	}
 	/** Gets the position of the Transform as a Point.*/
 	public Coordinate getPosition() {
