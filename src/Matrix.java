@@ -10,17 +10,20 @@ public class Matrix {
 	/** New Matrix. Default 4x4 Matrix.*/
 	public Matrix () {}
 	/** New Transformation matrix from Transform.
-	 * @param t
+	 * @param t the Transform.
 	 */
 	public Matrix (Transform t) {
 		Translate (t.getPosition());
 		RotateXYZ (t.getRotation());
-		//this.Multiply(scale (t.getScale()));
 	}
-	/** New Translation Matrix from Coordinate.
-	 * @param c the Coordinate.
+	/** New Matrix from */
+	public Matrix (double[][] matrix) {
+		this.matrix = matrix;
+	}
+	/** New Translation Matrix from Vec4.
+	 * @param c the Vec4.
 	 */
-	public Matrix (Coordinate c) {
+	public Matrix (Vec4 c) {
 		Translate (c);
 	}
 	/** New Rotational Matrix from Rotation.
@@ -28,6 +31,9 @@ public class Matrix {
 	 */
 	public Matrix (Rotation r) {
 		RotateXYZ (r);
+	}
+	public Matrix (Scale s) {
+		Scale (s);
 	}
 	public Matrix (int rows, int columns) {
 		matrix = new double[rows][columns];
@@ -104,17 +110,17 @@ public class Matrix {
 		}
 	}
 	/** Applies translation to matrix.
-	 * @param c the Coordinate to translate by.
+	 * @param c the Vec4 to translate by.
 	 */
-	public void Translate (Coordinate c) {
+	public void Translate (Vec4 c) {
 		set(c.getX(), 0, 3);
 		set(c.getY(), 1, 3);
 		set(c.getZ(), 2, 3);
 	}
 	/** Returns a Matrix with translation applied.
-	 * @param c the Coordinate to translate by.
+	 * @param c the Vec4 to translate by.
 	 */
-	public Matrix translateMatrix (Coordinate c) {
+	public Matrix translateMatrix (Vec4 c) {
 		Matrix m = new Matrix ();
 		m.set(c.getX(), 0, 3);
 		m.set(c.getY(), 1, 3);
@@ -142,7 +148,7 @@ public class Matrix {
 		set(Math.cos(r.getRadianY())*Math.sin(r.getRadianX()), 2, 1);
 		set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);
 	}
-	/** Returns a Matrix with XYZ rotation applied.
+	/** Returns the XYZ Rotational matrix of the Rotation.
 	 * @param r the Rotation.
 	 */
 	public Matrix rotationXYZ (Rotation r) {
@@ -167,6 +173,9 @@ public class Matrix {
 		m.set(Math.cos(r.getRadianX())*Math.cos(r.getRadianY()), 2, 2);*/
 		return m;
 	}
+	/** Applies ZYX rotation to Matrix .
+	 * @param r the Rotation.
+	 */
 	public void RotateZYX (Rotation r) {
 		set((Math.cos(r.getRadianY())*Math.cos(r.getRadianZ())), 0, 0);
 		set((-Math.cos(r.getRadianY())*Math.sin(r.getRadianZ())), 0, 1);
@@ -188,6 +197,9 @@ public class Matrix {
 				*Math.sin(r.getRadianZ())), 2, 1);
 		set((Math.cos(r.getRadianX())*Math.cos(r.getRadianY())), 2, 2);
 	}
+	/** Returns the ZYX Rotational matrix of the Rotation.
+	 * @param r the Rotation.
+	 */
 	public Matrix rotationZYX (Rotation r) {
 		Matrix m = Matrix.multiply(Matrix.multiply(rotationZ(r), rotationY(r)), rotationX(r));
 		/*m.rotationZ (r);
@@ -247,6 +259,9 @@ public class Matrix {
 		m.set(Math.cos(r.getRadianZ()), 1, 1);
 		return m;
 	}
+	/** Returns the scaling matrix of the Scale.
+	 * @param s the Scale.
+	 */
 	public Matrix scale (Scale s) {
 		Matrix m = new Matrix ();
 		m.set (s.getX(), 0, 0);
@@ -254,12 +269,20 @@ public class Matrix {
 		m.set (s.getZ(), 2, 2);
 		return m;
 	}
-	/** Multiplies a Coordinate by the Matrix.
-	 * @param c the Coordinate to multiply.
-	 * @return the multiplied Coordinate.
+	/** Returns the scaling matrix of the Scale.
+	 * @param s the Scale.
 	 */
-	public Coordinate multiply (Coordinate c) {
-		return new Coordinate (
+	public void Scale (Scale s) {
+		set (s.getX(), 0, 0);
+		set (s.getY(), 1, 1);
+		set (s.getZ(), 2, 2);
+	}
+	/** Multiplies a Vec4 by the Matrix.
+	 * @param c the Vec4 to multiply.
+	 * @return the multiplied Vec4.
+	 */
+	public Vec4 multiply (Vec4 c) {
+		return new Vec4 (
 				get(0, 0)*c.getX() + get(0, 1)*c.getY() + get(0, 2)*c.getZ() + get(0, 3)*c.getW(), 
 				get(1, 0)*c.getX() + get(1, 1)*c.getY() + get(1, 2)*c.getZ() + get(1, 3)*c.getW(), 
 				get(2, 0)*c.getX() + get(2, 1)*c.getY() + get(2, 2)*c.getZ() + get(2, 3)*c.getW(),
@@ -287,7 +310,7 @@ public class Matrix {
 			return m;
 		}
 	}
-	/** Multiplies current Matrix by another Matrix.
+	/** Returns the product of current Matrix and another Matrix.
 	 * @param m1 the Matrix.
 	 */
 	public Matrix multiply (Matrix m1) {

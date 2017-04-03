@@ -1,11 +1,12 @@
 import java.util.*;
 import java.io.*;
 @SuppressWarnings({ "unused", "serial" })
+/** The Transform class, implements Serializable.*/
 public class Transform implements Serializable {
 	/** The position of the Transform stored as a Point.
 	 * @param position the location of the Transform.
 	 */
-	private Coordinate position = Coordinate.center;
+	private Vec4 position = Vec4.center;
 	/** The rotation of the Transform stored as a Rotation.
 	 * @param rotation the Rotation of the Transform.
 	 */
@@ -19,7 +20,7 @@ public class Transform implements Serializable {
 	 * @param rot the rotation of the Transform.
 	 * @param scale the Scale of the Transform.
 	 */
-	public Transform (Coordinate loc, Rotation rot, Scale sc) {
+	public Transform (Vec4 loc, Rotation rot, Scale sc) {
 		position = loc;
 		rotation = rot;
 		scale = sc;
@@ -28,7 +29,7 @@ public class Transform implements Serializable {
 	 * @param location the location of the Transform.
 	 * @param rot the rotation of the Transform.
 	 */
-	public Transform (Coordinate location, Rotation rot) {
+	public Transform (Vec4 location, Rotation rot) {
 		position = location;
 		rotation = rot;
 		scale = new Scale (1);
@@ -36,9 +37,9 @@ public class Transform implements Serializable {
 	/** Creates a new Transform.*/
 	public Transform () {}
 	public Transform(double posX, double posY, double posZ) {
-		position = new Coordinate (posX, posY, posZ);
+		position = new Vec4 (posX, posY, posZ);
 	}
-	public Transform (Coordinate pos) {
+	public Transform (Vec4 pos) {
 		position = pos;
 	}
 	public void print() {
@@ -50,7 +51,7 @@ public class Transform implements Serializable {
 		return position.equals(t.position) && rotation.equals(t.rotation) && scale.equals(t.scale);
 	}
 	/** Gets the position of the Transform as a Point.*/
-	public Coordinate getPosition() {
+	public Vec4 getPosition() {
 		return position;
 	}
 	/** Gets the rotation of the Transform as a Rotation.*/
@@ -102,7 +103,7 @@ public class Transform implements Serializable {
 	 * @param new_rot new rotation
 	 * @param new_scale new scale
 	 */
-	public void Set (Coordinate new_pos, Rotation new_rot, Scale new_scale) {
+	public void Set (Vec4 new_pos, Rotation new_rot, Scale new_scale) {
 		position = new_pos;
 		rotation = new_rot;
 		scale = new_scale;
@@ -110,7 +111,7 @@ public class Transform implements Serializable {
 	/** Sets a new position for the Transform.
 	 * @param new_pos new position
 	 */
-	public void setPosition (Coordinate new_pos) {
+	public void setPosition (Vec4 new_pos) {
 		position = new_pos;
 	}
 	/** Sets the X value of the position.

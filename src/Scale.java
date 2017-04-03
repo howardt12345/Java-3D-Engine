@@ -1,6 +1,7 @@
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
+/** The Scale class, implements Serializable.*/
 public class Scale implements Serializable{
 	/** The internal values of the scale
 	 * @param ScaleX the X Scale.

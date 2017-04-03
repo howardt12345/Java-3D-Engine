@@ -1,20 +1,23 @@
 import java.io.*;
 import java.util.*;
-/** The Polygon Class.*/
+import java.awt.*;
+/** The Polygon Class, implements Serializable.*/
 @SuppressWarnings("serial")
 public class Polygon implements Serializable{
 	/** The vertices of the polygon.*/
-	private ArrayList <Coordinate> polygon;
+	private ArrayList <Vec4> polygon;
 	/** Whether or not the Polygon is visible.*/
 	private boolean visible = true;
+	/** The Light Intensity on a Polygon.*/
+	private float intensity;
 	/** new Polygon.*/
 	public Polygon () {
-		polygon = new ArrayList <Coordinate>();
+		polygon = new ArrayList <Vec4>();
 	}
 	/** Adds a vertex to the Polygon.
-	 * @param c the Coordinate to Add.
+	 * @param c the Vec4 to Add.
 	 */
-	public void add (Coordinate c) {
+	public void add (Vec4 c) {
 		polygon.add(c);
 	}
 	/** Returns the transformed Polygon.
@@ -51,41 +54,41 @@ public class Polygon implements Serializable{
 			polygon.set(a, polygon.get(a).Transform(m));
 		}
 	}
-	/** Normalizes the Polygon Coordinates by W.*/
+	/** Normalizes the Polygon Vec4s by W.*/
 	public void Normalize () {
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Normalized());
 		}
 	}
-	/** Returns a Polygon with normalized Coordinates by W.*/
+	/** Returns a Polygon with normalized Vec4s by W.*/
 	public Polygon Normalized () {
 		Polygon p = new Polygon ();
-		for (Coordinate c : polygon) {
-			p.add(c.Normalized());
+		for (Vec4 v : polygon) {
+			p.add(v.Normalized());
 		}
 		return p;
 	}
-	/** Normalizes the Polygon Coordinates by dividing by magnitude.*/
+	/** Normalizes the Polygon Vec4s by dividing by magnitude.*/
 	public void normalize () {
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Normalized());
 		}
 	}
-	/** Returns a polygon with normalized Coordinates by dividing by magnitude.*/
+	/** Returns a polygon with normalized Vec4s by dividing by magnitude.*/
 	public Polygon normalized () {
 		Polygon p = new Polygon ();
-		for (Coordinate c : polygon) {
-			p.add(c.normalized());
+		for (Vec4 v : polygon) {
+			p.add(v.normalized());
 		}
 		return p;
 	}
-	/** Returns the Coordinate at the specified position*/
-	public Coordinate get (int index) {
+	/** Returns the Vec4 at the specified position*/
+	public Vec4 get (int index) {
 		return polygon.get(index);
 	}
-	/** Replaces the Coordinate at the specified position with the specified Coordinate.*/
-	public void set (int index, Coordinate c) {
-		polygon.set(index, c);
+	/** Replaces the Vec4 at the specified position with the specified Vec4.*/
+	public void set (int index, Vec4 v) {
+		polygon.set(index, v);
 	}
 	/** Whether or not the polygon is visible.
 	 */
@@ -98,27 +101,65 @@ public class Polygon implements Serializable{
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
+	/** Gets the light intensity on the Polygon.
+	 * @return the intensity
+	 */
+	public float getIntensity() {
+		return intensity;
+	}
+	/** sets light intensity on the Polygon.
+	 * @param intensity the intensity to set
+	 */
+	public void setIntensity(float intensity) {
+		this.intensity = intensity;
+	}
+	/** Calculates the light intensity on the Polygon.
+	 * @param lights the lights in the scene.
+	 */
+	public void calculateIntensity (ArrayList<Light> lights) {
+		float tmp = 1;
+		for (Light l : lights) {
+			tmp += l.diffuse(this);
+		}
+		this.setIntensity (/*tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : */tmp);
+	}
 	/** Returns the number of vertices in polygon.*/
 	public int size() {
 		return polygon.size();
 	}
 	/** Gets the Normal of the Polygon.*/
-	public Coordinate getNormal () {
-		return !polygon.isEmpty() ? Coordinate.getNormal(polygon.get(0), polygon.get(1), polygon.get(2)) : null; 
+	public Vec4 getNormal () {
+		return !polygon.isEmpty() ? Vec4.getNormal(polygon.get(0), polygon.get(1), polygon.get(2)) : null; 
 	}
-	/** Gets the Center Coordinate of the Polygon.*/
-	public Coordinate getCenter () {
-		return Coordinate.getCenter(polygon);
+	/** Gets the Center of the Polygon.*/
+	public Vec4 getCenter () {
+		return Vec4.getCenter(polygon);
+	}
+	/** Paints the Polygon.
+	 * @param g the Graphics component.
+	 * @param width the Width.
+	 * @param height the Height.
+	 */
+	public void paint (Graphics g, int width, int height) {
+		int[] xCoord = new int [size()],
+		yCoord = new int [size()];
+		for (int b = 0; b < size(); b++) {
+			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+width/2);
+			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*width/2)+height/2);
+		}
+		g.setColor(Color.getHSBColor(0, 0, getIntensity()));
+		g.fillPolygon(xCoord, yCoord, xCoord.length);
+		g.setColor(Color.BLACK);
+		g.drawPolygon(xCoord, yCoord, xCoord.length);
 	}
 	/** Prints out the vertices of the Polygon.*/
 	public void print () {
-		for (Coordinate c : polygon) {
-			c.print();
+		for (Vec4 v : polygon) {
+			v.print();
 		}
 	}
 	/** Prints out detailed information on the Polygon.*/
 	public void detailedPrint () {
-		System.out.println("Polygon:");
 		for (int a = 0; a < polygon.size(); a++) {
 			System.out.println("Vertex " + (a+1) + ":");
 			polygon.get(a).print();

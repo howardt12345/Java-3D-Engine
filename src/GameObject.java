@@ -1,26 +1,29 @@
 import java.io.*;
-
+import java.util.*;
 
 @SuppressWarnings("serial")
+/** The GameObject Class, used as a Superclass for objects. Implements Serializable.*/
 public class GameObject implements Serializable{
 	/** The Transform of the GameObject.
 	 * @param transform the Transform.*/
 	protected Transform transform;
-	
+	/** Whether or not the Model is active.
+	 * @param active the boolean.*/
+	private boolean active;
+	/** New GameObject from a Transform.*/
 	public GameObject (Transform t) {
 		transform = t;
 	}
+	/** new GameObject.*/
 	public GameObject() {
 		transform = new Transform ();
 	}
-	
 	/** Gets the Transform of the GameObject.
 	 * @return the transform
 	 */
 	public Transform getTransform() {
 		return transform;
 	}
-
 	/** Sets the Transform of the GameObject.
 	 * @param transform the transform to set
 	 */
@@ -67,13 +70,13 @@ public class GameObject implements Serializable{
 	 */
 	public void addRotate (double amount, Rotate axis) {
 		switch (axis) {
-		case X_Axis:
+		case X:
 			transform.setRotX(transform.getRotX()+amount);
 			break;
-		case Y_Axis:
+		case Y:
 			transform.setRotY(transform.getRotY()+amount);
 			break;
-		case Z_Axis:
+		case Z:
 			transform.setRotZ(transform.getRotZ()+amount);
 			break;
 		}
@@ -84,13 +87,13 @@ public class GameObject implements Serializable{
 	 */
 	public void setRotate (double value, Rotate axis) {
 		switch (axis) {
-		case X_Axis:
+		case X:
 			transform.setRotX(value);
 			break;
-		case Y_Axis:
+		case Y:
 			transform.setRotY(value);
 			break;
-		case Z_Axis:
+		case Z:
 			transform.setRotZ(value);
 			break;
 		}
@@ -199,7 +202,20 @@ public class GameObject implements Serializable{
 			break;
 		}
 	}
-	/** "Deep Clone" of any Java Object.*/
+	/** Returns whether or not GameObject is active.*/
+	public boolean isActive() {
+		return active;
+	}
+	/** Sets whether or not GameObject is active.
+	 * @param active the value.
+	 */
+	public void setActive(boolean value) {
+		active = value;
+	}
+	/** "Deep Clone" of any Java Object.
+	 * @param object the object to deep clone.
+	 * @return a new instance of the object.
+	 */
 	public static Object deepClone(Object object) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

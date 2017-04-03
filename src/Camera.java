@@ -1,15 +1,16 @@
 import java.io.*;
 @SuppressWarnings("serial")
-public class Camera extends GameObject implements Serializable{
-	/** The lookFrom Coordinate.*/
-	private Coordinate lookFrom = Coordinate.center;
-	/** The lookAt Coordinate.*/
-	private Coordinate lookAt = new Coordinate (0, 0, 1);
-	/** The lookUp Coordinate.*/
-	private Coordinate lookUp = new Coordinate (0, 1, 0, 1);
+/** The Camera class, extends GameObject.*/
+public class Camera extends GameObject implements Serializable {
+	/** The lookFrom Vec4.*/
+	private Vec4 lookFrom = Vec4.center;
+	/** The lookAt Vec4.*/
+	private Vec4 lookAt = new Vec4 (0, 0, 1);
+	/** The lookUp Vec4.*/
+	private Vec4 lookUp = new Vec4 (0, 1, 0, 1);
 	/** Internal values of the Camera.*/
-	private double nearClip = 0.1, farClip = 0.9, FOV = 60, aspectRatio = 16/9;
-	/** Creaes a Camera from a lookFrom Coordinate, lookAt Coordinate, lookUp Coordinate, 
+	private double nearClip = 0.1, farClip = 0.9, FOV = 60;
+	/** Creaes a Camera from a lookFrom Vec4, lookAt Vec4, lookUp Vec4, 
 	 * near clip value, far clip value, FOV (Field of View) value, and aspect ratio value.
 	 * @param lookFrom the lookFrom.
 	 * @param lookAt the lookAt.
@@ -19,8 +20,8 @@ public class Camera extends GameObject implements Serializable{
 	 * @param FOV the FOV (Field of View).
 	 * @param aspectRatio the aspect ratio.
 	 */
-	public Camera (Coordinate lookFrom, Coordinate lookAt, Coordinate lookUp,
-			double nearClip, double farClip, double FOV, double aspectRatio) {
+	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp,
+			double nearClip, double farClip, double FOV) {
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
@@ -28,7 +29,6 @@ public class Camera extends GameObject implements Serializable{
 		this.nearClip = nearClip;
 		this.farClip = farClip;
 		this.FOV = FOV;
-		this.aspectRatio = aspectRatio;
 	}
 	/** Creates a Camera from a near clip value, far clip value, 
 	 * FOV (Field of View) value, and aspect ratio value.
@@ -42,35 +42,34 @@ public class Camera extends GameObject implements Serializable{
 		this.nearClip = nearClip;
 		this.farClip = farClip;
 		this.FOV = FOV;
-		this.aspectRatio = aspectRatio;
 	}
-	/** Creates a Camera from a lookFrom Coordinate, lookAt Coordinate, and lookUp Coordinate.
+	/** Creates a Camera from a lookFrom Vec4, lookAt Vec4, and lookUp Vec4.
 	 * @param lookFrom the lookFrom.
 	 * @param lookAt the lookAt.
 	 * @param lookUp the lookUp.
 	 */
-	public Camera (Coordinate lookFrom, Coordinate lookAt, Coordinate lookUp) {
+	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp) {
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
 		this.lookUp = lookUp;
 	}
-	/** Creates a Camera from a lookFrom Coordinate and lookAt Coordinate.
+	/** Creates a Camera from a lookFrom Vec4 and lookAt Vec4.
 	 * @param lookFrom the lookFrom.
 	 * @param lookAt the lookAt.
 	 */
-	public Camera (Coordinate lookFrom, Coordinate lookAt) {
+	public Camera (Vec4 lookFrom, Vec4 lookAt) {
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
 	}
-	/** Creates a Camera from a lookFrom Coordinate.
+	/** Creates a Camera from a lookFrom Vec4.
 	 * @param lookFrom the lookFrom.
 	 */
-	public Camera (Coordinate lookFrom) {
+	public Camera (Vec4 lookFrom) {
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
-		lookAt = new Coordinate (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
+		lookAt = new Vec4 (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
 	}
 	/** The lookAt Matrix.
 	 * @param lookFrom the lookFrom.
@@ -79,9 +78,9 @@ public class Camera extends GameObject implements Serializable{
 	 * @return the lookAt Matrix.
 	 */
 	public Matrix LookAtMatrix () {
-		Coordinate Vz = Coordinate.subtract (lookFrom, lookAt).normalized();
-		Coordinate Vx = Coordinate.cross(lookUp, Vz).normalized();
-		Coordinate Vy = Coordinate.cross(Vz, Vx).normalized();
+		Vec4 Vz = Vec4.subtract (lookFrom, lookAt).normalized();
+		Vec4 Vx = Vec4.cross(lookUp, Vz).normalized();
+		Vec4 Vy = Vec4.cross(Vz, Vx).normalized();
 		
 		Matrix viewMatrix = new Matrix();
 		
@@ -97,9 +96,9 @@ public class Camera extends GameObject implements Serializable{
 		viewMatrix.set(Vz.getY(), 2, 1);
 		viewMatrix.set(Vz.getZ(), 2, 2);
 				
-		viewMatrix.set(-Coordinate.dot(lookFrom, Vx), 0, 3);
-		viewMatrix.set(-Coordinate.dot(lookFrom, Vy), 1, 3);
-		viewMatrix.set(-Coordinate.dot(lookFrom, Vz), 2, 3);
+		viewMatrix.set(-Vec4.dot(lookFrom, Vx), 0, 3);
+		viewMatrix.set(-Vec4.dot(lookFrom, Vy), 1, 3);
+		viewMatrix.set(-Vec4.dot(lookFrom, Vz), 2, 3);
 		
 		return viewMatrix;
 	}
@@ -131,12 +130,16 @@ public class Camera extends GameObject implements Serializable{
 	 * @param transform the Transform.
 	 */
 	public void Transform () {
-		lookFrom = Coordinate.Transform(new Coordinate (0, 0, 0), new Matrix (transform));
-		lookAt = Coordinate.Transform(new Coordinate (0, 0, 1), new Matrix (transform));
+		lookFrom = Vec4.Transform(new Vec4 (0, 0, 0), new Matrix (transform));
+		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (transform));
+		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (transform.getRotation()));
 	}
-	public boolean isVisible (Coordinate c, Coordinate normal) {
-		Coordinate view = Coordinate.subtract(c, lookFrom);
-		return lookAt.getZ() > 0 ? Coordinate.dot(view, normal) < 0 : Coordinate.dot(view, normal) > 0;
+	/** Checks whether or not the Polygon is visible to the Camera.
+	 * @param p the Polygon.
+	 */
+	public boolean isVisible (Polygon p) {
+		Vec4 view = Vec4.subtract(p.getCenter(), lookFrom);
+		return lookAt.getZ() > 0 ? Vec4.dot(view, p.getNormal()) < 0 : Vec4.dot(view, p.getNormal()) > 0;
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
@@ -180,13 +183,13 @@ public class Camera extends GameObject implements Serializable{
 	 */
 	public void addRotate (double amount, Rotate axis) {
 		switch (axis) {
-		case X_Axis:
+		case X:
 			transform.setRotX(transform.getRotX()+amount);
 			break;
-		case Y_Axis:
+		case Y:
 			transform.setRotY(transform.getRotY()+amount);
 			break;
-		case Z_Axis:
+		case Z:
 			transform.setRotZ(transform.getRotZ()+amount);
 			break;
 		}
@@ -198,13 +201,13 @@ public class Camera extends GameObject implements Serializable{
 	 */
 	public void setRotate (double value, Rotate axis) {
 		switch (axis) {
-		case X_Axis:
+		case X:
 			transform.setRotX(value);
 			break;
-		case Y_Axis:
+		case Y:
 			transform.setRotY(value);
 			break;
-		case Z_Axis:
+		case Z:
 			transform.setRotZ(value);
 			break;
 		}
@@ -318,34 +321,34 @@ public class Camera extends GameObject implements Serializable{
 		}
 		Transform ();
 	}
-	/** Gets the LookAt Coordinate.*/
-	public Coordinate getLookAt() {
+	/** Gets the LookAt Vec4.*/
+	public Vec4 getLookAt() {
 		return lookAt;
 	}
-	/** Sets the LookAt Coordinate.
-	 * @param lookAt the lookAt Coordinate to set.
+	/** Sets the LookAt Vec4.
+	 * @param lookAt the lookAt Vec4 to set.
 	 */
-	public void setLookAt(Coordinate lookAt) {
+	public void setLookAt(Vec4 lookAt) {
 		this.lookAt = lookAt;
 	}
-	/** Gets the LookFrom Coordinate.*/
-	public Coordinate getLookFrom() {
+	/** Gets the LookFrom Vec4.*/
+	public Vec4 getLookFrom() {
 		return lookFrom;
 	}
-	/** Sets the lookFrom Coordinate.
-	 * @param lookFrom the lookFrom Coordinate to set.
+	/** Sets the lookFrom Vec4.
+	 * @param lookFrom the lookFrom Vec4 to set.
 	 */
-	public void setLookFrom(Coordinate lookFrom) {
+	public void setLookFrom(Vec4 lookFrom) {
 		this.lookFrom = lookFrom;
 	}
-	/** Gets the lookUp Coordinate.*/
-	public Coordinate getLookUp() {
+	/** Gets the lookUp Vec4.*/
+	public Vec4 getLookUp() {
 		return lookUp;
 	}
-	/** Sets the lookUp Coordinate.
-	 * @param lookUp the lookUp Coordinate to set.
+	/** Sets the lookUp Vec4.
+	 * @param lookUp the lookUp Vec4 to set.
 	 */
-	public void setLookUp(Coordinate lookUp) {
+	public void setLookUp(Vec4 lookUp) {
 		this.lookUp = lookUp;
 	}
 	/** Gets the near clip of the Camera.*/
@@ -377,15 +380,5 @@ public class Camera extends GameObject implements Serializable{
 	 */
 	public void setFOV(double fov) {
 		FOV = fov >= 179 || fov <= 1 ? fov >= 179 ? 179 : 1 : fov; 
-	}
-	/** Gets the Aspect Ratio of the Camera.*/
-	public double getAspectRatio() {
-		return aspectRatio;
-	}
-	/** Sets the Aspect Ratio of the Camera.
-	 * @param aspectRatio the Aspect Ratio to set.
-	 */
-	public void setAspectRatio(double aspectRatio) {
-		this.aspectRatio = aspectRatio;
 	}
 }

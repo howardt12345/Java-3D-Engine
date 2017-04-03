@@ -1,6 +1,7 @@
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
+/** The Rotation Class, implements Serializable.*/
 public class Rotation implements Serializable{
 	/** The internal values of the Rotation
 	 * @param X the X Rotation.
