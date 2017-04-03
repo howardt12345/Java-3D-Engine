@@ -61,12 +61,22 @@ public class Model extends GameObject implements Serializable {
 	 * @param lights the lights in scene.
 	 */
 	private Model MVP (Model model, Camera cam, ArrayList<Light> lights) {
-		Model m = (Model) deepClone(model);
-		for (int a = 0; a < m.object.size(); a++) {
+		Model m = (Model) deepClone(model); /* Deep clones Model.
+		Explanation: A deep clone copies all fields, and makes copies of dynamically 
+		allocated memory pointed to by the fields. Unlike a shallow clone 
+		(in this case, Model m = model), a deep clone will be 100% independent 
+		from the original and any changes made to clone object will not be reflected in 
+		the original object.*/
+		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
+			/* Scales Polygon.*/
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale())));
+			/* Translates and Rotates Polygon.*/
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform)));
+			/* Transforms Polygon to Camera space.*/
 			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix()));
+			/* Transforms Polygon to Projection space.*/
 			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix()).Normalized());
+			/* Calculates Polygon visibility.*/
 			m.object.get(a).setVisible(cam.isVisible(m.object.get(a)));
 		}
 		return m;
