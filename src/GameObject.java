@@ -9,7 +9,7 @@ public class GameObject implements Serializable{
 	protected Transform transform;
 	/** Whether or not the Model is active.
 	 * @param active the boolean.*/
-	private boolean active;
+	private boolean active = true;
 	/** New GameObject from a Transform.*/
 	public GameObject (Transform t) {
 		transform = t;
@@ -212,9 +212,13 @@ public class GameObject implements Serializable{
 	public void setActive(boolean value) {
 		active = value;
 	}
-	/** "Deep Clone" of any Java Object.
+	/** Deep Clone of any Java Object.
+		Explanation: A deep clone copies all fields, and makes copies of dynamically 
+		allocated memory pointed to by the fields. Unlike a shallow clone, a deep clone 
+		will be 100% independent from the original and any changes made to clone object 
+		will not be reflected in the original object.
 	 * @param object the object to deep clone.
-	 * @return a new instance of the object.
+	 * @return deep clone of object.
 	 */
 	public static Object deepClone(Object object) {
 		try {

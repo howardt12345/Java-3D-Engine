@@ -24,9 +24,7 @@ public class Scale implements Serializable{
 	 * @param scalar the scalar.
 	 */
 	public Scale (double scalar) {
-		X = scalar;
-		Y = scalar;
-		Z = scalar;
+		X = Y = Z = scalar;
 	}
 	/** Creates a new Scale.*/
 	public Scale() {}
@@ -43,24 +41,24 @@ public class Scale implements Serializable{
 		return Z;
 	}
 	/** Sets the X value of the Scale.
-	 * @param new_X new X component
+	 * @param new_X new X component.
 	 */
 	public void setX (double new_X) {
 		X = new_X;
 	}
 	/** Sets the Y value of the Scale.
-	 * @param new_Y new Y component
+	 * @param new_Y new Y component.
 	 */
 	public void setY (double new_Y) {
 		Y = new_Y;
 	}
 	/** Sets the Z value of the Scale.
-	 * @param new_Z new Z component
+	 * @param new_Z new Z component.
 	 */
 	public void setZ (double new_Z) {
 		Z = new_Z;
 	}
-	/** Gets the average of the 3 scale factors*/
+	/** Gets the average of the 3 scale factors.*/
 	public double getAverage() {
 		return (X + Y + Z)/3;
 	}
@@ -82,8 +80,7 @@ public class Scale implements Serializable{
 		Z = scalar;
 	}
 	/** Returns true if the Scale is equal.
-	 * @param sc Point to compare point to
-	 * @return
+	 * @param sc Point to compare point to.
 	 */
 	public boolean equals (Scale sc) {
 		return X == sc.X && Y == sc.Y && Z == sc.Z ? true : false;

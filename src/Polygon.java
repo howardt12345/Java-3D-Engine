@@ -15,10 +15,10 @@ public class Polygon implements Serializable{
 		polygon = new ArrayList <Vec4>();
 	}
 	/** Adds a vertex to the Polygon.
-	 * @param c the Vec4 to Add.
+	 * @param v the Vec4 to Add.
 	 */
-	public void add (Vec4 c) {
-		polygon.add(c);
+	public void add (Vec4 v) {
+		polygon.add(v);
 	}
 	/** Returns the transformed Polygon.
 	 * @param t the Transform.
@@ -82,11 +82,17 @@ public class Polygon implements Serializable{
 		}
 		return p;
 	}
-	/** Returns the Vec4 at the specified position*/
+	/** Returns the Vec4 at the specified index.
+	 * @param index the index.
+	 * @return the Vec4 at the index.
+	 */
 	public Vec4 get (int index) {
 		return polygon.get(index);
 	}
-	/** Replaces the Vec4 at the specified position with the specified Vec4.*/
+	/** Replaces the Vec4 at the specified position with the specified Vec4.
+	 * @param index the index.
+	 * @param v the Vec4.
+	 */
 	public void set (int index, Vec4 v) {
 		polygon.set(index, v);
 	}
@@ -117,11 +123,11 @@ public class Polygon implements Serializable{
 	 * @param lights the lights in the scene.
 	 */
 	public void calculateIntensity (ArrayList<Light> lights) {
-		float tmp = 1;
-		for (Light l : lights) {
-			tmp += l.diffuse(this);
+		float tmp = 0.15f;
+		for(int a = 1; a <= lights.size(); a++) {
+			tmp += (lights.get(a-1).diffuse(this)/(a+1));
 		}
-		this.setIntensity (/*tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : */tmp);
+		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
 	}
 	/** Returns the number of vertices in polygon.*/
 	public int size() {

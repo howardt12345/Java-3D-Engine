@@ -29,7 +29,7 @@ public class Scene implements Serializable {
 	public void paint(Graphics g, int width, int height) {
 		ArrayList<Light> lights = new ArrayList<Light>();
 		for (GameObject gameObject : scene) {
-			if (gameObject.getClass() == Light.class) 
+			if (gameObject.getClass() == Light.class && gameObject.isActive()) 
 				lights.add((Light) gameObject);
 		}
 		for (GameObject gameObject : scene) {
@@ -47,7 +47,7 @@ public class Scene implements Serializable {
 	 * @param index the index.
 	 */
 	public GameObject get (String index) {
-		return isNumeric (index) ? (Integer.parseInt(index) > 0 || Integer.parseInt(index) <= scene.size()
+		return isNumeric (index) ? (Integer.parseInt(index) < 0 || Integer.parseInt(index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(index))) : 
 					 scene.get(0);
@@ -56,7 +56,7 @@ public class Scene implements Serializable {
 	 * @param index the index.
 	 */
 	public GameObject get (char index) {
-		return isNumeric (""+index) ? (Integer.parseInt(""+index) > 0 || Integer.parseInt(""+index) <= scene.size()
+		return isNumeric (""+index) ? (Integer.parseInt(""+index) < 0 || Integer.parseInt(""+index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(""+index))) : 
 					 scene.get(0);
@@ -65,7 +65,7 @@ public class Scene implements Serializable {
 	 * @param index the index.
 	 */
 	public GameObject get (int index) {
-		return index > 0 || index <= scene.size() ? 
+		return index < 0 || index >= scene.size() ? 
 				 scene.get(0) : 
 					 scene.get(index);
 	}
@@ -79,7 +79,7 @@ public class Scene implements Serializable {
 	/** Checks if a String is numeric.
 	 * @param str the input string.
 	 */
-	private boolean isNumeric(String str) {
+	public static boolean isNumeric(String str) {
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);

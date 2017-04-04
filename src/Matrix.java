@@ -16,15 +16,15 @@ public class Matrix {
 		Translate (t.getPosition());
 		RotateXYZ (t.getRotation());
 	}
-	/** New Matrix from */
+	/** New Matrix from 2D array.*/
 	public Matrix (double[][] matrix) {
 		this.matrix = matrix;
 	}
 	/** New Translation Matrix from Vec4.
-	 * @param c the Vec4.
+	 * @param v the Vec4.
 	 */
-	public Matrix (Vec4 c) {
-		Translate (c);
+	public Matrix (Vec4 v) {
+		Translate (v);
 	}
 	/** New Rotational Matrix from Rotation.
 	 * @param r the Rotation.
@@ -32,9 +32,16 @@ public class Matrix {
 	public Matrix (Rotation r) {
 		RotateXYZ (r);
 	}
+	/** New Scale Matrix from Scale.
+	 * @param s the Scale.
+	 */
 	public Matrix (Scale s) {
 		Scale (s);
 	}
+	/** New Matrix from rows and columns.
+	 * @param rows the number of rows.
+	 * @param columns the number of columns.
+	 */
 	public Matrix (int rows, int columns) {
 		matrix = new double[rows][columns];
 		for (int a = 0; a < rows; a++) {
@@ -43,13 +50,12 @@ public class Matrix {
 			}
 		}
 	}
-	/** Identity Matrix.
-	 */
+	/** Identity Matrix. */
 	public static Matrix identity () {
 		Matrix m = new Matrix ();
 		for (int a = 0; a < m.getRow(); a++) {
 			for (int b = 0; b < m.getColumn(); b++) {
-				m.matrix[a][b] = a == b ? 1 : 0;
+				m.set (a == b ? 1 : 0, a, b);
 			}
 		}
 		return m;
@@ -60,10 +66,9 @@ public class Matrix {
 	 */
 	public static Matrix identity (int rows, int columns) {
 		Matrix m = new Matrix (rows, columns);
-		m.matrix = new double[rows][columns];
-		for (int a = 0; a < rows; a++) {
-			for (int b = 0; b < columns; b++) {
-				m.matrix[a][b] = a == b ? 1 : 0;
+		for (int a = 0; a < m.getRow(); a++) {
+			for (int b = 0; b < m.getColumn(); b++) {
+				m.set (a == b ? 1 : 0, a, b);
 			}
 		}
 		return m;
@@ -72,12 +77,11 @@ public class Matrix {
 	public void toIdentity () {
 		for (int a = 0; a < getRow(); a++) {
 			for (int b = 0; b < getColumn(); b++) {
-				matrix[a][b] = a == b ? 1 : 0;
+				set (a == b ? 1 : 0, a, b);
 			}
 		}
 	}
-	/** Matrix with all values at 0.
-	 */
+	/** Matrix with all values at 0.*/
 	public static Matrix zero () {
 		Matrix m = new Matrix ();
 		for (int a = 0; a < m.getRow(); a++) {
@@ -110,25 +114,26 @@ public class Matrix {
 		}
 	}
 	/** Applies translation to matrix.
-	 * @param c the Vec4 to translate by.
+	 * @param v the Vec4 to translate by.
 	 */
-	public void Translate (Vec4 c) {
-		set(c.getX(), 0, 3);
-		set(c.getY(), 1, 3);
-		set(c.getZ(), 2, 3);
+	public void Translate (Vec4 v) {
+		set(v.getX(), 0, 3);
+		set(v.getY(), 1, 3);
+		set(v.getZ(), 2, 3);
+		set(v.getW(), 3, 3);
 	}
 	/** Returns a Matrix with translation applied.
-	 * @param c the Vec4 to translate by.
+	 * @param v the Vec4 to translate by.
 	 */
-	public Matrix translateMatrix (Vec4 c) {
+	public Matrix translateMatrix (Vec4 v) {
 		Matrix m = new Matrix ();
-		m.set(c.getX(), 0, 3);
-		m.set(c.getY(), 1, 3);
-		m.set(c.getZ(), 2, 3);
-		m.set(c.getW(), 3, 3);
+		m.set(v.getX(), 0, 3);
+		m.set(v.getY(), 1, 3);
+		m.set(v.getZ(), 2, 3);
+		m.set(v.getW(), 3, 3);
 		return m;
 	}
-	/** Applies XYZ rotation to Matrix .
+	/** Applies XYZ rotation to Matrix.
 	 * @param r the Rotation.
 	 */
 	public void RotateXYZ (Rotation r) {

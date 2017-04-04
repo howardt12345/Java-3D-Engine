@@ -5,8 +5,7 @@ import java.awt.*;
 @SuppressWarnings("serial")
 /** The Model Class, extends GameObject and implements Serializable.*/
 public class Model extends GameObject implements Serializable {
-	/** The ArrayList of ArrayList of Points representing the Object.
-	 * @param object the Object.*/
+	/** The Arraylist of Polygons in the Model.*/
 	private ArrayList<Polygon> object = new ArrayList<Polygon>();
 	/** The File name.*/
 	private String FileName;
@@ -32,8 +31,7 @@ public class Model extends GameObject implements Serializable {
 	 */
 	private void ReadFile(String filename) {
 		try {
-			FileReader file = new FileReader(filename);
-			Scanner input = new Scanner(file);
+			Scanner input = new Scanner(new FileReader(filename));
 			Scanner line = new Scanner(input.nextLine());
 			while (input.hasNextLine() || line.hasNext()) {			
 				Polygon polygon = new Polygon ();
@@ -61,23 +59,16 @@ public class Model extends GameObject implements Serializable {
 	 * @param lights the lights in scene.
 	 */
 	private Model MVP (Model model, Camera cam, ArrayList<Light> lights) {
-		Model m = (Model) deepClone(model); /* Deep clones Model.
-		Explanation: A deep clone copies all fields, and makes copies of dynamically 
-		allocated memory pointed to by the fields. Unlike a shallow clone 
-		(in this case, Model m = model), a deep clone will be 100% independent 
-		from the original and any changes made to clone object will not be reflected in 
-		the original object.*/
+		Model m = (Model) deepClone(model); //Deep Clones model.
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
-			/* Scales Polygon.*/
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale())));
-			/* Translates and Rotates Polygon.*/
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform)));
-			/* Transforms Polygon to Camera space.*/
-			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix()));
-			/* Transforms Polygon to Projection space.*/
-			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix()).Normalized());
-			/* Calculates Polygon visibility.*/
-			m.object.get(a).setVisible(cam.isVisible(m.object.get(a)));
+			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
+			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
+			m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
+			float tmp = m.object.get(a).getIntensity(); //stores in tmp value.
+			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
+			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix()).Normalized());// Transforms Polygon to Projection space.
+			m.object.get(a).setVisible(cam.isVisible(m.object.get(a))); //Calculates Polygon visibility.
+			m.object.get(a).setIntensity(tmp); //loads tmp value.
 		}
 		return m;
 	}
