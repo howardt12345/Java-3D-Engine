@@ -47,12 +47,8 @@ public class Light extends GameObject implements Serializable {
 	 * @return the diffuse intensity.
 	 */
 	public double diffuse (Polygon p) {
-		return 
-				intensity*(Vec4.dot
-				(Vec4.subtract(
-						transform.getPosition(), p.getCenter()).normalized(), 
-						p.getNormal().normalized()
-						)
+		return (range/Vec4.subtract(transform.getPosition(), p.getCenter()).magnitude())*intensity
+				*(Vec4.dot(Vec4.subtract(transform.getPosition(), p.getCenter()).normalized(), p.getNormal().normalized())
 				);
 	}
 	/** Gets the light intensity.

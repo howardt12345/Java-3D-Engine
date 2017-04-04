@@ -158,27 +158,12 @@ public class Main extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) 
 			{
-				if (e.getX() <= 50 || e.getX() >= f.getWidth() - 50
-						|| e.getY() <= 50 || e.getY() >= f.getHeight() - 50){
-					try {
-						Robot r = new Robot();
-						r.mouseMove((int)f.getWidth()/2, (int)f.getHeight()/2);
-					} catch (AWTException e1) {
-						e1.printStackTrace();
-					}					
-					oldX = newX = f.getWidth()/2;
-					oldY = newY = f.getHeight()/2;
-					dx = 0; 
-					dy = 0;
-				}
-				else {
-					oldX = newX; 
-					oldY = newY;
-					newX = e.getX();
-					newY = e.getY();
-					dx = (newX -oldX)*0.1;
-					dy = (newY -oldY)*0.1;
-				}
+				oldX = newX; 
+				oldY = newY;
+				newX = e.getX();
+				newY = e.getY();
+				dx = (newX - oldX)*0.1;
+				dy = (newY - oldY)*0.1;
 				scene.getCamera().addRotate(dy, Rotate.X);
 				scene.getCamera().addRotate(dx, Rotate.Y);
 				f.repaint();
@@ -186,6 +171,8 @@ public class Main extends JPanel {
 			@Override
 			public void mouseMoved(MouseEvent e) 
 			{
+				oldX = newX = e.getX();
+				oldY = newY = e.getY();
 			}
 		});
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
