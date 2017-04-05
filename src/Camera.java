@@ -71,6 +71,12 @@ public class Camera extends GameObject implements Serializable {
 		this.lookFrom = lookFrom;
 		lookAt = new Vec4 (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
 	}
+	public Camera (Transform t) {
+		super (t);
+		this.lookFrom = t.getPosition();
+		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (t));
+		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (t.getRotation()));
+	}
 	/** The lookAt Matrix.
 	 * @param lookFrom the lookFrom.
 	 * @param lookAt the lookAt.
@@ -129,7 +135,7 @@ public class Camera extends GameObject implements Serializable {
 	/** Transforms the Camera by a Transform.
 	 * @param transform the Transform.
 	 */
-	public void Transform () {
+	private void Transform () {
 		lookFrom = Vec4.Transform(new Vec4 (0, 0, 0), new Matrix (transform));
 		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (transform));
 		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (transform.getRotation()));
