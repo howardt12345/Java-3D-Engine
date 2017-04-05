@@ -116,7 +116,7 @@ public class Matrix {
 	/** Applies translation to matrix.
 	 * @param v the Vec4 to translate by.
 	 */
-	public void Translate (Vec4 v) {
+	private void Translate (Vec4 v) {
 		set(v.getX(), 0, 3);
 		set(v.getY(), 1, 3);
 		set(v.getZ(), 2, 3);
@@ -136,7 +136,7 @@ public class Matrix {
 	/** Applies XYZ rotation to Matrix.
 	 * @param r the Rotation.
 	 */
-	public void RotateXYZ (Rotation r) {
+	private void RotateXYZ (Rotation r) {
 		set(Math.cos(r.getRadianY())*Math.cos(r.getRadianZ()), 0, 0);
 		set(Math.cos(r.getRadianZ())*Math.sin(r.getRadianX())*Math.sin(r.getRadianY())
 				- Math.cos(r.getRadianX())*Math.sin(r.getRadianZ()), 0, 1);
@@ -277,21 +277,21 @@ public class Matrix {
 	/** Returns the scaling matrix of the Scale.
 	 * @param s the Scale.
 	 */
-	public void Scale (Scale s) {
+	private void Scale (Scale s) {
 		set (s.getX(), 0, 0);
 		set (s.getY(), 1, 1);
 		set (s.getZ(), 2, 2);
 	}
 	/** Multiplies a Vec4 by the Matrix.
-	 * @param c the Vec4 to multiply.
+	 * @param v the Vec4 to multiply.
 	 * @return the multiplied Vec4.
 	 */
-	public Vec4 multiply (Vec4 c) {
+	public Vec4 multiply (Vec4 v) {
 		return new Vec4 (
-				get(0, 0)*c.getX() + get(0, 1)*c.getY() + get(0, 2)*c.getZ() + get(0, 3)*c.getW(), 
-				get(1, 0)*c.getX() + get(1, 1)*c.getY() + get(1, 2)*c.getZ() + get(1, 3)*c.getW(), 
-				get(2, 0)*c.getX() + get(2, 1)*c.getY() + get(2, 2)*c.getZ() + get(2, 3)*c.getW(),
-				get(3, 0)*c.getX() + get(3, 1)*c.getY() + get(3, 2)*c.getZ() + get(3, 3)*c.getW()
+				get(0, 0)*v.getX() + get(0, 1)*v.getY() + get(0, 2)*v.getZ() + get(0, 3)*v.getW(), 
+				get(1, 0)*v.getX() + get(1, 1)*v.getY() + get(1, 2)*v.getZ() + get(1, 3)*v.getW(), 
+				get(2, 0)*v.getX() + get(2, 1)*v.getY() + get(2, 2)*v.getZ() + get(2, 3)*v.getW(),
+				get(3, 0)*v.getX() + get(3, 1)*v.getY() + get(3, 2)*v.getZ() + get(3, 3)*v.getW()
 			);
 	}
 	/** Multiplies two Matrices together.
