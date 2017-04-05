@@ -134,17 +134,6 @@ public class Vec4 implements Serializable{
 	public static Vec4 subtract (Vec4 v1, Vec4 v2) {
 		return new Vec4 (v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 	}
-	/** Returns a new Vector with the Vec4 added.
-	 * @param Vec4 the Vec4 to modify.
-	 * @param vec Vector to add to Vec4.
-	 */
-	public static Vec4 getVector (Vec4 v1, Vec4 v2) {
-		return new Vec4 
-				(v2.X - v1.X, 
-				v2.Y - v1.Y, 
-				v2.Z - v1.Z, 
-				0);
-	}
 	/** Returns a Vec4 of the getMidpoint of 2 Vec4s.
 	 * @param v1 Vec4 #1.
 	 * @param v2 Vec4 #2.
@@ -167,7 +156,7 @@ public class Vec4 implements Serializable{
 				(v1.X + v2.X + v3.X)/3, 
 				(v1.Y + v2.Y + v3.Y)/3, 
 				(v1.Z + v2.Z + v3.Z)/3,
-				(v1.W + v2.W + v3.W)/3
+				1
 			);
 	}
 	/** Returns the center of an array of Vec4s.
@@ -176,11 +165,11 @@ public class Vec4 implements Serializable{
 	 */
 	public static Vec4 getCenter (Vec4[] v) {
 		double tmpX = 0, tmpY = 0, tmpZ = 0, tmpW = 0;
-		for (int a = 0; a < v.length; a++) {
-			tmpX += v[a].X;
-			tmpY += v[a].Y;
-			tmpZ += v[a].Z;
-			tmpW += v[a].W;
+		for (Vec4 V : v) {
+			tmpX += V.X;
+			tmpY += V.Y;
+			tmpZ += V.Z;
+			tmpW += V.W;
 		}
 		return new Vec4 (tmpX/v.length, tmpY/v.length, tmpZ/v.length, tmpW/v.length);
 	}
@@ -190,11 +179,11 @@ public class Vec4 implements Serializable{
 	 * */
 	public static Vec4 getCenter (ArrayList<Vec4> v) {
 		double tmpX = 0, tmpY = 0, tmpZ = 0, tmpW = 0;
-		for (int a = 0; a < v.size(); a++) {
-			tmpX += v.get(a).X;
-			tmpY += v.get(a).Y;
-			tmpZ += v.get(a).Z;
-			tmpW += v.get(a).W;
+		for (Vec4 V : v) {
+			tmpX += V.X;
+			tmpY += V.Y;
+			tmpZ += V.Z;
+			tmpW += V.W;
 		}
 		return new Vec4 (tmpX/v.size(), 
 				tmpY/v.size(), 
@@ -214,6 +203,12 @@ public class Vec4 implements Serializable{
 	public Vec4 Transform (Matrix m) {
 		return m.multiply(this);
 	}
+	/** Gets the normal of the 3 Vec4s.
+	 * @param v1 the first Vec4.
+	 * @param v2 the second Vec4.
+	 * @param v3 the third Vec4.
+	 * @return the normal.
+	 */
 	public static Vec4 getNormal (Vec4 v1, Vec4 v2, Vec4 v3) {
 		Vec4 a = Vec4.subtract(v1, v2), 
 		b = Vec4.subtract(v1, v3);
