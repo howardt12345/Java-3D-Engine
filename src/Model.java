@@ -58,8 +58,8 @@ public class Model extends GameObject implements Serializable {
 	 * @param cam the Camera to transform to.
 	 * @param lights the lights in scene.
 	 */
-	private Model MVP (Model model, Camera cam, ArrayList<Light> lights) {
-		Model m = (Model) deepClone(model); //Deep Clones model.
+	public static Model MVP (Model model, Camera cam, ArrayList<Light> lights) {
+		Model m = (Model) Utils.deepClone(model); //Deep Clones model.
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
@@ -79,9 +79,8 @@ public class Model extends GameObject implements Serializable {
 	 * @param width the width.
 	 * @param height the height.
 	 */
-	public void paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height) {
-		Model m = MVP (this, cam, lights);
-		for (Polygon p : m.object) {
+	public void paint (Graphics g, Camera cam, int width, int height) {
+		for (Polygon p : object) {
 			if (p.isVisible() && p.getCenter().getX() > -1 && p.getCenter().getX() < 1
 				&& p.getCenter().getY() > -1 && p.getCenter().getY() < 1
 				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
