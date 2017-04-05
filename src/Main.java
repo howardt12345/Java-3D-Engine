@@ -14,27 +14,31 @@ public class Main extends JPanel {
     public static double dx = 0, dy = 0;
     static int tmp = 0;
 	public static void main (String[] args) {
-		Camera cam = new Camera (new Vec4 (0, 5, 0));
+		Camera cam = new Camera (new Transform (new Vec4 (0, 2, -4)));
 		scene = new Scene (cam);
 		
-		scene.add(new Light (new Transform (0, 2, 0)));
+		scene.add(new Light (new Transform (0, 4, 0)));
 
-		scene.add(new Model (new Transform (new Vec4 (5, 0, 10),
+		scene.add(new Model (new Transform (new Vec4 (-5, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
-		
-		/*scene.add(new Light (new Transform (5, 2, 0)));
-		scene.add(new Light (new Transform (-5, 2, 0)));
-		scene.add(new Light (new Transform (0, 2, 5)));
-		scene.add(new Light (new Transform (0, 2, -5)));*/
-
+		scene.add(new Model (new Transform (new Vec4 (0, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+		scene.add(new Model (new Transform (new Vec4 (5, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+		/*scene.add(new Light (new Transform (20, 2, 0)));
+		scene.add(new Light (new Transform (-20, 2, 0)));
+		scene.add(new Light (new Transform (0, 2, 20)));
+		scene.add(new Light (new Transform (0, 2, -20)));*/
 		scene.add(new Model (new Transform (
-						new Vec4 (0, 0, 0), new Rotation (90, 0, 0)), 
-						"plane.txt", true));
+				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
+				new Scale (2)), 
+				"plane.txt", true));
+		
 		/*scene.add(new Model (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
-				), "Enterprise.txt", true));*/
+				), "Enterprise.txt", true));
 		
-		/*for (int a = -10; a < 10; a++) {
+		for (int a = -10; a < 10; a++) {
 			for (int b = -10; b < 10; b++) {
 				scene.add(new Model (new Transform (
 						new Vec4 (a*10, 0, b*10), new Rotation (0, 45, 0)), 
@@ -45,7 +49,7 @@ public class Main extends JPanel {
 		{
 			public void keyTyped(KeyEvent e) 
 			{
-				if (Scene.isNumeric(""+e.getKeyChar()))
+				if (Utils.isNumeric(""+e.getKeyChar()))
 					tmp = Integer.parseInt(""+e.getKeyChar());
 			}
 			public void keyPressed(KeyEvent e) 
@@ -132,7 +136,7 @@ public class Main extends JPanel {
 					scene.get(tmp).addRotate(1, Rotate.X);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
-				case KeyEvent.VK_SLASH:
+				case KeyEvent.VK_SEMICOLON:
 					scene.get(tmp).addRotate(-1, Rotate.X);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
