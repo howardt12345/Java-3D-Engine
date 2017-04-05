@@ -1,10 +1,7 @@
-import javax.swing.*;
 import java.util.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
-import java.text.*;
-@SuppressWarnings({ "unused", "serial" })
+@SuppressWarnings({ "serial" })
 /** The Scene class, implements Serializable.*/
 public class Scene implements Serializable {
 	/** The GameObjects in the Scene.*/
@@ -28,13 +25,17 @@ public class Scene implements Serializable {
 	 */
 	public void paint(Graphics g, int width, int height) {
 		ArrayList<Light> lights = new ArrayList<Light>();
+		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
 			if (gameObject.getClass() == Light.class && gameObject.isActive()) 
 				lights.add((Light) gameObject);
 		}
 		for (GameObject gameObject : scene) {
-			if (gameObject.getClass() == Model.class && gameObject.isActive()) 
-				((Model) gameObject).paint(g, mainCamera, lights, width, height);
+			if (gameObject.getClass() == Model.class  && gameObject.isActive())
+			tmp.add(Model.MVP (((Model) gameObject), mainCamera, lights));
+		}
+		for (GameObject gameObject : Utils.zSort(tmp)) {
+			((Model) gameObject).paint(g, mainCamera, width, height);
 		}
 	}
 	/** Sets the Main Camera in the Scene.
@@ -47,7 +48,7 @@ public class Scene implements Serializable {
 	 * @param index the index.
 	 */
 	public GameObject get (String index) {
-		return isNumeric (index) ? (Integer.parseInt(index) < 0 || Integer.parseInt(index) >= scene.size()
+		return Utils.isNumeric (index) ? (Integer.parseInt(index) < 0 || Integer.parseInt(index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(index))) : 
 					 scene.get(0);
@@ -56,7 +57,7 @@ public class Scene implements Serializable {
 	 * @param index the index.
 	 */
 	public GameObject get (char index) {
-		return isNumeric (""+index) ? (Integer.parseInt(""+index) < 0 || Integer.parseInt(""+index) >= scene.size()
+		return Utils.isNumeric (""+index) ? (Integer.parseInt(""+index) < 0 || Integer.parseInt(""+index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(""+index))) : 
 					 scene.get(0);
@@ -75,14 +76,5 @@ public class Scene implements Serializable {
 	/** Gets the amount of GameObjects in scene.*/
 	public int size() {
 		return scene.size();
-	}
-	/** Checks if a String is numeric.
-	 * @param str the input string.
-	 */
-	public static boolean isNumeric(String str) {
-		NumberFormat formatter = NumberFormat.getInstance();
-		ParsePosition pos = new ParsePosition(0);
-		formatter.parse(str, pos);
-		return str.length() == pos.getIndex();
 	}
 }
