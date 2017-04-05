@@ -11,19 +11,22 @@ public class Scene implements Serializable {
 	/** Creates a Scene with a Camera. 
 	 * @param cam the main camera.
 	 */
-	public Scene (Camera cam) {
+	public Scene (Camera cam) 
+	{
 		mainCamera = cam;
 	}
 	/** Adds a GameObject to the scene.
 	 * @param g the GameObject to add.
 	 */
-	public void add (GameObject g) {
+	public void add (GameObject g) 
+	{
 		scene.add(g);
 	}
 	/** Paints all active Models in the scene.
 	 * @param g the Graphics component.
 	 */
-	public void paint(Graphics g, int width, int height) {
+	public void paint(Graphics g, int width, int height) 
+	{
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
@@ -31,23 +34,25 @@ public class Scene implements Serializable {
 				lights.add((Light) gameObject);
 		}
 		for (GameObject gameObject : scene) {
-			if (gameObject.getClass() == Model.class  && gameObject.isActive())
-			tmp.add(Model.MVP (((Model) gameObject), mainCamera, lights));
+			if (gameObject.getClass() == Polyhedron.class  && gameObject.isActive())
+			tmp.add(Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights));
 		}
 		for (GameObject gameObject : Utils.zSort(tmp)) {
-			((Model) gameObject).paint(g, mainCamera, width, height);
+			((Polyhedron) gameObject).paint(g, mainCamera, width, height);
 		}
 	}
 	/** Sets the Main Camera in the Scene.
 	 * @param cam the Camera.
 	 */
-	public void setCamera (Camera cam) {
+	public void setCamera (Camera cam) 
+	{
 		mainCamera = cam;
 	}
 	/** Gets the GameObject located at the index.
 	 * @param index the index.
 	 */
-	public GameObject get (String index) {
+	public GameObject get (String index) 
+	{
 		return Utils.isNumeric (index) ? (Integer.parseInt(index) < 0 || Integer.parseInt(index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(index))) : 
@@ -56,7 +61,8 @@ public class Scene implements Serializable {
 	/** Gets the GameObject located at the index.
 	 * @param index the index.
 	 */
-	public GameObject get (char index) {
+	public GameObject get (char index) 
+	{
 		return Utils.isNumeric (""+index) ? (Integer.parseInt(""+index) < 0 || Integer.parseInt(""+index) >= scene.size()
 			?  scene.get(0) : 
 				 scene.get(Integer.parseInt(""+index))) : 
@@ -65,16 +71,19 @@ public class Scene implements Serializable {
 	/** Gets the GameObject located at the index.
 	 * @param index the index.
 	 */
-	public GameObject get (int index) {
+	public GameObject get (int index) 
+	{
 		return index < 0 || index >= scene.size() ? 
 				 scene.get(0) : 
 					 scene.get(index);
 	}
-	public Camera getCamera () {
+	public Camera getCamera () 
+	{
 		return mainCamera;
 	}
 	/** Gets the amount of GameObjects in scene.*/
-	public int size() {
+	public int size() 
+	{
 		return scene.size();
 	}
 }

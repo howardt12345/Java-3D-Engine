@@ -21,7 +21,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param aspectRatio the aspect ratio.
 	 */
 	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp,
-			double nearClip, double farClip, double FOV) {
+			double nearClip, double farClip, double FOV) 
+	{
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
@@ -37,7 +38,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param FOV the FOV (Field of View).
 	 * @param aspectRatio the aspect ratio.
 	 */
-	public Camera (double nearClip, double farClip, double FOV, double aspectRatio) {
+	public Camera (double nearClip, double farClip, double FOV, double aspectRatio) 
+	{
 		super (new Transform ());
 		this.nearClip = nearClip;
 		this.farClip = farClip;
@@ -48,7 +50,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param lookAt the lookAt.
 	 * @param lookUp the lookUp.
 	 */
-	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp) {
+	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp) 
+	{
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
@@ -58,7 +61,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param lookFrom the lookFrom.
 	 * @param lookAt the lookAt.
 	 */
-	public Camera (Vec4 lookFrom, Vec4 lookAt) {
+	public Camera (Vec4 lookFrom, Vec4 lookAt) 
+	{
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		this.lookAt = lookAt;
@@ -66,12 +70,14 @@ public class Camera extends GameObject implements Serializable {
 	/** Creates a Camera from a lookFrom Vec4.
 	 * @param lookFrom the lookFrom.
 	 */
-	public Camera (Vec4 lookFrom) {
+	public Camera (Vec4 lookFrom) 
+	{
 		super (new Transform (lookFrom));
 		this.lookFrom = lookFrom;
 		lookAt = new Vec4 (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
 	}
-	public Camera (Transform t) {
+	public Camera (Transform t) 
+	{
 		super (t);
 		this.lookFrom = t.getPosition();
 		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (t));
@@ -83,7 +89,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param lookUp the lookUp.
 	 * @return the lookAt Matrix.
 	 */
-	public Matrix LookAtMatrix () {
+	public Matrix LookAtMatrix () 
+	{
 		Vec4 Vz = Vec4.subtract (lookFrom, lookAt).normalized();
 		Vec4 Vx = Vec4.cross(lookUp, Vz).normalized();
 		Vec4 Vy = Vec4.cross(Vz, Vx).normalized();
@@ -111,7 +118,8 @@ public class Camera extends GameObject implements Serializable {
 	/** The Camera Perspective projection Matrix.
 	 * @return the projection matrix.
 	 */
-    public Matrix perspectiveMatrix () {
+    public Matrix perspectiveMatrix () 
+    {
         Matrix projectionMatrix = new Matrix ();
            
         projectionMatrix.set((1/Math.tan(Math.toRadians(FOV/2))), 0, 0);
@@ -128,14 +136,16 @@ public class Camera extends GameObject implements Serializable {
 	/** Sets the Transform.
 	 * @param transform the transform to set.
 	 */
-	public void setTransform (Transform transform) {
+	public void setTransform (Transform transform) 
+	{
 		this.transform = transform;
 		Transform ();
 	}
 	/** Transforms the Camera by a Transform.
 	 * @param transform the Transform.
 	 */
-	private void Transform () {
+	private void Transform () 
+	{
 		lookFrom = Vec4.Transform(new Vec4 (0, 0, 0), new Matrix (transform));
 		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (transform));
 		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (transform.getRotation()));
@@ -143,7 +153,8 @@ public class Camera extends GameObject implements Serializable {
 	/** Checks whether or not the Polygon is visible to the Camera.
 	 * @param p the Polygon.
 	 */
-	public boolean isVisible (Polygon p) {
+	public boolean isVisible (Polygon p) 
+	{
 		Vec4 view = Vec4.subtract(p.getCenter(), lookFrom);
 		return lookAt.getZ() > 0 ? Vec4.dot(view, p.getNormal()) < 0 : Vec4.dot(view, p.getNormal()) > 0;
 	}
@@ -151,7 +162,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addTranslate (double amount, Axis axis) {
+	public void addTranslate (double amount, Axis axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setPosX(transform.getPosX()+amount);
@@ -169,7 +181,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setTranslate (double amount, Axis axis) {
+	public void setTranslate (double amount, Axis axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setPosX(amount);
@@ -187,7 +200,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (double amount, Rotate axis) {
+	public void addRotate (double amount, Rotate axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setRotX(transform.getRotX()+amount);
@@ -205,7 +219,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (double value, Rotate axis) {
+	public void setRotate (double value, Rotate axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setRotX(value);
@@ -223,7 +238,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addTranslate (double amount, Direction dir) {
+	public void addTranslate (double amount, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(transform.getPosZ()+amount);
@@ -250,7 +266,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setTranslate (double value, Direction dir) {
+	public void setTranslate (double value, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(value);
@@ -277,7 +294,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addRotate (double amount, Direction dir) {
+	public void addRotate (double amount, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setRotZ(transform.getRotZ()+amount);
@@ -304,7 +322,8 @@ public class Camera extends GameObject implements Serializable {
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setRotate (double value, Direction dir) {
+	public void setRotate (double value, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setRotZ(value);
@@ -328,63 +347,75 @@ public class Camera extends GameObject implements Serializable {
 		Transform ();
 	}
 	/** Gets the LookAt Vec4.*/
-	public Vec4 getLookAt() {
+	public Vec4 getLookAt() 
+	{
 		return lookAt;
 	}
 	/** Sets the LookAt Vec4.
 	 * @param lookAt the lookAt Vec4 to set.
 	 */
-	public void setLookAt(Vec4 lookAt) {
+	public void setLookAt(Vec4 lookAt) 
+	{
 		this.lookAt = lookAt;
 	}
 	/** Gets the LookFrom Vec4.*/
-	public Vec4 getLookFrom() {
+	public Vec4 getLookFrom() 
+	{
 		return lookFrom;
 	}
 	/** Sets the lookFrom Vec4.
 	 * @param lookFrom the lookFrom Vec4 to set.
 	 */
-	public void setLookFrom(Vec4 lookFrom) {
+	public void setLookFrom(Vec4 lookFrom) 
+	{
 		this.lookFrom = lookFrom;
 	}
 	/** Gets the lookUp Vec4.*/
-	public Vec4 getLookUp() {
+	public Vec4 getLookUp() 
+	{
 		return lookUp;
 	}
 	/** Sets the lookUp Vec4.
 	 * @param lookUp the lookUp Vec4 to set.
 	 */
-	public void setLookUp(Vec4 lookUp) {
+	public void setLookUp(Vec4 lookUp) 
+	{
 		this.lookUp = lookUp;
 	}
 	/** Gets the near clip of the Camera.*/
-	public double getNearClip() {
+	public double getNearClip() 
+	{
 		return nearClip;
 	}
 	/** Sets the near clip of the Camera.
 	 * @param nearClip the near clip to set.
 	 */
-	public void setNearClip(double nearClip) {
+	public void setNearClip(double nearClip) 
+	{
 		this.nearClip = nearClip;
 	}
 	/** Gets the far clip of the Camera.*/
-	public double getFarClip() {
+	public double getFarClip() 
+	{
 		return farClip;
 	}
 	/** Sets the far clip of the Camera.
 	 * @param farClip the far clip to set.
 	 */
-	public void setFarClip(double farClip) {
+	public void setFarClip(double farClip) 
+	{
 		this.farClip = farClip;
 	}
 	/** Gets the FOV of the Camera.*/
-	public double getFOV() {
+	public double getFOV() 
+	{
 		return FOV;
 	}
 	/** Sets the FOV of the Camera.
 	 * @param fov the FOV to set.
 	 */
-	public void setFOV(double fov) {
+	public void setFOV(double fov) 
+	{
 		FOV = fov >= 179 || fov <= 1 ? fov >= 179 ? 179 : 1 : fov; 
 	}
 }

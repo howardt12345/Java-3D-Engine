@@ -6,34 +6,39 @@ public class GameObject implements Serializable{
 	/** The Transform of the GameObject.
 	 * @param transform the Transform.*/
 	protected Transform transform;
-	/** Whether or not the Model is active.
+	/** Whether or not the Polyhedron is active.
 	 * @param active the boolean.*/
 	private boolean active = true;
 	/** New GameObject from a Transform.*/
-	public GameObject (Transform t) {
+	public GameObject (Transform t) 
+	{
 		transform = t;
 	}
 	/** new GameObject.*/
-	public GameObject() {
+	public GameObject() 
+	{
 		transform = new Transform ();
 	}
 	/** Gets the Transform of the GameObject.
 	 * @return the transform
 	 */
-	public Transform getTransform() {
+	public Transform getTransform() 
+	{
 		return transform;
 	}
 	/** Sets the Transform of the GameObject.
 	 * @param transform the transform to set
 	 */
-	public void setTransform (Transform transform) {
+	public void setTransform (Transform transform) 
+	{
 		this.transform = transform;
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addTranslate (double amount, Axis axis) {
+	public void addTranslate (double amount, Axis axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setPosX(transform.getPosX()+amount);
@@ -50,7 +55,8 @@ public class GameObject implements Serializable{
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setTranslate (double amount, Axis axis) {
+	public void setTranslate (double amount, Axis axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setPosX(amount);
@@ -67,7 +73,8 @@ public class GameObject implements Serializable{
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (double amount, Rotate axis) {
+	public void addRotate (double amount, Rotate axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setRotX(transform.getRotX()+amount);
@@ -84,7 +91,8 @@ public class GameObject implements Serializable{
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (double value, Rotate axis) {
+	public void setRotate (double value, Rotate axis) 
+	{
 		switch (axis) {
 		case X:
 			transform.setRotX(value);
@@ -101,7 +109,8 @@ public class GameObject implements Serializable{
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addTranslate (double amount, Direction dir) {
+	public void addTranslate (double amount, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(transform.getPosZ()+amount);
@@ -127,7 +136,8 @@ public class GameObject implements Serializable{
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setTranslate (double value, Direction dir) {
+	public void setTranslate (double value, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setPosZ(value);
@@ -153,7 +163,8 @@ public class GameObject implements Serializable{
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
-	public void addRotate (double amount, Direction dir) {
+	public void addRotate (double amount, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setRotZ(transform.getRotZ()+amount);
@@ -179,7 +190,8 @@ public class GameObject implements Serializable{
 	 * @param value the value.
 	 * @param dir the Direction.
 	 */
-	public void setRotate (double value, Direction dir) {
+	public void setRotate (double value, Direction dir) 
+	{
 		switch (dir) {
 		case Forward:
 			transform.setRotZ(value);
@@ -202,13 +214,15 @@ public class GameObject implements Serializable{
 		}
 	}
 	/** Returns whether or not GameObject is active.*/
-	public boolean isActive() {
+	public boolean isActive() 
+	{
 		return active;
 	}
 	/** Sets whether or not GameObject is active.
 	 * @param active the value.
 	 */
-	public void setActive(boolean value) {
+	public void setActive(boolean value) 
+	{
 		active = value;
 	}
 }

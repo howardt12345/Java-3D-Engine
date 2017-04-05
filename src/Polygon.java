@@ -11,20 +11,29 @@ public class Polygon implements Serializable{
 	/** The Light Intensity on a Polygon.*/
 	private float intensity;
 	/** new Polygon.*/
-	public Polygon () {
+	public Polygon () 
+	{
 		polygon = new ArrayList <Vec4>();
+	}
+	/** New Polygon from an ArrayList of Vec4s.
+	 * @param Vec4s the ArrayList
+	 */
+	public Polygon (ArrayList<Vec4> Vec4s) {
+		polygon = Vec4s;
 	}
 	/** Adds a vertex to the Polygon.
 	 * @param v the Vec4 to Add.
 	 */
-	public void add (Vec4 v) {
+	public void add (Vec4 v) 
+	{
 		polygon.add(v);
 	}
 	/** Returns the transformed Polygon.
 	 * @param t the Transform.
 	 * @return the transformed polygon.
 	 */
-	public Polygon Transform (Transform t) {
+	public Polygon Transform (Transform t) 
+	{
 		Polygon p = this;
 		p.transform(t);
 		return p;
@@ -33,7 +42,8 @@ public class Polygon implements Serializable{
 	 * @param t the Matrix.
 	 * @return the transformed polygon.
 	 */
-	public Polygon Transform (Matrix m) {
+	public Polygon Transform (Matrix m) 
+	{
 		Polygon p = this;
 		p.transform(m);
 		return p;
@@ -41,7 +51,8 @@ public class Polygon implements Serializable{
 	/** Transforms the Polygon.
 	 * @param t the Transform.
 	 */
-	public void transform (Transform t) {
+	public void transform (Transform t) 
+	{
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Transform(new Matrix (t)));
 		}
@@ -49,19 +60,22 @@ public class Polygon implements Serializable{
 	/** Transforms the Polygon.
 	 * @param t the Matrix to Transform with.
 	 */
-	public void transform (Matrix m) {
+	public void transform (Matrix m) 
+	{
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Transform(m));
 		}
 	}
 	/** Normalizes the Polygon Vec4s by W.*/
-	public void Normalize () {
+	public void Normalize () 
+	{
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Normalized());
 		}
 	}
 	/** Returns a Polygon with normalized Vec4s by W.*/
-	public Polygon Normalized () {
+	public Polygon Normalized () 
+	{
 		Polygon p = new Polygon ();
 		for (Vec4 v : polygon) {
 			p.add(v.Normalized());
@@ -69,13 +83,15 @@ public class Polygon implements Serializable{
 		return p;
 	}
 	/** Normalizes the Polygon Vec4s by dividing by magnitude.*/
-	public void normalize () {
+	public void normalize () 
+	{
 		for (int a = 0; a < polygon.size(); a++) {
 			polygon.set(a, polygon.get(a).Normalized());
 		}
 	}
 	/** Returns a polygon with normalized Vec4s by dividing by magnitude.*/
-	public Polygon normalized () {
+	public Polygon normalized () 
+	{
 		Polygon p = new Polygon ();
 		for (Vec4 v : polygon) {
 			p.add(v.normalized());
@@ -86,43 +102,50 @@ public class Polygon implements Serializable{
 	 * @param index the index.
 	 * @return the Vec4 at the index.
 	 */
-	public Vec4 get (int index) {
+	public Vec4 get (int index) 
+	{
 		return polygon.get(index);
 	}
 	/** Replaces the Vec4 at the specified position with the specified Vec4.
 	 * @param index the index.
 	 * @param v the Vec4.
 	 */
-	public void set (int index, Vec4 v) {
+	public void set (int index, Vec4 v) 
+	{
 		polygon.set(index, v);
 	}
 	/** Whether or not the polygon is visible.
 	 */
-	public boolean isVisible() {
+	public boolean isVisible() 
+	{
 		return visible;
 	}
 	/** Sets polygon visibility.
 	 * @param visible polygon visibility.
 	 */
-	public void setVisible(boolean visible) {
+	public void setVisible(boolean visible) 
+	{
 		this.visible = visible;
 	}
 	/** Gets the light intensity on the Polygon.
 	 * @return the intensity
 	 */
-	public float getIntensity() {
+	public float getIntensity() 
+	{
 		return intensity;
 	}
 	/** sets light intensity on the Polygon.
 	 * @param intensity the intensity to set
 	 */
-	public void setIntensity(float intensity) {
+	public void setIntensity(float intensity) 
+	{
 		this.intensity = intensity;
 	}
 	/** Calculates the light intensity on the Polygon.
 	 * @param lights the lights in the scene.
 	 */
-	public void calculateIntensity (ArrayList<Light> lights) {
+	public void calculateIntensity (ArrayList<Light> lights) 
+	{
 		float tmp = 0.15f;
 		for(int a = 1; a <= lights.size(); a++) {
 			tmp += (lights.get(a-1).diffuse(this)/(a+1));
@@ -130,15 +153,18 @@ public class Polygon implements Serializable{
 		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
 	}
 	/** Returns the number of vertices in polygon.*/
-	public int size() {
+	public int size() 
+	{
 		return polygon.size();
 	}
 	/** Gets the Normal of the Polygon.*/
-	public Vec4 getNormal () {
+	public Vec4 getNormal () 
+	{
 		return !polygon.isEmpty() ? Vec4.getNormal(polygon.get(0), polygon.get(1), polygon.get(2)) : null; 
 	}
 	/** Gets the Center of the Polygon.*/
-	public Vec4 getCenter () {
+	public Vec4 getCenter () 
+	{
 		return Vec4.getCenter(polygon);
 	}
 	/** Paints the Polygon.
@@ -146,7 +172,8 @@ public class Polygon implements Serializable{
 	 * @param width the Width.
 	 * @param height the Height.
 	 */
-	public void paint (Graphics g, int width, int height) {
+	public void paint (Graphics g, int width, int height) 
+	{
 		int[] xCoord = new int [size()],
 		yCoord = new int [size()];
 		for (int b = 0; b < size(); b++) {
@@ -159,13 +186,15 @@ public class Polygon implements Serializable{
 		g.drawPolygon(xCoord, yCoord, xCoord.length);
 	}
 	/** Prints out the vertices of the Polygon.*/
-	public void print () {
+	public void print () 
+	{
 		for (Vec4 v : polygon) {
 			v.print();
 		}
 	}
 	/** Prints out detailed information on the Polygon.*/
-	public void detailedPrint () {
+	public void detailedPrint () 
+	{
 		for (int a = 0; a < polygon.size(); a++) {
 			System.out.println("Vertex " + (a+1) + ":");
 			polygon.get(a).print();

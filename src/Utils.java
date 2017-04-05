@@ -7,7 +7,8 @@ public class Utils {
 	 * @param data the input data.
 	 * @return the sorted ArrayList.
 	 */
-	public static ArrayList<GameObject> zSort(ArrayList<GameObject> data){
+	public static ArrayList<GameObject> zSort(ArrayList<GameObject> data)
+	{
 		ArrayList<GameObject> tmp = data;
 		QuickSort (tmp, 0, data.size()-1);
 		return tmp;
@@ -17,7 +18,8 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static void QuickSort(ArrayList<GameObject> data, int left, int right) {
+	private static void QuickSort(ArrayList<GameObject> data, int left, int right) 
+	{
 		int index = partition(data, left, right);
 		if (left < index - 1)
 			QuickSort(data, left, index - 1);
@@ -29,7 +31,8 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int partition(ArrayList<GameObject> data, int left, int right) {
+	private static int partition(ArrayList<GameObject> data, int left, int right) 
+	{
 		int a = left, b = right;
 		double pivot = data.get((left + right) / 2).getTransform().getPosZ();
 		while (a <= b) {
@@ -54,7 +57,8 @@ public class Utils {
 	 * @param a the first index
 	 * @param b the second index.
 	 */
-	private static void swap (ArrayList<GameObject> array, int a, int b) {
+	private static void swap (ArrayList<GameObject> array, int a, int b) 
+	{
 		GameObject tmp = array.get(a);
 		array.set(a, array.get(b));
 		array.set(b, tmp);
@@ -62,7 +66,8 @@ public class Utils {
 	/** Checks if a String is numeric.
 	 * @param str the input string.
 	 */
-	public static boolean isNumeric(String str) {
+	public static boolean isNumeric(String str) 
+	{
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
 		formatter.parse(str, pos);
@@ -71,7 +76,8 @@ public class Utils {
 	/** Print Method for an Array.
 	 * @param in the Array to print.
 	 */
-	public static void print (int[] in) {
+	public static void print (int[] in) 
+	{
 		for (int a = 0; a < in.length; a++) {
 			System.out.println(in[a]);
 		}
@@ -79,7 +85,50 @@ public class Utils {
 	/** Print method for a 2D Array.
 	 * @param in the 2D Array to print.
 	 */
-	public static void print (int[][] in) {
+	public static void print (int[][] in) 
+	{
+		for (int i = 0; i < in.length; i++) {
+			for (int j = 0; j < in[i].length; j++) {
+				System.out.print(" " + in[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	/** Print Method for an Array.
+	 * @param in the Array to print.
+	 */
+	public static void print (double[] in) 
+	{
+		for (int a = 0; a < in.length; a++) {
+			System.out.println(in[a]);
+		}
+	}
+	/** Print method for a 2D Array.
+	 * @param in the 2D Array to print.
+	 */
+	public static void print (double[][] in) 
+	{
+		for (int i = 0; i < in.length; i++) {
+			for (int j = 0; j < in[i].length; j++) {
+				System.out.print(" " + in[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	/** Print Method for an Array.
+	 * @param in the Array to print.
+	 */
+	public static void print (String[] in) 
+	{
+		for (int a = 0; a < in.length; a++) {
+			System.out.println(in[a]);
+		}
+	}
+	/** Print method for a 2D Array.
+	 * @param in the 2D Array to print.
+	 */
+	public static void print (String[][] in) 
+	{
 		for (int i = 0; i < in.length; i++) {
 			for (int j = 0; j < in[i].length; j++) {
 				System.out.print(" " + in[i][j]);
@@ -95,7 +144,8 @@ public class Utils {
 	* @param object the object to deep clone.
 	* @return deep clone of object.
 	*/
-	public static Object deepClone(Object object) {
+	public static Object deepClone(Object object) 
+	{
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
