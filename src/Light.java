@@ -1,6 +1,5 @@
-import java.util.*;
 import java.io.*;
-import java.awt.*;
+
 @SuppressWarnings("serial")
 /** The Light class, extends GameObject and implements Serializable.*/
 public class Light extends GameObject implements Serializable {

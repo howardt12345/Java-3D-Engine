@@ -24,16 +24,15 @@ public class Main extends JPanel {
 		scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
-		/*scene.add(new Light (new Transform (20, 2, 0)));
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+		scene.add(new Light (new Transform (20, 2, 0)));
 		scene.add(new Light (new Transform (-20, 2, 0)));
 		scene.add(new Light (new Transform (0, 2, 20)));
-		scene.add(new Light (new Transform (0, 2, -20)));*/
-		/*scene.add(new Polyhedron (new Transform (
+		scene.add(new Light (new Transform (0, 2, -20)));
+		scene.add(new Polyhedron (new Transform (
 				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
 				new Scale (2)), 
 				"plane.txt", true));*/
-		
 		scene.add(new Polyhedron (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
 				), "Enterprise.txt", true));
