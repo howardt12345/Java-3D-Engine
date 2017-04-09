@@ -2,38 +2,45 @@ import java.util.*;
 import java.io.*;
 /** The Vec4 class, implements Serializable.*/
 @SuppressWarnings("serial")
-public class Vec4 implements Serializable {
-	/** The internal values of the Vec4.
-	 * @param X the X component.
-	 * @param Y the Y component.
-	 * @param Z the Z component.
-	 * @param W the W component.
-	 */
-	private double X = 0, Y = 0, Z = 0, W = 1;
-	/** Creates a new Vec4 with given x, y, z, and w values.
-	 * @param x.
-	 * @param y.
-	 * @param z.
-	 * @param w
+public class Vec4 extends Transformation implements Serializable {
+	private double W = 1;
+	/** New Vec4 with given x, y, z, and w values.
+	 * @param x the x value.
+	 * @param y the y value.
+	 * @param z the z value.
+	 * @param w the w value.
 	 */
 	public Vec4 (double x, double y, double z, double w) 
 	{
-		X = x;
-		Y = y;
-		Z = z;
+		super (x, y, z);
 		W = w;
 	}
-	/** Creates a new Vec4 with given x, y, z values and W at 1.
-	 * @param x.
-	 * @param y.
-	 * @param z. 
+	/** New Vec4 with given x, y, z values and W at 1.
+	 * @param x the x value.
+	 * @param y the y value.
+	 * @param z the z value.
 	 */
 	public Vec4 (double x, double y, double z) 
 	{
-		X = x;
-		Y = y;
-		Z = z;
+		super (x, y, z);
 		W = 1;
+	}
+	/** New Vec4 with given x, y, z values and boolean isVector.
+	 * @param x the x value.
+	 * @param y the y value.
+	 * @param z the z value.
+	 * @param isVector is this Vec4 a vector.
+	 */
+	public Vec4 (double x, double y, double z, boolean isVector) 
+	{
+		super (x, y, z);
+		W = isVector ? 0 : 1;
+	}
+	/** Creates a new Vec4 with boolean isVector.
+	 * @param isVector is this Vec4 a vector.
+	 */
+	public Vec4 (boolean isVector) {
+		W = isVector ? 0 : 1;
 	}
 	/** New Vec4 with default values.*/
 	public Vec4 () {}
@@ -262,21 +269,6 @@ public class Vec4 implements Serializable {
 	{
 		return String.format(format, X, Y, Z, W);
 	}
-	/** Returns the X value of the Vec4.*/
-	public double getX () 
-	{
-		return X;
-	}
-	/** Returns the Y value of the Vec4.*/
-	public double getY () 
-	{
-		return Y;
-	}
-	/** Returns the Z value of the Vec4.*/
-	public double getZ () 
-	{
-		return Z;
-	}
 	/** Returns the W value of the Vec4.*/
 	public double getW () 
 	{
@@ -294,27 +286,6 @@ public class Vec4 implements Serializable {
 		Y = new_y;
 		Z = new_z;
 		W = new_w;
-	}
-	/** Sets the X value of the Vec4.
-	 * @param new_X new X component.
-	 */
-	public void setX (double new_X) 
-	{
-		X = new_X;
-	}
-	/** Sets the Y value of the Vec4.
-	 * @param new_Y new Y component.
-	 */
-	public void setY (double new_Y) 
-	{
-		Y = new_Y;
-	}
-	/** Sets the Z value of the Vec4.
-	 * @param new_Z new Z component.
-	 */
-	public void setZ (double new_Z) 
-	{
-		Z = new_Z;
 	}
 	/** Sets the W value of the Vec4.
 	 * @param new_W new W component.
