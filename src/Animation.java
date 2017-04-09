@@ -50,7 +50,8 @@ public class Animation extends SwingWorker <Integer, String> {
 	 * @param g the target of this Animation. 
 	 * @param f the JFrame.
 	 */
-	protected void run (GameObject g, JFrame f) {
+	protected void run (GameObject g, JFrame f) 
+	{
 		start = System.currentTimeMillis();
 		target = g;
 		this.f = f;
@@ -59,12 +60,14 @@ public class Animation extends SwingWorker <Integer, String> {
 	/** Adds a Transformation to the Animation.
 	 * @param t the Transformation to add.
 	 */
-	public void add (Transformation t) {
+	public void add (Transformation t) 
+	{
 		transformations.add(t);
 	}
 	@Override
 	/** Note that all transformations in Animation runs simultaneously.*/
-	protected Integer doInBackground() throws Exception {
+	protected Integer doInBackground() throws Exception 
+	{
 		while (System.currentTimeMillis() < (start + (duration*1000))) {
 			f.repaint();
 			for (Transformation t : transformations) {
