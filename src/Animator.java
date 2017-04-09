@@ -29,9 +29,9 @@ public class Animator {
 		this.f = f;
 	}
 	/** Runs all the Animations in the Animator.*/
-	public void play () {
-		for (Animation a : anim) 
-		{
+	public void play () 
+	{
+		for (Animation a : anim) {
 			a.run(target, f);
 		}
 	}
