@@ -1,6 +1,7 @@
+
 import java.io.*;
 @SuppressWarnings("serial")
-/** The Camera class, extends GameObject.*/
+/** The Camera class, extends gameObject.*/
 public class Camera extends GameObject implements Serializable {
 	/** The lookFrom Vec4.*/
 	private Vec4 lookFrom = Vec4.center;
@@ -82,6 +83,10 @@ public class Camera extends GameObject implements Serializable {
 		this.lookFrom = t.getPosition();
 		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (t));
 		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (t.getRotation()));
+	}
+	public Camera () 
+	{
+		super (new Transform());
 	}
 	/** The lookAt Matrix.
 	 * @param lookFrom the lookFrom.
@@ -200,7 +205,7 @@ public class Camera extends GameObject implements Serializable {
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (double amount, Rotate axis) 
+	public void addRotate (double amount, Axis axis) 
 	{
 		switch (axis) {
 		case X:
@@ -219,7 +224,7 @@ public class Camera extends GameObject implements Serializable {
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (double value, Rotate axis) 
+	public void setRotate (double value, Axis axis) 
 	{
 		switch (axis) {
 		case X:
