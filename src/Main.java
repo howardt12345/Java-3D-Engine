@@ -19,21 +19,21 @@ public class Main extends JPanel {
 		
 		scene.add(new Light (new Transform (0, 4, 0)));
 
-		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
+		scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
-		scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
+		/*scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
-		scene.add(new Light (new Transform (20, 2, 0)));
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
+		/*scene.add(new Light (new Transform (20, 2, 0)));
 		scene.add(new Light (new Transform (-20, 2, 0)));
 		scene.add(new Light (new Transform (0, 2, 20)));
-		scene.add(new Light (new Transform (0, 2, -20)));
+		scene.add(new Light (new Transform (0, 2, -20)));*/
 		scene.add(new Polyhedron (new Transform (
 				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
 				new Scale (2)), 
-				"plane.txt", true));*/
-		scene.add(new Polyhedron (new Transform 
+				"plane.txt", true));
+		/*scene.add(new Polyhedron (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
 				), "Enterprise.txt", true));
 		
@@ -43,7 +43,7 @@ public class Main extends JPanel {
 						new Vec4 (a*10, 0, b*10), new Rotation (0, 45, 0)), 
 						"cube.txt", true));
 			}
-		}
+		}*/
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -124,19 +124,19 @@ public class Main extends JPanel {
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_OPEN_BRACKET:
-					scene.get(tmp).addRotate(1, Rotate.Y);
+					scene.get(tmp).addRotate(1, Axis.Y);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_CLOSE_BRACKET:
-					scene.get(tmp).addRotate(-1, Rotate.Y);
+					scene.get(tmp).addRotate(-1, Axis.Y);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_QUOTE:
-					scene.get(tmp).addRotate(1, Rotate.X);
+					scene.get(tmp).addRotate(1, Axis.X);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_SEMICOLON:
-					scene.get(tmp).addRotate(-1, Rotate.X);
+					scene.get(tmp).addRotate(-1, Axis.X);
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				}
@@ -167,8 +167,8 @@ public class Main extends JPanel {
 				newY = e.getY();
 				dx = (newX - oldX)*0.1;
 				dy = (newY - oldY)*0.1;
-				scene.getCamera().addRotate(dy, Rotate.X);
-				scene.getCamera().addRotate(dx, Rotate.Y);
+				scene.getCamera().addRotate(dy, Axis.X);
+				scene.getCamera().addRotate(dx, Axis.Y);
 				f.repaint();
 			}
 			@Override
@@ -182,6 +182,18 @@ public class Main extends JPanel {
 		f.add(new Main());
 		f.setSize(800, 600);
 		f.setVisible(true);
+		Animation anim = new Animation (new Vec3 (5, 0, 5), 5);
+		Animation anim1 = new Animation (new Rotation (45, 45, 0));
+		Animation anim2 = new Animation (new Scale(1, 1, 1), 0.75);
+		Animation anim3 = new Animation (new Scale(-1, -1, -1), 0.75);
+		try {
+			anim.run(scene.get(1), f);
+			anim1.run(scene.get(1), f);
+			anim2.run(scene.get(1), f);
+			anim3.run(scene.get(1), f);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
 	}
 	public void paint(Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight());
