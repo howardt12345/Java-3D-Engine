@@ -82,32 +82,32 @@ public class Main extends JPanel {
 					scene.getCamera().addTranslate(0.3, Direction.Up);
 					break;
 				case KeyEvent.VK_UP:
-					new Animator (new Animation (new Vec3 (0, 0, 1)), 
+					new Animator (new Animation (new Vec4 (0, 0, 1, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_DOWN:
-					new Animator (new Animation (new Vec3 (0, 0, -1)), 
+					new Animator (new Animation (new Vec4 (0, 0, -1, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_LEFT:
-					new Animator (new Animation (new Vec3 (-1, 0, 0)), 
+					new Animator (new Animation (new Vec4 (-1, 0, 0, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_RIGHT:
-					new Animator (new Animation (new Vec3 (1, 0, 0)), 
+					new Animator (new Animation (new Vec4 (1, 0, 0, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_COMMA:
-					new Animator (new Animation (new Vec3 (0, -1, 0)), 
+					new Animator (new Animation (new Vec4 (0, -1, 0, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_PERIOD:
-					new Animator (new Animation (new Vec3 (0, 1, 0)), 
+					new Animator (new Animation (new Vec4 (0, 1, 0, true)), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;

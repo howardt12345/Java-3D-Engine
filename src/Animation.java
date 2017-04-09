@@ -68,10 +68,12 @@ public class Animation extends SwingWorker <Integer, String> {
 		while (System.currentTimeMillis() < (start + (duration*1000))) {
 			f.repaint();
 			for (Transformation t : transformations) {
-				if (t.getClass() == Vec3.class) {
-					target.addTranslate(((Vec3)t).getX()/duration/95, Axis.X);
-					target.addTranslate(((Vec3)t).getY()/duration/95, Axis.Y);
-					target.addTranslate(((Vec3)t).getZ()/duration/95, Axis.Z);
+				if (t.getClass() == Vec4.class) {
+					if (((Vec4)t).getW() == 0) {
+						target.addTranslate(((Vec4)t).getX()/duration/95, Axis.X);
+						target.addTranslate(((Vec4)t).getY()/duration/95, Axis.Y);
+						target.addTranslate(((Vec4)t).getZ()/duration/95, Axis.Z);
+					}
 				}
 				if (t.getClass() == Rotation.class && target.getClass() != Light.class) {
 					target.addRotate(((Rotation)t).getX()/duration/95, Axis.X);
