@@ -24,13 +24,13 @@ public class Polyhedron extends GameObject implements Serializable {
 	/** Gets the fileName of the Polyhedron.
 	 * @return the fileName
 	 */
-	public String getFileName() {
+	public String getFileName () {
 		return FileName;
 	}
 	/** Reads the file and loads values in ArrayList.
 	 * @param filename the filename.
 	 */
-	private void ReadFile(String filename) {
+	private void ReadFile (String filename) {
 		try {
 			Scanner input = new Scanner(new FileReader(filename));
 			Scanner line = new Scanner(input.nextLine());

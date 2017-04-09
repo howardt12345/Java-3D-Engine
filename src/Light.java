@@ -11,7 +11,7 @@ public class Light extends GameObject implements Serializable {
 	/** New Light.*/
 	public Light () 
 	{
-		super();
+		super ();
 	}
 	/** New Light from Transform.
 	 * @param t the Transform.
@@ -60,7 +60,7 @@ public class Light extends GameObject implements Serializable {
 	/** Gets the light intensity.
 	 * @return the intensity.
 	 */
-	public double getIntensity() 
+	public double getIntensity () 
 	{
 		return intensity;
 	}
@@ -74,7 +74,7 @@ public class Light extends GameObject implements Serializable {
 	/** Gets the light range.
 	 * @return the range.
 	 */
-	public double getRange() 
+	public double getRange () 
 	{
 		return range;
 	}

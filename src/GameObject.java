@@ -16,14 +16,14 @@ public class GameObject implements Serializable{
 		transform = t;
 	}
 	/** new gameObject.*/
-	public GameObject() 
+	public GameObject () 
 	{
 		transform = new Transform ();
 	}
 	/** Gets the Transform of the gameObject.
 	 * @return the transform
 	 */
-	public Transform getTransform() 
+	public Transform getTransform () 
 	{
 		return transform;
 	}
@@ -221,10 +221,10 @@ public class GameObject implements Serializable{
 	public void addScale (double amount, Axis axis) 
 	{
 		switch (axis) {
-		case X:
+		case X:			
 			transform.setScaleX(transform.getScaleX()+amount);
 			break;
-		case Y:
+		case Y:			
 			transform.setScaleY(transform.getScaleY()+amount);
 			break;
 		case Z:
@@ -251,14 +251,14 @@ public class GameObject implements Serializable{
 		}
 	}
 	/** Returns whether or not gameObject is active.*/
-	public boolean isActive() 
+	public boolean isActive () 
 	{
 		return active;
 	}
 	/** Sets whether or not gameObject is active.
 	 * @param active the value.
 	 */
-	public void setActive(boolean value) 
+	public void setActive (boolean value) 
 	{
 		active = value;
 	}

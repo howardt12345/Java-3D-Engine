@@ -9,7 +9,7 @@ public class Utils {
 	 * @param data the input data.
 	 * @return the sorted ArrayList.
 	 */
-	public static ArrayList<GameObject> zSort(ArrayList<GameObject> data)
+	public static ArrayList<GameObject> zSort (ArrayList<GameObject> data)
 	{
 		ArrayList<GameObject> tmp = data;
 		QuickSort (tmp, 0, data.size()-1);
@@ -20,7 +20,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static void QuickSort(ArrayList<GameObject> data, int left, int right) 
+	private static void QuickSort (ArrayList<GameObject> data, int left, int right) 
 	{
 		int index = partition(data, left, right);
 		if (left < index - 1)
@@ -33,7 +33,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int partition(ArrayList<GameObject> data, int left, int right) 
+	private static int partition (ArrayList<GameObject> data, int left, int right) 
 	{
 		int a = left, b = right;
 		double pivot = data.get((left + right) / 2).getTransform().getPosZ();
@@ -68,7 +68,7 @@ public class Utils {
 	/** Checks if a String is numeric.
 	 * @param str the input string.
 	 */
-	public static boolean isNumeric(String str) 
+	public static boolean isNumeric (String str) 
 	{
 		NumberFormat formatter = NumberFormat.getInstance();
 		ParsePosition pos = new ParsePosition(0);
@@ -146,7 +146,7 @@ public class Utils {
 	* @param object the object to deep clone.
 	* @return deep clone of object.
 	*/
-	public static Object deepClone(Object object) 
+	public static Object deepClone (Object object) 
 	{
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

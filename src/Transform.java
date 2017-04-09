@@ -44,7 +44,7 @@ public class Transform implements Serializable {
 	 * @param posY the Y position.
 	 * @param posZ the Z position.
 	 */
-	public Transform(double posX, double posY, double posZ) 
+	public Transform (double posX, double posY, double posZ) 
 	{
 		position = new Vec4 (posX, posY, posZ);
 	}
@@ -68,12 +68,12 @@ public class Transform implements Serializable {
 		return position.equals(t.position) && rotation.equals(t.rotation) && scale.equals(t.scale);
 	}
 	/** Gets the position of the Transform as a Vec4.*/
-	public Vec4 getPosition() 
+	public Vec4 getPosition () 
 	{
 		return position;
 	}
 	/** Gets the rotation of the Transform as a Rotation.*/
-	public Rotation getRotation() 
+	public Rotation getRotation () 
 	{
 		return rotation;
 	}
@@ -153,13 +153,13 @@ public class Transform implements Serializable {
 	}
 	/** Sets the Y value of the position.
 	 * @param new_Y the new Y value.*/
-	public void setPosY(double new_Y) 
+	public void setPosY (double new_Y) 
 	{
 		position.setY(new_Y);
 	}
 	/** Sets the Z value of the position.
 	 * @param new_Z the new Z value.*/
-	public void setPosZ(double new_Z) 
+	public void setPosZ (double new_Z) 
 	{
 		position.setZ(new_Z);
 	}
@@ -178,13 +178,13 @@ public class Transform implements Serializable {
 	}
 	/** Sets the Y value of the Rotation.
 	 * @param new_Y the new Y value.*/
-	public void setRotY(double new_Y) 
+	public void setRotY (double new_Y) 
 	{
 		rotation.setY(new_Y);
 	}
 	/** Sets the Z value of the Rotation.
 	 * @param new_Z the new Z value.*/
-	public void setRotZ(double new_Z) 
+	public void setRotZ (double new_Z) 
 	{
 		rotation.setZ(new_Z);
 	}
@@ -203,13 +203,13 @@ public class Transform implements Serializable {
 	}
 	/** Sets the Y value of the scale.
 	 * @param new_Y the new Y value.*/
-	public void setScaleY(double new_Y) 
+	public void setScaleY (double new_Y) 
 	{
 		scale.setY(new_Y);
 	}
 	/** Sets the Z value of the scale.
 	 * @param new_Z the new Z value.*/
-	public void setScaleZ(double new_Z) 
+	public void setScaleZ (double new_Z) 
 	{
 		scale.setZ(new_Z);
 	}

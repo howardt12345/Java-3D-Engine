@@ -117,28 +117,28 @@ public class Polygon implements Serializable{
 	}
 	/** Whether or not the polygon is visible.
 	 */
-	public boolean isVisible() 
+	public boolean isVisible () 
 	{
 		return visible;
 	}
 	/** Sets polygon visibility.
 	 * @param visible polygon visibility.
 	 */
-	public void setVisible(boolean visible) 
+	public void setVisible (boolean visible) 
 	{
 		this.visible = visible;
 	}
 	/** Gets the light intensity on the Polygon.
 	 * @return the intensity
 	 */
-	public float getIntensity() 
+	public float getIntensity () 
 	{
 		return intensity;
 	}
 	/** sets light intensity on the Polygon.
 	 * @param intensity the intensity to set
 	 */
-	public void setIntensity(float intensity) 
+	public void setIntensity (float intensity) 
 	{
 		this.intensity = intensity;
 	}
@@ -154,7 +154,7 @@ public class Polygon implements Serializable{
 		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
 	}
 	/** Returns the number of vertices in polygon.*/
-	public int size() 
+	public int size () 
 	{
 		return polygon.size();
 	}

@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-/** The Vec4 class, implements Serializable. */
+/** The Vec4 class, implements Serializable.*/
 @SuppressWarnings("serial")
 public class Vec4 implements Serializable {
 	/** The internal values of the Vec4.
@@ -61,7 +61,7 @@ public class Vec4 implements Serializable {
 		);
 	}
 	/** Returns a normalized Vec4 through dividing by W.*/
-	public Vec4 Normalized() 
+	public Vec4 Normalized () 
 	{
 		return new Vec4 (X/W,Y/W,Z/W, 1);
 	}
@@ -154,7 +154,7 @@ public class Vec4 implements Serializable {
 	 * @param v1 Vec4 #1.
 	 * @param v2 Vec4 #2.
 	 */
-	public static Vec4 getMidpoint(Vec4 v1, Vec4 v2) 
+	public static Vec4 getMidpoint (Vec4 v1, Vec4 v2) 
 	{
 		return new Vec4 (
 				(v1.X + v2.X)/2, 
@@ -168,7 +168,7 @@ public class Vec4 implements Serializable {
 	 * @param v2 Vec4 #2.
 	 * @param v3 Vec4 #3.
 	 */
-	public static Vec4 getCentroid(Vec4 v1, Vec4 v2, Vec4 v3) 
+	public static Vec4 getCentroid (Vec4 v1, Vec4 v2, Vec4 v3) 
 	{
 		return new Vec4 (
 				(v1.X + v2.X + v3.X)/3, 
@@ -250,7 +250,7 @@ public class Vec4 implements Serializable {
 		System.out.println(X + ", " + Y + ", " + Z + ", " + W);
 	}
 	/** Gets the values of the Vec4s as a String structured as "X, Y, Z, W".*/
-	public String asString() 
+	public String asString () 
 	{
 		return X + ", " + Y + ", " + Z + ", " + W;
 	}
@@ -258,7 +258,7 @@ public class Vec4 implements Serializable {
 	 * Recommended format: "%1$f, %2$f, %3$f, %4$f".
 	 * @param format the formatting of the string.
 	 */
-	public String asString(String format) 
+	public String asString (String format) 
 	{
 		return String.format(format, X, Y, Z, W);
 	}
