@@ -2,7 +2,7 @@ import java.util.*;
 import javax.swing.*;
 
 /** The Animation class, extends SwingWorker.*/
-public class Animation extends SwingWorker <Integer, String>{
+public class Animation extends SwingWorker <Integer, String> {
 	/** The duration of the Animation.*/
 	private double duration = 1;
 	/** The ArrayList of Transformations in this Animation.*/
@@ -63,7 +63,7 @@ public class Animation extends SwingWorker <Integer, String>{
 		transformations.add(t);
 	}
 	@Override
-	/** Note that Note that all transformations in Animation runs simultaneously.*/
+	/** Note that all transformations in Animation runs simultaneously.*/
 	protected Integer doInBackground() throws Exception {
 		while (System.currentTimeMillis() < (start + (duration*1000))) {
 			f.repaint();
@@ -73,7 +73,7 @@ public class Animation extends SwingWorker <Integer, String>{
 					target.addTranslate(((Vec3)t).getY()/duration/95, Axis.Y);
 					target.addTranslate(((Vec3)t).getZ()/duration/95, Axis.Z);
 				}
-				if (t.getClass() == Rotation.class) {
+				if (t.getClass() == Rotation.class && target.getClass() != Light.class) {
 					target.addRotate(((Rotation)t).getX()/duration/95, Axis.X);
 					target.addRotate(((Rotation)t).getY()/duration/95, Axis.Y);
 					target.addRotate(((Rotation)t).getZ()/duration/95, Axis.Z);
