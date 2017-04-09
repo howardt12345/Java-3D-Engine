@@ -1,7 +1,8 @@
+
 import java.io.*;
 
 @SuppressWarnings("serial")
-/** The Light class, extends GameObject and implements Serializable.*/
+/** The Light class, extends gameObject and implements Serializable.*/
 public class Light extends GameObject implements Serializable {
 	/** The light intensity. Default value 1.*/
 	private double intensity = 1;

@@ -10,7 +10,7 @@ public class Matrix {
 		};
 	/** New Matrix. Default 4x4 Matrix.*/
 	public Matrix () {}
-	/** New Transformation matrix from Transform.
+	/** New transformation matrix from Transform.
 	 * @param t the Transform.
 	 */
 	public Matrix (Transform t) 

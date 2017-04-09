@@ -1,7 +1,9 @@
+
 import java.io.*;
 import java.text.*;
 import java.util.*;
-/** The Utility Class. */
+
+/** The utility Class. */
 public class Utils {
 	/** Sorts an ArrayList of GameObjects in order on the Z Axis.
 	 * @param data the input data.
