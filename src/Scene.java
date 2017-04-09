@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.awt.*;
 import java.io.*;
@@ -15,8 +16,8 @@ public class Scene implements Serializable {
 	{
 		mainCamera = cam;
 	}
-	/** Adds a GameObject to the scene.
-	 * @param g the GameObject to add.
+	/** Adds a gameObject to the scene.
+	 * @param g the gameObject to add.
 	 */
 	public void add (GameObject g) 
 	{
@@ -34,7 +35,7 @@ public class Scene implements Serializable {
 				lights.add((Light) gameObject);
 		}
 		for (GameObject gameObject : scene) {
-			if (gameObject.getClass() == Polyhedron.class  && gameObject.isActive())
+			if (gameObject.getClass() == Polyhedron.class && gameObject.isActive())
 			tmp.add(Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights));
 		}
 		for (GameObject gameObject : Utils.zSort(tmp)) {
@@ -48,7 +49,7 @@ public class Scene implements Serializable {
 	{
 		mainCamera = cam;
 	}
-	/** Gets the GameObject located at the index.
+	/** Gets the gameObject located at the index.
 	 * @param index the index.
 	 */
 	public GameObject get (String index) 
@@ -58,7 +59,7 @@ public class Scene implements Serializable {
 				 scene.get(Integer.parseInt(index))) : 
 					 scene.get(0);
 	}
-	/** Gets the GameObject located at the index.
+	/** Gets the gameObject located at the index.
 	 * @param index the index.
 	 */
 	public GameObject get (char index) 
@@ -68,7 +69,7 @@ public class Scene implements Serializable {
 				 scene.get(Integer.parseInt(""+index))) : 
 					 scene.get(0);
 	}	
-	/** Gets the GameObject located at the index.
+	/** Gets the gameObject located at the index.
 	 * @param index the index.
 	 */
 	public GameObject get (int index) 
