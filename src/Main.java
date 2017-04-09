@@ -184,7 +184,7 @@ public class Main extends JPanel {
 		f.setVisible(true);
 		Animation anim = new Animation (new Vec3 (5, 0, 5), 5);
 		Animation anim1 = new Animation (new Rotation (45, 45, 0));
-		Animation anim2 = new Animation (new Scale(1, 1, 1), 0.75);
+		Animation anim2 = new Animation (new Scale(1, 1, 1), 2);
 		Animation anim3 = new Animation (new Scale(-1, -1, -1), 0.75);
 		try {
 			anim.run(scene.get(1), f);
