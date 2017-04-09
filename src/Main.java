@@ -19,8 +19,8 @@ public class Main extends JPanel {
 		
 		scene.add(new Light (new Transform (0, 4, 0)));
 
-		scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
 		/*scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
@@ -29,11 +29,11 @@ public class Main extends JPanel {
 		scene.add(new Light (new Transform (-20, 2, 0)));
 		scene.add(new Light (new Transform (0, 2, 20)));
 		scene.add(new Light (new Transform (0, 2, -20)));*/
-		scene.add(new Polyhedron (new Transform (
+		/*scene.add(new Polyhedron (new Transform (
 				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
 				new Scale (2)), 
-				"plane.txt", true));
-		/*scene.add(new Polyhedron (new Transform 
+				"plane.txt", true));*/
+		scene.add(new Polyhedron (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
 				), "Enterprise.txt", true));
 		
@@ -43,7 +43,7 @@ public class Main extends JPanel {
 						new Vec4 (a*10, 0, b*10), new Rotation (0, 45, 0)), 
 						"cube.txt", true));
 			}
-		}*/
+		}
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -64,73 +64,74 @@ public class Main extends JPanel {
 					scene.get(tmp).setActive(!scene.get(tmp).isActive());
 					break;
 				case KeyEvent.VK_W:
-					scene.getCamera().addTranslate(0.2, Direction.Forward);
+					scene.getCamera().addTranslate(0.3, Direction.Forward);
 					break;
 				case KeyEvent.VK_S:
-					scene.getCamera().addTranslate(0.2, Direction.Backward);
+					scene.getCamera().addTranslate(0.3, Direction.Backward);
 					break;
 				case KeyEvent.VK_A:
-					scene.getCamera().addTranslate(0.2, Direction.Left);
+					scene.getCamera().addTranslate(0.3, Direction.Left);
 					break;
 				case KeyEvent.VK_D:
-					scene.getCamera().addTranslate(0.2, Direction.Right);						
+					scene.getCamera().addTranslate(0.3, Direction.Right);						
 					break;
 				case KeyEvent.VK_Q:
-					scene.getCamera().addTranslate(0.2, Direction.Down);
+					scene.getCamera().addTranslate(0.3, Direction.Down);
 					break;
 				case KeyEvent.VK_E:
-					scene.getCamera().addTranslate(0.2, Direction.Up);
+					scene.getCamera().addTranslate(0.3, Direction.Up);
 					break;
 				case KeyEvent.VK_UP:
-					scene.get(tmp).addTranslate(0.5, Axis.Z);
+					new Animator (new Animation (new Vec3 (0, 0, 1)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_DOWN:
-					scene.get(tmp).addTranslate(-0.5, Axis.Z);
+					new Animator (new Animation (new Vec3 (0, 0, -1)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_LEFT:
-					scene.get(tmp).addTranslate(-0.5, Axis.X);
+					new Animator (new Animation (new Vec3 (-1, 0, 0)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_RIGHT:
-					scene.get(tmp).addTranslate(0.5, Axis.X);
+					new Animator (new Animation (new Vec3 (1, 0, 0)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_COMMA:
-					scene.get(tmp).addTranslate(-0.5, Axis.Y);
+					new Animator (new Animation (new Vec3 (0, -1, 0)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_PERIOD:
-					scene.get(tmp).addTranslate(0.5, Axis.Y);
+					new Animator (new Animation (new Vec3 (0, 1, 0)), 
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_OPEN_BRACKET:
-					scene.get(tmp).addRotate(1, Axis.Y);
+					new Animator (new Animation (new Rotation (0, 15, 0), 0.5),
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_CLOSE_BRACKET:
-					scene.get(tmp).addRotate(-1, Axis.Y);
+					new Animator (new Animation (new Rotation (0, -15, 0), 0.5),
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_QUOTE:
-					scene.get(tmp).addRotate(1, Axis.X);
+					new Animator (new Animation (new Rotation (-15, 0, 0), 0.5),
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_SEMICOLON:
-					scene.get(tmp).addRotate(-1, Axis.X);
+					new Animator (new Animation (new Rotation (15, 0, 0), 0.5),
+							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_SPACE:
-					Animator animator = new Animator (scene.get(tmp), f);
-					Animation anim = new Animation (new Vec3 (5, 0, 5), 5);
-					anim.add(new Rotation (90, 0, 0));
-					//anim.add(new Scale (4, 4, 4));
-					animator.add(anim);
-					animator.add(new Animation (new Rotation (45, 45, 0)));
-					//animator.add(new Animation (new Scale(1, 1, 1), 2));
-					animator.add(new Animation (new Scale(-3, -3, -3)));
-					animator.play();
 					break;
 				}
 				System.out.println(e.getKeyChar());
