@@ -1,8 +1,8 @@
 import java.util.*;
 import java.io.*;
-/** The Vec4 class, implements Serializable.*/
+/** The Vec4 class, implements Serializable. */
 @SuppressWarnings("serial")
-public class Vec4 implements Serializable{
+public class Vec4 implements Serializable {
 	/** The internal values of the Vec4.
 	 * @param X the X component.
 	 * @param Y the Y component.
@@ -15,7 +15,7 @@ public class Vec4 implements Serializable{
 	 * @param y.
 	 * @param z.
 	 * @param w
-	 *  */
+	 */
 	public Vec4 (double x, double y, double z, double w) 
 	{
 		X = x;
@@ -26,7 +26,8 @@ public class Vec4 implements Serializable{
 	/** Creates a new Vec4 with given x, y, z values and W at 1.
 	 * @param x.
 	 * @param y.
-	 * @param z. */
+	 * @param z. 
+	 */
 	public Vec4 (double x, double y, double z) 
 	{
 		X = x;
@@ -93,8 +94,8 @@ public class Vec4 implements Serializable{
 		return (v1.X*v2.X) + (v1.Y*v2.Y) + (v1.Z*v2.Z) + (v1.W*v2.W);
 	}
 	/** Returns the Cross Product of two Vec4s.
-	 * @param v1 Vector #1.
-	 * @param v2 Vector #2.
+	 * @param v1 Vec3 #1.
+	 * @param v2 Vec3 #2.
 	 * @return the cross product.
 	 */
 	public static Vec4 cross (Vec4 v1, Vec4 v2) 
