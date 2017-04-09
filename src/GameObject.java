@@ -1,32 +1,33 @@
+
 import java.io.*;
 
 @SuppressWarnings("serial")
-/** The GameObject Class, used as a Superclass for objects. Implements Serializable.*/
+/** The gameObject Class, used as a Superclass for objects. Implements Serializable.*/
 public class GameObject implements Serializable{
-	/** The Transform of the GameObject.
+	/** The Transform of the gameObject.
 	 * @param transform the Transform.*/
 	protected Transform transform;
 	/** Whether or not the Polyhedron is active.
 	 * @param active the boolean.*/
 	private boolean active = true;
-	/** New GameObject from a Transform.*/
+	/** New gameObject from a Transform.*/
 	public GameObject (Transform t) 
 	{
 		transform = t;
 	}
-	/** new GameObject.*/
+	/** new gameObject.*/
 	public GameObject() 
 	{
 		transform = new Transform ();
 	}
-	/** Gets the Transform of the GameObject.
+	/** Gets the Transform of the gameObject.
 	 * @return the transform
 	 */
 	public Transform getTransform() 
 	{
 		return transform;
 	}
-	/** Sets the Transform of the GameObject.
+	/** Sets the Transform of the gameObject.
 	 * @param transform the transform to set
 	 */
 	public void setTransform (Transform transform) 
@@ -73,7 +74,7 @@ public class GameObject implements Serializable{
 	 * @param amount the amount.
 	 * @param axis the Axis.
 	 */
-	public void addRotate (double amount, Rotate axis) 
+	public void addRotate (double amount, Axis axis) 
 	{
 		switch (axis) {
 		case X:
@@ -91,7 +92,7 @@ public class GameObject implements Serializable{
 	 * @param value the value.
 	 * @param axis the Axis.
 	 */
-	public void setRotate (double value, Rotate axis) 
+	public void setRotate (double value, Axis axis) 
 	{
 		switch (axis) {
 		case X:
@@ -213,12 +214,48 @@ public class GameObject implements Serializable{
 			break;
 		}
 	}
-	/** Returns whether or not GameObject is active.*/
+	/** Adds an amount to the specified Axis. 
+	 * @param amount the amount.
+	 * @param axis the Axis.
+	 */
+	public void addScale (double amount, Axis axis) 
+	{
+		switch (axis) {
+		case X:
+			transform.setScaleX(transform.getScaleX()+amount);
+			break;
+		case Y:
+			transform.setScaleY(transform.getScaleY()+amount);
+			break;
+		case Z:
+			transform.setScaleZ(transform.getScaleZ()+amount);
+			break;
+		}
+	}
+	/** Sets a value to the specified Axis. 
+	 * @param value the value.
+	 * @param axis the Axis.
+	 */
+	public void setScale (double amount, Axis axis) 
+	{
+		switch (axis) {
+		case X:
+			transform.setScaleX(amount);
+			break;
+		case Y:
+			transform.setScaleY(amount);
+			break;
+		case Z:
+			transform.setScaleZ(amount);
+			break;
+		}
+	}
+	/** Returns whether or not gameObject is active.*/
 	public boolean isActive() 
 	{
 		return active;
 	}
-	/** Sets whether or not GameObject is active.
+	/** Sets whether or not gameObject is active.
 	 * @param active the value.
 	 */
 	public void setActive(boolean value) 
