@@ -1,52 +1,102 @@
+import java.util.*;
+import javax.swing.*;
 
-public class Animation extends Thread implements Runnable{
-	private double duration = 5;
-	private Transformation t;
+/** The Animation class, extends SwingWorker.*/
+public class Animation extends SwingWorker <Integer, String>{
+	/** The duration of the Animation.*/
+	private double duration = 1;
+	/** The ArrayList of Transformations in this Animation.*/
+	private ArrayList<Transformation> transformations = new ArrayList<Transformation>();
+	/** The target of this Animation.*/
 	private GameObject target;
-	private volatile boolean running = true;
-	private javax.swing.JFrame f;
-	
-	public Animation (Transformation t) {
-		this.t = t;
+	/** The JFrame.*/
+	private JFrame f;
+	/** The Starting time of the Animation.*/
+	private long start;
+	/** New Animation from a Transformation.
+	 * @param t the Transformation.
+	 */
+	public Animation (Transformation t) 
+	{
+		transformations.add(t);
 	}
-	public Animation (Transformation t, double d) {
-		this.t = t;
+	/** New Animation from a Transformation and a duration.
+	 * @param t the Transformation.
+	 * @param d the duration.
+	 */
+	public Animation (Transformation t, double d) 
+	{
+		transformations.add(t);
 		duration = d;
 	}
-	public void run (GameObject g, javax.swing.JFrame f) throws InterruptedException {
+	/** New Animation from a list of Transformations.
+	 * @param t the list of Transformations.
+	 */
+	public Animation (ArrayList<Transformation> t)
+	{
+		transformations = t;
+	}
+	/** New Animation from a list of Transformations and a duration.
+	 * @param t the list of Transformations.
+	 * @param d the duration.
+	 */
+	public Animation (ArrayList<Transformation> t, double d)
+	{
+		transformations = t;
+		duration = d;
+	}
+	/** Runs the Animation. Note that all transformations in Animation
+	 * runs simultaneously.
+	 * @param g the target of this Animation. 
+	 * @param f the JFrame.
+	 */
+	protected void run (GameObject g, JFrame f) {
+		start = System.currentTimeMillis();
 		target = g;
 		this.f = f;
-		this.start();
-		Thread.sleep((long) (duration * 1000));
-		this.shutdown();
+		this.execute();
 	}
-	public void shutdown () {
-		running = false;
+	/** Adds a Transformation to the Animation.
+	 * @param t the Transformation to add.
+	 */
+	public void add (Transformation t) {
+		transformations.add(t);
 	}
-	public void run () {
-		while (running) {
+	@Override
+	/** Note that Note that all transformations in Animation runs simultaneously.*/
+	protected Integer doInBackground() throws Exception {
+		while (System.currentTimeMillis() < (start + (duration*1000))) {
 			f.repaint();
-			if (t.getClass() == Vec3.class) {
-				target.addTranslate(((Vec3)t).getX()/duration/100, Axis.X);
-				target.addTranslate(((Vec3)t).getY()/duration/100, Axis.Y);
-				target.addTranslate(((Vec3)t).getZ()/duration/100, Axis.Z);
+			for (Transformation t : transformations) {
+				if (t.getClass() == Vec3.class) {
+					target.addTranslate(((Vec3)t).getX()/duration/95, Axis.X);
+					target.addTranslate(((Vec3)t).getY()/duration/95, Axis.Y);
+					target.addTranslate(((Vec3)t).getZ()/duration/95, Axis.Z);
+				}
+				if (t.getClass() == Rotation.class) {
+					target.addRotate(((Rotation)t).getX()/duration/95, Axis.X);
+					target.addRotate(((Rotation)t).getY()/duration/95, Axis.Y);
+					target.addRotate(((Rotation)t).getZ()/duration/95, Axis.Z);
+				}
+				if (t.getClass() == Scale.class) {
+					target.addScale(((Scale)t).getX()/duration/95, Axis.X);
+					target.addScale(((Scale)t).getY()/duration/95, Axis.Y);
+					target.addScale(((Scale)t).getZ()/duration/95, Axis.Z);
+				}
 			}
-			else if (t.getClass() == Rotation.class) {
-				target.addRotate(((Rotation)t).getX()/duration/100, Axis.X);
-				target.addRotate(((Rotation)t).getY()/duration/100, Axis.Y);
-				target.addRotate(((Rotation)t).getZ()/duration/100, Axis.Z);
-			}
-			else if (t.getClass() == Scale.class) {
-				target.addScale(((Scale)t).getX()/duration/100, Axis.X);
-				target.addScale(((Scale)t).getY()/duration/100, Axis.Y);
-				target.addScale(((Scale)t).getZ()/duration/100, Axis.Z);
-			}
-			target.transform.print();
 			try {
 				Thread.sleep(10);
+				f.repaint();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		this.cancel(true);
+		return 1;
+	}
+	/** Gets the duration of this Animation. */
+	public double getDuration ()
+	{
+		return duration;
 	}
 }
