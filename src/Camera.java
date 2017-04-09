@@ -239,7 +239,8 @@ public class Camera extends GameObject implements Serializable {
 		}
 		Transform ();
 	}
-	/** Adds an amount to the specified Direction. 
+	/** Adds an amount to the specified Direction. This is different from
+	 *  GameObject.addTranslate(), as it moves the camera in a first person like movement.
 	 * @param amount the amount.
 	 * @param dir the Direction.
 	 */
@@ -247,22 +248,40 @@ public class Camera extends GameObject implements Serializable {
 	{
 		switch (dir) {
 		case Forward:
-			transform.setPosZ(transform.getPosZ()+amount);
+			transform.setPosX(transform.getPosX()+(Math.sin(transform.getRotation().getRadianY()) * 
+							Math.cos(transform.getRotation().getRadianX()) * amount));
+			transform.setPosY(transform.getPosY()+(-Math.sin(transform.getRotation().getRadianX()) * amount));
+			transform.setPosZ(transform.getPosZ()+(Math.cos(transform.getRotation().getRadianY())
+					* Math.cos(transform.getRotation().getRadianX()) * amount));
 			break;
 		case Backward:
-			transform.setPosZ(transform.getPosZ()-amount);
+			transform.setPosX(transform.getPosX()-(Math.sin(transform.getRotation().getRadianY()) * 
+					Math.cos(transform.getRotation().getRadianX()) * amount));
+			transform.setPosY(transform.getPosY()-(-Math.sin(transform.getRotation().getRadianX()) * amount));
+			transform.setPosZ(transform.getPosZ()-(Math.cos(transform.getRotation().getRadianY())
+					* Math.cos(transform.getRotation().getRadianX()) * amount));			
 			break;
 		case Left:
-			transform.setPosX(transform.getPosX()-amount);
+			transform.setPosX(transform.getPosX()-Math.cos(transform.getRotation().getRadianY()) * amount);
+			transform.setPosZ(transform.getPosZ()+Math.sin(transform.getRotation().getRadianY()) * amount);
 			break;
 		case Right:
-			transform.setPosX(transform.getPosX()+amount);
+			transform.setPosX(transform.getPosX()+Math.cos(transform.getRotation().getRadianY()) * amount);
+			transform.setPosZ(transform.getPosZ()-Math.sin(transform.getRotation().getRadianY()) * amount);
 			break;
 		case Up:
-			transform.setPosY(transform.getPosY()+amount);
+			transform.setPosX(transform.getPosX()+Math.sin(transform.getRotation().getRadianY())
+					* Math.sin(transform.getRotation().getRadianX()) * amount);
+			transform.setPosY(transform.getPosY()+Math.cos(transform.getRotation().getRadianX()) * amount);
+			transform.setPosZ(transform.getPosZ()+Math.cos(transform.getRotation().getRadianY())
+					* Math.sin(transform.getRotation().getRadianX()) * amount);
 			break;
 		case Down:
-			transform.setPosY(transform.getPosY()-amount);
+			transform.setPosX(transform.getPosX()-Math.sin(transform.getRotation().getRadianY())
+					* Math.sin(transform.getRotation().getRadianX()) * amount);
+			transform.setPosY(transform.getPosY()-Math.cos(transform.getRotation().getRadianX()) * amount);
+			transform.setPosZ(transform.getPosZ()-Math.cos(transform.getRotation().getRadianY())
+					* Math.sin(transform.getRotation().getRadianX()) * amount);
 			break;
 		}
 		Transform ();
@@ -352,74 +371,74 @@ public class Camera extends GameObject implements Serializable {
 		Transform ();
 	}
 	/** Gets the LookAt Vec4.*/
-	public Vec4 getLookAt() 
+	public Vec4 getLookAt () 
 	{
 		return lookAt;
 	}
 	/** Sets the LookAt Vec4.
 	 * @param lookAt the lookAt Vec4 to set.
 	 */
-	public void setLookAt(Vec4 lookAt) 
+	public void setLookAt (Vec4 lookAt) 
 	{
 		this.lookAt = lookAt;
 	}
 	/** Gets the LookFrom Vec4.*/
-	public Vec4 getLookFrom() 
+	public Vec4 getLookFrom () 
 	{
 		return lookFrom;
 	}
 	/** Sets the lookFrom Vec4.
 	 * @param lookFrom the lookFrom Vec4 to set.
 	 */
-	public void setLookFrom(Vec4 lookFrom) 
+	public void setLookFrom (Vec4 lookFrom) 
 	{
 		this.lookFrom = lookFrom;
 	}
 	/** Gets the lookUp Vec4.*/
-	public Vec4 getLookUp() 
+	public Vec4 getLookUp () 
 	{
 		return lookUp;
 	}
 	/** Sets the lookUp Vec4.
 	 * @param lookUp the lookUp Vec4 to set.
 	 */
-	public void setLookUp(Vec4 lookUp) 
+	public void setLookUp (Vec4 lookUp) 
 	{
 		this.lookUp = lookUp;
 	}
 	/** Gets the near clip of the Camera.*/
-	public double getNearClip() 
+	public double getNearClip () 
 	{
 		return nearClip;
 	}
 	/** Sets the near clip of the Camera.
 	 * @param nearClip the near clip to set.
 	 */
-	public void setNearClip(double nearClip) 
+	public void setNearClip (double nearClip) 
 	{
 		this.nearClip = nearClip;
 	}
 	/** Gets the far clip of the Camera.*/
-	public double getFarClip() 
+	public double getFarClip () 
 	{
 		return farClip;
 	}
 	/** Sets the far clip of the Camera.
 	 * @param farClip the far clip to set.
 	 */
-	public void setFarClip(double farClip) 
+	public void setFarClip (double farClip) 
 	{
 		this.farClip = farClip;
 	}
 	/** Gets the FOV of the Camera.*/
-	public double getFOV() 
+	public double getFOV () 
 	{
 		return FOV;
 	}
 	/** Sets the FOV of the Camera.
 	 * @param fov the FOV to set.
 	 */
-	public void setFOV(double fov) 
+	public void setFOV (double fov) 
 	{
 		FOV = fov >= 179 || fov <= 1 ? fov >= 179 ? 179 : 1 : fov; 
 	}

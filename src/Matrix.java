@@ -252,9 +252,9 @@ public class Matrix {
 	public Matrix scale (Scale s) 
 	{
 		Matrix m = new Matrix ();
-		m.set (s.getX(), 0, 0);
-		m.set (s.getY(), 1, 1);
-		m.set (s.getZ(), 2, 2);
+		m.set (Math.abs(s.getX()), 0, 0);
+		m.set (Math.abs(s.getY()), 1, 1);
+		m.set (Math.abs(s.getZ()), 2, 2);
 		return m;
 	}
 	/** Returns the scaling matrix of the Scale.
@@ -262,9 +262,9 @@ public class Matrix {
 	 */
 	private void Scale (Scale s) 
 	{
-		set (s.getX(), 0, 0);
-		set (s.getY(), 1, 1);
-		set (s.getZ(), 2, 2);
+		set (Math.abs(s.getX()), 0, 0);
+		set (Math.abs(s.getY()), 1, 1);
+		set (Math.abs(s.getZ()), 2, 2);
 	}
 	/** Multiplies a Vec4 by the Matrix.
 	 * @param v the Vec4 to multiply.
