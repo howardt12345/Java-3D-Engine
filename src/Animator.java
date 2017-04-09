@@ -8,6 +8,16 @@ public class Animator {
 	private GameObject target;
 	/** The JFrame.*/
 	private JFrame f;
+	/** New Animator from Animation, target and JFrame.
+	 * @param a the Animation.
+	 * @param g the target.
+	 * @param f the JFrame.
+	 */
+	public Animator (Animation a, GameObject g, JFrame f) {
+		anim.add(a);
+		target = g;
+		this.f = f;
+	}
 	/** New Animator from target and JFrame.
 	 * @param g the target.
 	 * @param f the JFrame.
