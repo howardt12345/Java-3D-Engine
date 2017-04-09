@@ -64,40 +64,22 @@ public class Main extends JPanel {
 					scene.get(tmp).setActive(!scene.get(tmp).isActive());
 					break;
 				case KeyEvent.VK_W:
-					scene.getCamera().addTranslate((Math.cos(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2), Axis.Z);
-					scene.getCamera().addTranslate(Math.sin(scene.getCamera().getTransform().getRotation().getRadianY()) * 
-							Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.X);
-					scene.getCamera().addTranslate(-Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Y);					
+					scene.getCamera().addTranslate(0.2, Direction.Forward);
 					break;
 				case KeyEvent.VK_S:
-					scene.getCamera().addTranslate(-(Math.cos(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2), Axis.Z);
-					scene.getCamera().addTranslate(-Math.sin(scene.getCamera().getTransform().getRotation().getRadianY()) * 
-							Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.X);
-					scene.getCamera().addTranslate(Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Y);
+					scene.getCamera().addTranslate(0.2, Direction.Backward);
 					break;
 				case KeyEvent.VK_A:
-					scene.getCamera().addTranslate(Math.sin(scene.getCamera().getTransform().getRotation().getRadianY()) * 0.2, Axis.Z);
-					scene.getCamera().addTranslate(-Math.cos(scene.getCamera().getTransform().getRotation().getRadianY()) * 0.2, Axis.X);		
+					scene.getCamera().addTranslate(0.2, Direction.Left);
 					break;
 				case KeyEvent.VK_D:
-					scene.getCamera().addTranslate(-Math.sin(scene.getCamera().getTransform().getRotation().getRadianY()) * 0.2, Axis.Z);
-					scene.getCamera().addTranslate(Math.cos(scene.getCamera().getTransform().getRotation().getRadianY()) * 0.2, Axis.X);							
+					scene.getCamera().addTranslate(0.2, Direction.Right);						
 					break;
 				case KeyEvent.VK_Q:
-					scene.getCamera().addTranslate(-Math.cos(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Z);
-					scene.getCamera().addTranslate(-Math.sin(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.X);
-					scene.getCamera().addTranslate(-Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Y);
+					scene.getCamera().addTranslate(0.2, Direction.Down);
 					break;
 				case KeyEvent.VK_E:
-					scene.getCamera().addTranslate(Math.cos(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Z);
-					scene.getCamera().addTranslate(Math.sin(scene.getCamera().getTransform().getRotation().getRadianY())
-							* Math.sin(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.X);
-					scene.getCamera().addTranslate(Math.cos(scene.getCamera().getTransform().getRotation().getRadianX()) * 0.2, Axis.Y);					
+					scene.getCamera().addTranslate(0.2, Direction.Up);
 					break;
 				case KeyEvent.VK_UP:
 					scene.get(tmp).addTranslate(0.5, Axis.Z);
@@ -138,6 +120,17 @@ public class Main extends JPanel {
 				case KeyEvent.VK_SEMICOLON:
 					scene.get(tmp).addRotate(-1, Axis.X);
 					scene.get(tmp).getTransform().getRotation().print();
+					break;
+				case KeyEvent.VK_SPACE:
+					Animator animator = new Animator (scene.get(tmp), f);
+					Animation anim = new Animation (new Vec3 (5, 0, 5), 5);
+					anim.add(new Rotation (90, 0, 0));
+					//anim.add(new Scale (4, 4, 4));
+					animator.add(anim);
+					animator.add(new Animation (new Rotation (45, 45, 0)));
+					//animator.add(new Animation (new Scale(1, 1, 1), 2));
+					animator.add(new Animation (new Scale(-3, -3, -3)));
+					animator.play();
 					break;
 				}
 				System.out.println(e.getKeyChar());
@@ -182,20 +175,8 @@ public class Main extends JPanel {
 		f.add(new Main());
 		f.setSize(800, 600);
 		f.setVisible(true);
-		Animation anim = new Animation (new Vec3 (5, 0, 5), 5);
-		Animation anim1 = new Animation (new Rotation (45, 45, 0));
-		Animation anim2 = new Animation (new Scale(1, 1, 1), 2);
-		Animation anim3 = new Animation (new Scale(-1, -1, -1), 0.75);
-		try {
-			anim.run(scene.get(1), f);
-			anim1.run(scene.get(1), f);
-			anim2.run(scene.get(1), f);
-			anim3.run(scene.get(1), f);
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
 	}
-	public void paint(Graphics g) {
+	public void paint (Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight());
 	}
 }
