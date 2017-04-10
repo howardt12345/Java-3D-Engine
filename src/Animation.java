@@ -7,6 +7,8 @@ import javax.swing.*;
 public class Animation extends SwingWorker <Integer, String> implements Serializable {
 	/** The duration of the Animation.*/
 	private double duration = 1;
+	/** Whether or not the Animation loops.*/
+	private boolean loop = false;
 	/** The ArrayList of Transformations in this Animation.*/
 	private ArrayList<Transformation> transformations = new ArrayList<Transformation>();
 	/** The target of this Animation.*/
@@ -22,6 +24,15 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	{
 		transformations.add(t);
 	}
+	/** New Animation from a Transformation and loop.
+	 * @param t the Transformation.
+	 * @param loop whether or not the Animation loops.
+	 */
+	public Animation (Transformation t, boolean loop) 
+	{
+		transformations.add(t);
+		this.loop = loop;
+	}
 	/** New Animation from a Transformation and a duration.
 	 * @param t the Transformation.
 	 * @param d the duration.
@@ -30,6 +41,17 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	{
 		transformations.add(t);
 		duration = d;
+	}
+	/** New Animation from a Transformation, duration, and loop.
+	 * @param t the Transformation.
+	 * @param d the duration.
+	 * @param loop whether or not the Animation loops.
+	 */
+	public Animation (Transformation t, double d, boolean loop) 
+	{
+		transformations.add(t);
+		duration = d;
+		this.loop = loop;
 	}
 	/** New Animation from a list of Transformations.
 	 * @param t the list of Transformations.
@@ -46,6 +68,17 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	{
 		transformations = t;
 		duration = d;
+	}
+	/** New Animation from a list of Transformations, duration, and loop.
+	 * @param t the list of Transformations.
+	 * @param d the duration.
+	 * @param loop whether or not the Animation loops.
+	 */
+	public Animation (ArrayList<Transformation> t, double d, boolean loop) 
+	{
+		transformations = t;
+		duration = d;
+		this.loop = loop;
 	}
 	/** Runs the Animation. Note that all transformations in Animation
 	 * runs simultaneously.
@@ -70,7 +103,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	/** Note that all transformations in Animation runs simultaneously.*/
 	protected Integer doInBackground() throws Exception
 	{
-		while (System.currentTimeMillis() < (start + (duration*1000))) {
+		while (loop ? loop : System.currentTimeMillis() <= (start + (duration*1000))) {
 			f.repaint();
 			for (Transformation t : transformations) {
 				if (t.getClass() == Vec4.class) {
@@ -95,6 +128,18 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		}
 		this.cancel(true);
 		return 1;
+	}
+	/** Gets whether or not the Animation loops.*/
+	public boolean getLoop ()
+	{
+		return loop;
+	}
+	/** Sets whether or not the Animation loops.
+	 * @param loop the loop.
+	 */
+	public void setLoop (boolean loop)
+	{
+		this.loop = loop;
 	}
 	/** Gets the duration of this Animation. */
 	public double getDuration ()
