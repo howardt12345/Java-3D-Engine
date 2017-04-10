@@ -14,8 +14,7 @@ public class Main extends JPanel {
     public static double dx = 0, dy = 0;
     static int tmp = 0;
 	public static void main (String[] args) {
-		Camera cam = new Camera (new Transform (new Vec4 (0, 2, -4)));
-		scene = new Scene (cam);
+		scene = new Scene (new Camera (new Transform (new Vec4 (0, 2, -4))));
 		
 		scene.add(new Light (new Transform (0, 4, 0)));
 
@@ -82,7 +81,7 @@ public class Main extends JPanel {
 					scene.getCamera().addTranslate(0.3, Direction.Up);
 					break;
 				case KeyEvent.VK_UP:
-					new Animator (new Animation (new Vec4 (0, 0, 1, true)), 
+					new Animator (new Animation (new Vec4 (0, 0, 1, true), true), 
 							scene.get(tmp), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
@@ -145,8 +144,8 @@ public class Main extends JPanel {
 		{
 			public void mouseWheelMoved(MouseWheelEvent e) 
 			{
-				cam.setFOV(cam.getFOV()+e.getWheelRotation());
-				System.out.println(cam.getFOV());
+				scene.getCamera().setFOV(scene.getCamera().getFOV()+e.getWheelRotation());
+				System.out.println(scene.getCamera().getFOV());
 				f.repaint();
 			}
 		});
