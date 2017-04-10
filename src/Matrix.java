@@ -26,23 +26,11 @@ public class Matrix {
 	/** New Translation Matrix from Vec4.
 	 * @param v the Vec4.
 	 */
-	public Matrix (Vec4 v) 
+	public Matrix (Transformation t) 
 	{
-		Translate (v);
-	}
-	/** New Rotational Matrix from Rotation.
-	 * @param r the Rotation.
-	 */
-	public Matrix (Rotation r) 
-	{
-		RotateXYZ (r);
-	}
-	/** New Scale Matrix from Scale.
-	 * @param s the Scale.
-	 */
-	public Matrix (Scale s) 
-	{
-		Scale (s);
+		if (t.getClass() == Vec4.class) Translate ((Vec4) t);
+		else if (t.getClass() == Rotation.class) RotateXYZ ((Rotation) t);
+		else if (t.getClass() == Scale.class) Scale ((Scale) t);
 	}
 	/** New Matrix from rows and columns.
 	 * @param rows the number of rows.
