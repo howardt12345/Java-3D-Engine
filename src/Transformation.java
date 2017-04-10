@@ -1,5 +1,6 @@
 import java.io.*;
-/** The Transformation class.*/
+/** The Transformation class, used as a superclass for transformations. 
+ * Implements Serializable. */
 @SuppressWarnings("serial")
 public class Transformation implements Serializable {
 	/** Internal values.*/

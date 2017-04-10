@@ -1,10 +1,10 @@
-
 import java.io.*;
 import java.util.*;
 import java.awt.*;
+
 /** The Polygon Class, implements Serializable.*/
 @SuppressWarnings("serial")
-public class Polygon implements Serializable{
+public class Polygon implements Serializable {
 	/** The vertices of the polygon.*/
 	private ArrayList <Vec4> polygon;
 	/** Whether or not the Polygon is visible.*/

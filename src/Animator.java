@@ -1,7 +1,10 @@
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-public class Animator {
+@SuppressWarnings("serial")
+/** The Animator class, implements Serializable. */
+public class Animator implements Serializable {
 	/** The Animations to run.*/
 	private ArrayList<Animation> anim = new ArrayList<Animation>();
 	/** The target of the Animator.*/

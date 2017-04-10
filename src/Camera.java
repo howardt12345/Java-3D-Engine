@@ -1,7 +1,7 @@
 
 import java.io.*;
 @SuppressWarnings("serial")
-/** The Camera class, extends gameObject.*/
+/** The Camera class, extends GameObject.*/
 public class Camera extends GameObject implements Serializable {
 	/** The lookFrom Vec4.*/
 	private Vec4 lookFrom = Vec4.center;

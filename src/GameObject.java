@@ -2,8 +2,8 @@
 import java.io.*;
 
 @SuppressWarnings("serial")
-/** The gameObject Class, used as a Superclass for objects. Implements Serializable.*/
-public class GameObject implements Serializable{
+/** The GameObject Class, used as a Superclass for objects. Implements Serializable.*/
+public class GameObject implements Serializable {
 	/** The Transform of the gameObject.
 	 * @param transform the Transform.*/
 	protected Transform transform;

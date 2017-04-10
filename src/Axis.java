@@ -1,5 +1,6 @@
 
-
 public enum Axis {
-X, Y, Z
+	X, 
+	Y, 
+	Z
 }

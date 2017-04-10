@@ -1,8 +1,10 @@
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-/** The Animation class, extends SwingWorker.*/
-public class Animation extends SwingWorker <Integer, String> {
+/** The Animation class, extends SwingWorker and implements Serializable.*/
+@SuppressWarnings("serial")
+public class Animation extends SwingWorker <Integer, String> implements Serializable {
 	/** The duration of the Animation.*/
 	private double duration = 1;
 	/** The ArrayList of Transformations in this Animation.*/
@@ -66,7 +68,7 @@ public class Animation extends SwingWorker <Integer, String> {
 	}
 	@Override
 	/** Note that all transformations in Animation runs simultaneously.*/
-	protected Integer doInBackground() throws Exception 
+	protected Integer doInBackground() throws Exception
 	{
 		while (System.currentTimeMillis() < (start + (duration*1000))) {
 			f.repaint();
@@ -89,12 +91,7 @@ public class Animation extends SwingWorker <Integer, String> {
 					target.addScale(((Scale)t).getZ()/duration/95, Axis.Z);
 				}
 			}
-			try {
-				Thread.sleep(10);
-				f.repaint();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(10);
 		}
 		this.cancel(true);
 		return 1;

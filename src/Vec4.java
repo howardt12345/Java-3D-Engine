@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-/** The Vec4 class, implements Serializable.*/
+/** The Vec4 class, extends Transformation implements Serializable.*/
 @SuppressWarnings("serial")
 public class Vec4 extends Transformation implements Serializable {
 	private double W = 1;

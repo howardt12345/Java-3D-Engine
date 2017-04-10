@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
-/** The Polyhedron Class, extends gameObject and implements Serializable.*/
+/** The Polyhedron Class, extends GameObject and implements Serializable.*/
 public class Polyhedron extends GameObject implements Serializable {
 	/** The Arraylist of Polygons in the Polyhedron.*/
 	private ArrayList<Polygon> object = new ArrayList<Polygon>();
