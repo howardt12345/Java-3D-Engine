@@ -160,8 +160,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public boolean isVisible (Polygon p) 
 	{
-		Vec4 view = Vec4.subtract(p.getCenter(), lookFrom);
-		return lookAt.getZ() > 0 ? Vec4.dot(view, p.getNormal()) < 0 : Vec4.dot(view, p.getNormal()) > 0;
+		Vec4 view = Vec4.subtract(lookFrom, p.getCenter());
+		return Vec4.dot(view, p.getNormal()) > 0;
 	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
