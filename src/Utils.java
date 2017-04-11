@@ -9,10 +9,10 @@ public class Utils {
 	 * @param data the input data.
 	 * @return the sorted ArrayList.
 	 */
-	public static ArrayList<GameObject> zSort (ArrayList<GameObject> data)
+	public static ArrayList<GameObject> zSort (ArrayList<GameObject> data, Camera c)
 	{
 		ArrayList<GameObject> tmp = data;
-		QuickSort (tmp, 0, data.size()-1);
+		QuickSort (tmp, c, 0, data.size()-1);
 		return tmp;
 	}
 	/** Quick Sort.
@@ -20,31 +20,27 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static void QuickSort (ArrayList<GameObject> data, int left, int right) 
+	private static void QuickSort (ArrayList<GameObject> data, Camera c, int left, int right) 
 	{
-		int index = partition(data, left, right);
+		int index = partition(data, c, left, right);
 		if (left < index - 1)
-			QuickSort(data, left, index - 1);
+			QuickSort(data, c, left, index - 1);
 		if (index < right)
-			QuickSort(data, index, right);
+			QuickSort(data, c, index, right);
 	}
 	/** Partitions the Array.
 	 * @param data the data.
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int partition (ArrayList<GameObject> data, int left, int right) 
+	private static int partition (ArrayList<GameObject> data, Camera c, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = data.get((left + right) / 2).getTransform().getPosZ();
+		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((left + right) / 2).getTransform().getPosition());
 		while (a <= b) {
-			while (data.get(a).getTransform().getPosZ() >= 0
-					? data.get(a).getTransform().getPosZ() > pivot
-							: data.get(a).getTransform().getPosZ() < pivot)
+			while (Vec4.getDistance(c.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
 				a++;
-			while (data.get(b).getTransform().getPosZ() >= 0
-					? data.get(b).getTransform().getPosZ() < pivot
-							: data.get(b).getTransform().getPosZ() > pivot)
+			while (Vec4.getDistance(c.getLookFrom(), data.get(b).getTransform().getPosition()) < pivot)
 				b--;
 			if (a <= b) {
 				swap (data, a, b);
