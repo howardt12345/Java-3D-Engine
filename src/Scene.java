@@ -24,9 +24,13 @@ public class Scene implements Serializable {
 		scene.add(g);
 	}
 	/** Paints all active Models in the scene.
-	 * @param g the Graphics component.
+	 * @param g the Graphics component.	 
+	 * @param width the width.
+	 * @param height the height.
+	 * @param shiftX the screen shift on X axis
+	 * @param shiftY the screen shift on Y axis.
 	 */
-	public void paint (Graphics g, int width, int height) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY) 
 	{
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
@@ -36,12 +40,12 @@ public class Scene implements Serializable {
 		}
 		for (GameObject gameObject : scene) {
 			if (gameObject.getClass() == Polyhedron.class && gameObject.isActive())
-			tmp.add(Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights));
+			tmp.add(gameObject);
 		}
-		for (GameObject gameObject : Utils.zSort(tmp)) {
-			((Polyhedron) gameObject).paint(g, mainCamera, width, height);
+		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
+			Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights).paint(g, mainCamera, width, height, shiftX, shiftY);
 		}
-		g.drawRect(0, 0, width, height);
+		g.drawRect(shiftX, shiftY, width, height);
 	}
 	/** Sets the Main Camera in the Scene.
 	 * @param cam the Camera.

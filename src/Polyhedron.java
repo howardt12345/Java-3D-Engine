@@ -64,11 +64,12 @@ public class Polyhedron extends GameObject implements Serializable {
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
+			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
 			m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
 			float tmp = m.object.get(a).getIntensity(); //stores in tmp value.
 			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
 			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix()).Normalized());// Transforms Polygon to Projection space.
-			m.object.get(a).setVisible(cam.isVisible(m.object.get(a))); //Calculates Polygon visibility.
+			m.object.get(a).setVisible(isVisible); //loads tmp value.
 			m.object.get(a).setIntensity(tmp); //loads tmp value.
 		}
 		return m;
@@ -76,16 +77,17 @@ public class Polyhedron extends GameObject implements Serializable {
 	/** Paints the Polyhedron.
 	 * @param g the Graphics component.
 	 * @param cam the Camera.
-	 * @param lights the lights in scene.
 	 * @param width the width.
 	 * @param height the height.
+	 * @param shiftX the screen shift on X axis
+	 * @param shiftY the screen shift on Y axis.
 	 */
-	public void paint (Graphics g, Camera cam, int width, int height) {
+	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY) {
 		for (Polygon p : object) {
-			if (p.isVisible() && p.getCenter().getX() > -1 && p.getCenter().getX() < 1
-				&& p.getCenter().getY() > -1 && p.getCenter().getY() < 1
+			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
+				&& p.getCenter().getY() >= -0.9 && p.getCenter().getY() <= 0.9
 				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
-				p.paint(g, width, height);
+				p.paint(g, width, height, shiftX, shiftY);
 			}
 		}
 	}

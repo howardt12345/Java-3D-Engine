@@ -170,16 +170,18 @@ public class Polygon implements Serializable {
 	}
 	/** Paints the Polygon.
 	 * @param g the Graphics component.
-	 * @param width the Width.
-	 * @param height the Height.
+	 * @param width the width.
+	 * @param height the height.
+	 * @param shiftX the screen shift on X axis
+	 * @param shiftY the screen shift on Y axis.
 	 */
-	public void paint (Graphics g, int width, int height) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY) 
 	{
 		int[] xCoord = new int [size()],
 		yCoord = new int [size()];
 		for (int b = 0; b < size(); b++) {
-			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+width/2);
-			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*width/2)+height/2);
+			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+(width/2)+shiftX);
+			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*width/2)+(height/2)+shiftY);
 		}
 		g.setColor(Color.getHSBColor(0, 0, getIntensity()));
 		g.fillPolygon(xCoord, yCoord, xCoord.length);
