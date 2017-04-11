@@ -15,7 +15,8 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param filename the file name.
 	 * @param active whether or not the Polyhedron is active.
 	 */
-	public Polyhedron (Transform t, String filename, boolean a) {
+	public Polyhedron (Transform t, String filename, boolean a) 
+	{
 		super (t);
 		super.setActive(a);
 		ReadFile(filename);
@@ -24,13 +25,15 @@ public class Polyhedron extends GameObject implements Serializable {
 	/** Gets the fileName of the Polyhedron.
 	 * @return the fileName
 	 */
-	public String getFileName () {
+	public String getFileName () 
+	{
 		return FileName;
 	}
 	/** Reads the file and loads values in ArrayList.
 	 * @param filename the filename.
 	 */
-	private void ReadFile (String filename) {
+	private void ReadFile (String filename) 
+	{
 		try {
 			Scanner input = new Scanner(new FileReader(filename));
 			Scanner line = new Scanner(input.nextLine());
@@ -59,7 +62,8 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param cam the Camera to transform to.
 	 * @param lights the lights in scene.
 	 */
-	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights) {
+	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights) 
+	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
@@ -82,7 +86,8 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param shiftX the screen shift on X axis
 	 * @param shiftY the screen shift on Y axis.
 	 */
-	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY) {
+	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY) 
+	{
 		for (Polygon p : object) {
 			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
 				&& p.getCenter().getY() > -0.9 && p.getCenter().getY() < 0.9
@@ -92,13 +97,15 @@ public class Polyhedron extends GameObject implements Serializable {
 		}
 	}
 	/** Prints the information on the Polyhedron.*/
-	public void print () {
+	public void print () 
+	{
 		System.out.println("Polyhedron File Name: " + FileName);
 		System.out.println("Object active: " + Boolean.toString(isActive()));
 		printCoordinates();
 	}
 	/** Prints out the Polyhedron Coordinates.*/
-	public void printCoordinates () {
+	public void printCoordinates () 
+	{
 		for (int a = 0; a < object.size(); a++) {
 			System.out.println("Polygon " + (a+1) + ":");
 			object.get(a).detailedPrint();
