@@ -108,20 +108,21 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 			for (Transformation t : transformations) {
 				if (t.getClass() == Vec4.class) {
 					if (((Vec4)t).getW() == 0) {
-						target.addTranslate(((Vec4)t).getX()/duration/91.5, Axis.X);
-						target.addTranslate(((Vec4)t).getY()/duration/91.5, Axis.Y);
-						target.addTranslate(((Vec4)t).getZ()/duration/91.5, Axis.Z);
+						target.addTranslate(((Vec4)t).getX()/duration/100, Axis.X);
+						target.addTranslate(((Vec4)t).getY()/duration/100, Axis.Y);
+						target.addTranslate(((Vec4)t).getZ()/duration/100, Axis.Z);
 					}
+					else throw new IllegalArgumentException ("Vec4 must be a vector.");
 				}
 				if (t.getClass() == Rotation.class && target.getClass() != Light.class) {
-					target.addRotate(((Rotation)t).getX()/duration/91.5, Axis.X);
-					target.addRotate(((Rotation)t).getY()/duration/91.5, Axis.Y);
-					target.addRotate(((Rotation)t).getZ()/duration/91.5, Axis.Z);
+					target.addRotate(((Rotation)t).getX()/duration/100, Axis.X);
+					target.addRotate(((Rotation)t).getY()/duration/100, Axis.Y);
+					target.addRotate(((Rotation)t).getZ()/duration/100, Axis.Z);
 				}
 				if (t.getClass() == Scale.class) {
-					target.addScale(((Scale)t).getX()/duration/91.5, Axis.X);
-					target.addScale(((Scale)t).getY()/duration/91.5, Axis.Y);
-					target.addScale(((Scale)t).getZ()/duration/91.5, Axis.Z);
+					target.addScale(((Scale)t).getX()/duration/100, Axis.X);
+					target.addScale(((Scale)t).getY()/duration/100, Axis.Y);
+					target.addScale(((Scale)t).getZ()/duration/100, Axis.Z);
 				}
 			}
 			Thread.sleep(10);

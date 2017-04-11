@@ -36,7 +36,7 @@ public class Utils {
 	private static int partition (ArrayList<GameObject> data, Camera c, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((left + right) / 2).getTransform().getPosition());
+		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
 		while (a <= b) {
 			while (Vec4.getDistance(c.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
 				a++;
