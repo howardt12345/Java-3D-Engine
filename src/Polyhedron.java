@@ -85,7 +85,7 @@ public class Polyhedron extends GameObject implements Serializable {
 	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY) {
 		for (Polygon p : object) {
 			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
-				&& p.getCenter().getY() >= -0.9 && p.getCenter().getY() <= 0.9
+				&& p.getCenter().getY() > -0.9 && p.getCenter().getY() < 0.9
 				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
 				p.paint(g, width, height, shiftX, shiftY);
 			}
