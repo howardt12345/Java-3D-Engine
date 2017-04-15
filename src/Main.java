@@ -13,15 +13,19 @@ public class Main extends JPanel {
     public static double oldX, newX, oldY, newY;
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
+    static boolean wire = true, shade = true;
 	public static void main (String[] args) {
 		scene = new Scene (new Camera (new Transform (new Vec4 (0, 2, -4))));
-		
+
 		scene.add(new Light (new Transform (0, 4, 0)));
 
 		scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house1.txt", true));
+		
+		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
 		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		/*scene.add(new Light (new Transform (20, 2, 0)));
@@ -30,19 +34,19 @@ public class Main extends JPanel {
 		scene.add(new Light (new Transform (0, 2, -20)));*/
 		scene.add(new Polyhedron (new Transform (
 				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
-				new Scale (2)), 
+				new Scale (2)),
 				"plane.txt", true));
-		scene.add(new Polyhedron (new Transform 
+		/*scene.add(new Polyhedron (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
-				), "Enterprise.txt", true));
+				), "Enterprise.txt", true));*/
 		
-		for (int a = -10; a < 10; a++) {
+		/*for (int a = -10; a < 10; a++) {
 			for (int b = -10; b < 10; b++) {
 				scene.add(new Polyhedron (new Transform (
 						new Vec4 (a*10, 0, b*10), new Rotation (0, 45, 0)), 
 						"cube.txt", true));
 			}
-		}
+		}*/
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -81,59 +85,55 @@ public class Main extends JPanel {
 					scene.getCamera().addTranslate(speed, Direction.Up);
 					break;
 				case KeyEvent.VK_UP:
-					new Animator (new Animation (new Vec4 (0, 0, 1, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, 0.5, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_DOWN:
-					new Animator (new Animation (new Vec4 (0, 0, -1, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, -0.5, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_LEFT:
-					new Animator (new Animation (new Vec4 (-1, 0, 0, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (-0.5, 0, 0, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_RIGHT:
-					new Animator (new Animation (new Vec4 (1, 0, 0, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (0.5, 0, 0, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_COMMA:
-					new Animator (new Animation (new Vec4 (0, -1, 0, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (0, -0.5, 0, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_PERIOD:
-					new Animator (new Animation (new Vec4 (0, 1, 0, true), 0.5), 
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0.5, 0, true), 0.25), f).play();
 					scene.get(tmp).getTransform().getPosition().print();
 					break;
 				case KeyEvent.VK_OPEN_BRACKET:
-					new Animator (new Animation (new Rotation (0, 15, 0), 0.5),
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Rotation (0, 15, 0), 0.5), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_CLOSE_BRACKET:
-					new Animator (new Animation (new Rotation (0, -15, 0), 0.5),
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Rotation (0, -15, 0), 0.5), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_QUOTE:
-					new Animator (new Animation (new Rotation (-15, 0, 0), 0.5),
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Rotation (-15, 0, 0), 0.5), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
 				case KeyEvent.VK_SEMICOLON:
-					new Animator (new Animation (new Rotation (15, 0, 0), 0.5),
-							scene.get(tmp), f).play();
+					new Animator (new Animation (scene.get(tmp), new Rotation (15, 0, 0), 0.5), f).play();
 					scene.get(tmp).getTransform().getRotation().print();
 					break;
+				case KeyEvent.VK_SLASH:
+					wire = !wire;
+					break;
+				case KeyEvent.VK_SHIFT:
+					shade = !shade;
+					break;
 				case KeyEvent.VK_SPACE:
-					Animator animator = new Animator (scene.get(tmp), f);
-					animator.add(new Animation (new Vec4 (10, 0, 10, true), 6));
-					animator.add(new Animation (new Rotation (-180, 0, 0), 3));
+					Animator animator = new Animator (f);
+					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 6));
+					animator.add(new Animation (scene.get(2), new Rotation (-180, 0, 0), 3));
 					animator.play();
 					break;
 				}
@@ -196,6 +196,6 @@ public class Main extends JPanel {
 		f.setVisible(true);
 	}
 	public void paint (Graphics g) {
-		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0);
+		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade);
 	}
 }
