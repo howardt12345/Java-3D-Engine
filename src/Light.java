@@ -1,4 +1,3 @@
-
 import java.io.*;
 
 @SuppressWarnings("serial")
@@ -16,7 +15,7 @@ public class Light extends GameObject implements Serializable {
 	/** New Light from Transform.
 	 * @param t the Transform.
 	 */
-	public Light(Transform t) 
+	public Light (Transform t) 
 	{
 		super (t);
 	}
