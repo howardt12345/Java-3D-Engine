@@ -23,14 +23,14 @@ public class Matrix {
 	{
 		this.matrix = matrix;
 	}
-	/** New Translation Matrix from Vec4.
-	 * @param v the Vec4.
+	/** New Translation Matrix from Transformation.
+	 * @param t the Transformation.
 	 */
 	public Matrix (Transformation t) 
 	{
-		if (t.getClass() == Vec4.class) Translate ((Vec4) t);
-		else if (t.getClass() == Rotation.class) RotateXYZ ((Rotation) t);
-		else if (t.getClass() == Scale.class) Scale ((Scale) t);
+		if (t instanceof Vec4) Translate ((Vec4) t);
+		else if (t instanceof Rotation) RotateXYZ ((Rotation) t);
+		else if (t instanceof Scale) Scale ((Scale) t);
 	}
 	/** New Matrix from rows and columns.
 	 * @param rows the number of rows.
