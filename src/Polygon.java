@@ -17,11 +17,11 @@ public class Polygon implements Serializable {
 		polygon = new ArrayList <Vec4>();
 	}
 	/** New Polygon from an ArrayList of Vec4s.
-	 * @param Vec4s the ArrayList
+	 * @param vertices the ArrayList
 	 */
-	public Polygon (ArrayList<Vec4> Vec4s) 
+	public Polygon (ArrayList<Vec4> vertices) 
 	{
-		polygon = Vec4s;
+		polygon = vertices;
 	}
 	/** Adds a vertex to the Polygon.
 	 * @param v the Vec4 to Add.
