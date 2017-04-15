@@ -113,7 +113,7 @@ public class Camera extends GameObject implements Serializable {
 		viewMatrix.set(Vz.getX(), 2, 0);
 		viewMatrix.set(Vz.getY(), 2, 1);
 		viewMatrix.set(Vz.getZ(), 2, 2);
-				
+		
 		viewMatrix.set(-Vec4.dot(lookFrom, Vx), 0, 3);
 		viewMatrix.set(-Vec4.dot(lookFrom, Vy), 1, 3);
 		viewMatrix.set(-Vec4.dot(lookFrom, Vz), 2, 3);
@@ -127,7 +127,7 @@ public class Camera extends GameObject implements Serializable {
     {
         Matrix projectionMatrix = new Matrix ();
            
-        projectionMatrix.set((1/Math.tan(Math.toRadians(FOV/2))), 0, 0);
+        projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 0, 0);
         
         projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 1, 1);
         
