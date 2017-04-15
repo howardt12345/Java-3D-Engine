@@ -16,9 +16,9 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	private GameObject target;
 	/** The JFrame.*/
 	private JFrame f;
-	/** The Starting time of the Animation.*/
+	/** The start time of the Animation.*/
 	private long startTime;
-	/** New Animation from a Transformation.
+	/** New Animation from a GameObject and a Transformation.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 */
@@ -27,7 +27,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		target = g;
 		transformations.add(t);
 	}
-	/** New Animation from a Transformation and loopInfinite.
+	/** New Animation from a GameObject, a Transformation and loopInfinite.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param loopInfinite whether or not the Animation loops infinitely.
@@ -38,7 +38,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		transformations.add(t);
 		this.loopInfinite = loopInfinte;
 	}
-	/** New Animation from a Transformation and a duration.
+	/** New Animation from a GameObject, a Transformation and a duration.
 	 * @param g the target of this Animation.
 	 * @param t the Transformation.
 	 * @param duration the duration.
@@ -49,7 +49,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		transformations.add(t);
 		end = duration;
 	}
-	/** New Animation from a Transformation, duration, and loop.
+	/** New Animation from a GameObject, a Transformation, duration, and loop.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param duration the duration.
@@ -62,7 +62,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		end = duration;
 		this.loop = loop;
 	}
-	/** New Animation from a Transformation, duration, and loopInfinite.
+	/** New Animation from a GameObject, a Transformation, duration, and loopInfinite.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param duration the duration.
@@ -75,7 +75,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		end = duration;
 		this.loopInfinite = loopInfinte;
 	}
-	/** New Animation from a Transformation, duration, loop, and loopInfinite.
+	/** New Animation from a GameObject, a Transformation, duration, loop, and loopInfinite.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param duration the duration.
@@ -90,7 +90,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		this.loop = loop;
 		this.loopInfinite = loopInfinte;
 	}
-	/** New Animation from a Transformation, start, end, and loop.
+	/** New Animation from a GameObject, a Transformation, start, end, and loop.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param start the start.
@@ -105,7 +105,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		this.end = end;
 		this.loop = loop;
 	}
-	/** New Animation from a Transformation, duration, and loopInfinite.
+	/** New Animation from a GameObject, a Transformation, duration, and loopInfinite.
 	 * @param g the target of this Animation. 
 	 * @param start the start.
 	 * @param end the end.
@@ -119,7 +119,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		this.end = end;
 		this.loopInfinite = loopInfinte;
 	}
-	/** New Animation from a Transformation, duration, loop, and loopInfinite.
+	/** New Animation from a GameObject, a Transformation, duration, loop, and loopInfinite.
 	 * @param g the target of this Animation. 
 	 * @param t the Transformation.
 	 * @param duration the duration.
@@ -160,24 +160,22 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 			if (System.currentTimeMillis() > startTime+(start*1000)) {
 				f.repaint();
 				for (Transformation t : transformations) {
-					if (t.getClass() == Vec4.class) {
-						if (((Vec4)t).getW() == 0) {
-							target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Axis.X);
-							target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Axis.Y);
-							target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Axis.Z);
-						}
-						else throw new IllegalArgumentException ("Vec4 must be a vector.");
+					if (t instanceof Vec4 && ((Vec4)t).getW() == 0) {
+						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Axis.X);
+						target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Axis.Y);
+						target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					if (t.getClass() == Rotation.class && target.getClass() != Light.class) {
+					else if (t instanceof Rotation && !(target instanceof Light)) {
 						target.addRotate((((Rotation)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addRotate((((Rotation)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addRotate((((Rotation)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					if (t.getClass() == Scale.class) {
+					else if (t instanceof Scale) {
 						target.addScale((((Scale)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addScale((((Scale)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addScale((((Scale)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
+					else throw new IllegalArgumentException ("Not a Transformation.");
 				}
 			}
 			Thread.sleep(10);
