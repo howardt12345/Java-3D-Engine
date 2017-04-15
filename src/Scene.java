@@ -29,21 +29,21 @@ public class Scene implements Serializable {
 	 * @param height the height.
 	 * @param shiftX the screen shift on X axis
 	 * @param shiftY the screen shift on Y axis.
+	 * @param wire if wireframe enabled.
+	 * @param shade if shading enabled.
 	 */
-	public void paint (Graphics g, int width, int height, int shiftX, int shiftY) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
 			if (gameObject.getClass() == Light.class && gameObject.isActive()) 
 				lights.add((Light) gameObject);
-		}
-		for (GameObject gameObject : scene) {
 			if (gameObject.getClass() == Polyhedron.class && gameObject.isActive())
-			tmp.add(gameObject);
+				tmp.add(gameObject);
 		}
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
-			Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights).paint(g, mainCamera, width, height, shiftX, shiftY);
+			Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights).paint(g, mainCamera, width, height, shiftX, shiftY, wire, shade);
 		}
 		g.drawRect(shiftX, shiftY, width, height);
 	}

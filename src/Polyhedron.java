@@ -85,14 +85,16 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param height the height.
 	 * @param shiftX the screen shift on X axis
 	 * @param shiftY the screen shift on Y axis.
+	 * @param wire if wireframe enabled.
+	 * @param shade if shading enabled.
 	 */
-	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY) 
+	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
 		for (Polygon p : object) {
 			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
 				&& p.getCenter().getY() > -0.9 && p.getCenter().getY() < 0.9
 				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
-				p.paint(g, width, height, shiftX, shiftY);
+				p.paint(g, width, height, shiftX, shiftY, wire, shade);
 			}
 		}
 	}

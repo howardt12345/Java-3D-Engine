@@ -175,8 +175,10 @@ public class Polygon implements Serializable {
 	 * @param height the height.
 	 * @param shiftX the screen shift on X axis
 	 * @param shiftY the screen shift on Y axis.
+	 * @param wire if wireframe enabled.
+	 * @param shade if shading enabled.
 	 */
-	public void paint (Graphics g, int width, int height, int shiftX, int shiftY) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
 		int[] xCoord = new int [size()],
 		yCoord = new int [size()];
@@ -184,10 +186,14 @@ public class Polygon implements Serializable {
 			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+(width/2)+shiftX);
 			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*width/2)+(height/2)+shiftY);
 		}
-		g.setColor(Color.getHSBColor(0, 0, getIntensity()));
-		g.fillPolygon(xCoord, yCoord, xCoord.length);
-		g.setColor(Color.BLACK);
-		g.drawPolygon(xCoord, yCoord, xCoord.length);
+		if (shade) {
+			g.setColor(Color.getHSBColor(0, 0, getIntensity()));
+			g.fillPolygon(xCoord, yCoord, xCoord.length);
+		}
+		if (wire) {
+			g.setColor(Color.BLACK);
+			g.drawPolygon(xCoord, yCoord, xCoord.length);
+		}
 	}
 	/** Prints out the vertices of the Polygon.*/
 	public void print () 
