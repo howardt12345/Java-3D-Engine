@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 import java.awt.*;
@@ -21,13 +20,6 @@ public class Polyhedron extends GameObject implements Serializable {
 		super.setActive(a);
 		ReadFile(filename);
 		FileName = filename;
-	}
-	/** Gets the fileName of the Polyhedron.
-	 * @return the fileName
-	 */
-	public String getFileName () 
-	{
-		return FileName;
 	}
 	/** Reads the file and loads values in ArrayList.
 	 * @param filename the filename.
@@ -113,5 +105,12 @@ public class Polyhedron extends GameObject implements Serializable {
 			object.get(a).detailedPrint();
 			System.out.println("**********");
 		}
+	}
+	/** Gets the fileName of the Polyhedron.
+	 * @return the fileName
+	 */
+	public String getFileName () 
+	{
+		return FileName;
 	}
 }
