@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -135,7 +134,7 @@ public class Utils {
 		}
 	}
 	/** Deep Clone of any Java Object.
-	Explanation: A deep clone copies all fields, and makes copies of dynamically 
+	A deep clone copies all fields, and makes copies of dynamically 
 	allocated memory pointed to by the fields. Unlike a shallow clone, a deep clone 
 	will be 100% independent from the original and any changes made to clone object 
 	will not be reflected in the original object.
