@@ -7,15 +7,15 @@ public class Transform implements Serializable {
 	/** The position of the Transform stored as a Vec4.
 	 * @param position the location of the Transform.
 	 */
-	private Vec4 position = Vec4.center;
+	private Vec4 position = new Vec4 ();
 	/** The rotation of the Transform stored as a Rotation.
 	 * @param rotation the Rotation of the Transform.
 	 */
-	private Rotation rotation = Rotation.zero;
+	private Rotation rotation = new Rotation();
 	/** The scale of the Transform stored as a Scale.
 	 * @param scale the Scale of the Transform.
 	 */
-	private Scale scale = new Scale (1);
+	private Scale scale = new Scale ();
 	/** Creates a Transform from a Vec4, a Rotation, and a Scale.
 	 * @param pos the location of the Transform.
 	 * @param rot the rotation of the Transform.
@@ -38,7 +38,11 @@ public class Transform implements Serializable {
 		scale = new Scale (1);
 	}
 	/** Creates a new Transform.*/
-	public Transform () {}
+	public Transform () {
+		position = new Vec4 ();
+		rotation = new Rotation ();
+		scale = new Scale (1);
+	}
 	/** new Transform from 3 Positional values.
 	 * @param posX the X position.
 	 * @param posY the Y position.
@@ -47,6 +51,8 @@ public class Transform implements Serializable {
 	public Transform (double posX, double posY, double posZ) 
 	{
 		position = new Vec4 (posX, posY, posZ);
+		rotation = new Rotation ();
+		scale = new Scale (1);
 	}
 	/** New Transform from Vec4.
 	 * @param pos the position.

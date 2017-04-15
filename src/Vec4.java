@@ -40,10 +40,14 @@ public class Vec4 extends Transformation implements Serializable {
 	 * @param isVector is this Vec4 a vector.
 	 */
 	public Vec4 (boolean isVector) {
+		super ();
 		W = isVector ? 0 : 1;
 	}
 	/** New Vec4 with default values.*/
-	public Vec4 () {}
+	public Vec4 () {
+		super ();
+		W = 1;
+	}
 	/** Calculates the distance between 2 Vec4s.
 	 * @param v1 Vec4 #1.
 	 * @param v2 Vec4 #2.
