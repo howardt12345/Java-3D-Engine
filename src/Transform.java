@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 @SuppressWarnings({ "unused", "serial" })
@@ -17,7 +16,7 @@ public class Transform implements Serializable {
 	 */
 	private Scale scale = new Scale ();
 	/** Creates a Transform from a Vec4, a Rotation, and a Scale.
-	 * @param pos the location of the Transform.
+	 * @param pos the position of the Transform.
 	 * @param rot the rotation of the Transform.
 	 * @param sc the Scale of the Transform.
 	 */
@@ -28,7 +27,7 @@ public class Transform implements Serializable {
 		scale = sc;
 	}
 	/** Creates a Transform off of a Vec4 and a Rotation, with the Scale defaulting at 1.
-	 * @param pos the location of the Transform.
+	 * @param pos the position of the Transform.
 	 * @param rot the rotation of the Transform.
 	 */
 	public Transform (Vec4 pos, Rotation rot) 
