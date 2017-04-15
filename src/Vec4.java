@@ -39,12 +39,14 @@ public class Vec4 extends Transformation implements Serializable {
 	/** Creates a new Vec4 with boolean isVector.
 	 * @param isVector is this Vec4 a vector.
 	 */
-	public Vec4 (boolean isVector) {
+	public Vec4 (boolean isVector) 
+	{
 		super ();
 		W = isVector ? 0 : 1;
 	}
 	/** New Vec4 with default values.*/
-	public Vec4 () {
+	public Vec4 () 
+	{
 		super ();
 		W = 1;
 	}
@@ -190,7 +192,6 @@ public class Vec4 extends Transformation implements Serializable {
 	}
 	/** Returns the center of an array of Vec4s.
 	 * @param v array of Vec4s.
-	 * @return new Vec4.
 	 */
 	public static Vec4 getCenter (Vec4[] v) 
 	{
@@ -205,7 +206,6 @@ public class Vec4 extends Transformation implements Serializable {
 	}
 	/** Returns the center of an ArrayList of Vec4s.
 	 * @param ArrayList of Vec4s.
-	 * @return new Vec4.
 	 * */
 	public static Vec4 getCenter (ArrayList<Vec4> v) 
 	{
