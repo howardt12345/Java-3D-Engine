@@ -1,4 +1,3 @@
-
 import java.io.*;
 
 @SuppressWarnings("serial")
@@ -10,7 +9,9 @@ public class GameObject implements Serializable {
 	/** Whether or not the Polyhedron is active.
 	 * @param active the boolean.*/
 	private boolean active = true;
-	/** New gameObject from a Transform.*/
+	/** New gameObject from a Transform.
+	 * @param t the Transform.
+	 */
 	public GameObject (Transform t) 
 	{
 		transform = t;
