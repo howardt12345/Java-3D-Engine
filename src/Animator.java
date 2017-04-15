@@ -7,8 +7,6 @@ import javax.swing.*;
 public class Animator implements Serializable {
 	/** The Animations to run.*/
 	private ArrayList<Animation> anim = new ArrayList<Animation>();
-	/** The target of the Animator.*/
-	private GameObject target;
 	/** The JFrame.*/
 	private JFrame f;
 	/** New Animator from Animation, target and JFrame.
@@ -16,26 +14,23 @@ public class Animator implements Serializable {
 	 * @param g the target.
 	 * @param f the JFrame.
 	 */
-	public Animator (Animation a, GameObject g, JFrame f) 
+	public Animator (Animation a, JFrame f) 
 	{
 		anim.add(a);
-		target = g;
 		this.f = f;
 	}
-	/** New Animator from target and JFrame.
-	 * @param g the target.
+	/** New Animator from JFrame.
 	 * @param f the JFrame.
 	 */
-	public Animator (GameObject g, JFrame f) 
+	public Animator (JFrame f) 
 	{
-		target = g;
 		this.f = f;
 	}
 	/** Runs all the Animations in the Animator.*/
 	public void play () 
 	{
 		for (Animation a : anim) {
-			a.run(target, f);
+			a.play(f);
 		}
 	}
 	/** Adds an Animation to the Animator.
