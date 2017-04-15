@@ -7,7 +7,7 @@ public class Scene implements Serializable {
 	/** The GameObjects in the Scene.*/
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	/** The main camera.*/
-	private Camera mainCamera;
+	private Camera mainCamera = new Camera ();
 	/** Creates a Scene with a Camera. 
 	 * @param cam the main camera.
 	 */
@@ -36,10 +36,12 @@ public class Scene implements Serializable {
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
-			if (gameObject.getClass() == Light.class && gameObject.isActive()) 
-				lights.add((Light) gameObject);
-			if (gameObject.getClass() == Polyhedron.class && gameObject.isActive())
-				tmp.add(gameObject);
+			if (gameObject.isActive()) {
+				if (gameObject instanceof Light) 
+					lights.add((Light) gameObject);
+				else if (gameObject instanceof Polyhedron)
+					tmp.add(gameObject);
+			}
 		}
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
 			Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights).paint(g, mainCamera, width, height, shiftX, shiftY, wire, shade);
