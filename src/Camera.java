@@ -1,5 +1,5 @@
-
 import java.io.*;
+
 @SuppressWarnings("serial")
 /** The Camera class, extends GameObject.*/
 public class Camera extends GameObject implements Serializable {
@@ -11,28 +11,22 @@ public class Camera extends GameObject implements Serializable {
 	private Vec4 lookUp = new Vec4 (0, 1, 0, 1);
 	/** Internal values of the Camera.*/
 	private double nearClip = 0.1, farClip = 0.9, FOV = 60;
-	/** Creaes a Camera from a lookFrom Vec4, lookAt Vec4, lookUp Vec4, 
-	 * near clip value, far clip value, FOV (Field of View) value, and aspect ratio value.
-	 * @param lookFrom the lookFrom.
-	 * @param lookAt the lookAt.
-	 * @param lookUp the lookUp.
+	/** Creaes a new Camera from a Transform, near clip value, far clip value, 
+	 * FOV (Field of View) value, and aspect ratio value.
+	 * @param t the Transform.
 	 * @param nearClip the near clip.
 	 * @param farClip the far clip.
 	 * @param FOV the FOV (Field of View).
 	 * @param aspectRatio the aspect ratio.
 	 */
-	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp,
-			double nearClip, double farClip, double FOV) 
+	public Camera (Transform t, double nearClip, double farClip, double FOV) 
 	{
-		super (new Transform (lookFrom));
-		this.lookFrom = lookFrom;
-		this.lookAt = lookAt;
-		this.lookUp = lookUp;
+		super (t);
 		this.nearClip = nearClip;
 		this.farClip = farClip;
 		this.FOV = FOV;
 	}
-	/** Creates a Camera from a near clip value, far clip value, 
+	/** Creates a new Camera from a near clip value, far clip value, 
 	 * FOV (Field of View) value, and aspect ratio value.
 	 * @param nearClip the near clip.
 	 * @param farClip the far clip.
@@ -46,37 +40,9 @@ public class Camera extends GameObject implements Serializable {
 		this.farClip = farClip;
 		this.FOV = FOV;
 	}
-	/** Creates a Camera from a lookFrom Vec4, lookAt Vec4, and lookUp Vec4.
-	 * @param lookFrom the lookFrom.
-	 * @param lookAt the lookAt.
-	 * @param lookUp the lookUp.
+	/** Creates a new Camera from a Transform/
+	 * @param t the Transform.
 	 */
-	public Camera (Vec4 lookFrom, Vec4 lookAt, Vec4 lookUp) 
-	{
-		super (new Transform (lookFrom));
-		this.lookFrom = lookFrom;
-		this.lookAt = lookAt;
-		this.lookUp = lookUp;
-	}
-	/** Creates a Camera from a lookFrom Vec4 and lookAt Vec4.
-	 * @param lookFrom the lookFrom.
-	 * @param lookAt the lookAt.
-	 */
-	public Camera (Vec4 lookFrom, Vec4 lookAt) 
-	{
-		super (new Transform (lookFrom));
-		this.lookFrom = lookFrom;
-		this.lookAt = lookAt;
-	}
-	/** Creates a Camera from a lookFrom Vec4.
-	 * @param lookFrom the lookFrom.
-	 */
-	public Camera (Vec4 lookFrom) 
-	{
-		super (new Transform (lookFrom));
-		this.lookFrom = lookFrom;
-		lookAt = new Vec4 (lookFrom.getX(), lookFrom.getY(), lookFrom.getZ()+1);
-	}
 	public Camera (Transform t) 
 	{
 		super (t);
@@ -84,21 +50,19 @@ public class Camera extends GameObject implements Serializable {
 		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (t));
 		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (t.getRotation()));
 	}
+	/** Creates a new Camera.*/
 	public Camera () 
 	{
 		super (new Transform());
 	}
 	/** The lookAt Matrix.
-	 * @param lookFrom the lookFrom.
-	 * @param lookAt the lookAt.
-	 * @param lookUp the lookUp.
 	 * @return the lookAt Matrix.
 	 */
 	public Matrix LookAtMatrix () 
 	{
-		Vec4 Vz = Vec4.subtract (lookFrom, lookAt).normalized();
-		Vec4 Vx = Vec4.cross(lookUp, Vz).normalized();
-		Vec4 Vy = Vec4.cross(Vz, Vx).normalized();
+		Vec4 Vz = Vec4.subtract (lookFrom, lookAt).normalized(),
+				Vx = Vec4.cross(lookUp, Vz).normalized(),
+				Vy = Vec4.cross(Vz, Vx).normalized();
 		
 		Matrix viewMatrix = new Matrix();
 		
@@ -134,7 +98,7 @@ public class Camera extends GameObject implements Serializable {
         projectionMatrix.set(farClip/farClip-nearClip, 2, 2);
         projectionMatrix.set(-1, 3, 2);
         
-        projectionMatrix.set((nearClip*farClip/farClip-nearClip), 2, 3);
+        projectionMatrix.set(nearClip*farClip/farClip-nearClip, 2, 3);
         
         return projectionMatrix;
     }
@@ -146,9 +110,7 @@ public class Camera extends GameObject implements Serializable {
 		this.transform = transform;
 		Transform ();
 	}
-	/** Transforms the Camera by a Transform.
-	 * @param transform the Transform.
-	 */
+	/** Transforms the Camera by the Transform.*/
 	private void Transform () 
 	{
 		lookFrom = Vec4.Transform(new Vec4 (0, 0, 0), new Matrix (transform));
