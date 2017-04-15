@@ -132,8 +132,17 @@ public class Main extends JPanel {
 					break;
 				case KeyEvent.VK_SPACE:
 					Animator animator = new Animator (f);
-					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 6));
+					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
+					animator.add(new Animation (scene.get(1), new Rotation (0, 90, 0), 3, 6, 1));
+					animator.add(new Animation (scene.get(1), new Vec4 (-10, 5, 0, true), 5, 8, 1));
 					animator.add(new Animation (scene.get(2), new Rotation (-180, 0, 0), 3));
+					animator.add(new Animation (scene.get(2), new Rotation (270, 90, 0), 3, 6, 1));
+					animator.add(new Animation (scene.get(2), new Rotation (-90, 90, 0), 6, 8, 1));
+					animator.add(new Animation (scene.get(2), new Vec4 (0, 5, 0, true), 6, 8, 1));
+					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, 10, true), 2));
+					animator.add(new Animation (scene.get(3), new Vec4 (10, 0, 0, true), 2, 4, 1));
+					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, -10, true), 4, 6, 1));
+					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));
 					animator.play();
 					break;
 				}
