@@ -18,16 +18,16 @@ public class Main extends JPanel {
 		scene = new Scene (new Camera (new Transform (new Vec4 (0, 2, -4))));
 
 		scene.add(new Light (new Transform (0, 4, 0)));
-
-		scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house1.txt", true));
+		
+		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house1.txt", true));*/
 		
 		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
 		scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
 				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
-		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
+		/*scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
+				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
 		/*scene.add(new Light (new Transform (20, 2, 0)));
 		scene.add(new Light (new Transform (-20, 2, 0)));
 		scene.add(new Light (new Transform (0, 2, 20)));
@@ -36,9 +36,9 @@ public class Main extends JPanel {
 				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
 				new Scale (2)),
 				"plane.txt", true));
-		/*scene.add(new Polyhedron (new Transform 
+		scene.add(new Polyhedron (new Transform 
 				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
-				), "Enterprise.txt", true));*/
+				), "Enterprise.txt", true));
 		
 		/*for (int a = -10; a < 10; a++) {
 			for (int b = -10; b < 10; b++) {
@@ -206,7 +206,7 @@ public class Main extends JPanel {
 	}
 	public void paint (Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade);
-		g.drawString(f.getWidth() + " X " + f.getHeight(), f.getWidth()-75, 15);
+		g.drawString(f.getWidth() + " X " + f.getHeight(), f.getWidth() > 1000 ? f.getWidth()-100 : f.getWidth()-75, 15);
 		g.drawString("Camera:", 5, 15);
 		g.drawString("Position: " + scene.getCamera().getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
 		g.drawString("Rotation: " + scene.getCamera().getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
