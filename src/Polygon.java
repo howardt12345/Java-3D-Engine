@@ -169,6 +169,34 @@ public class Polygon implements Serializable {
 	{
 		return Vec4.getCenter(polygon);
 	}
+	/** Gets the closest point in the polygon relative to a Vec4.
+	 * @param v the Vec4.
+	 */
+	public Vec4 getClosest (Vec4 v) 
+	{
+		Vec4 tmp = new Vec4();
+		for (int a = polygon.size()-1; a > 0; a--) {
+			int min = 0;
+			for (int b = 1; b <= a; b++) 
+				if (Vec4.getDistance(v, polygon.get(b)) < Vec4.getDistance(v, polygon.get(min))) min = b;
+			tmp = polygon.get(min);
+		}
+		return tmp;
+	}
+	/** Gets the closest point in the polygon relative to a Vec4.
+	 * @param v the Vec4.
+	 */
+	public Vec4 getFarthest (Vec4 v) 
+	{
+		Vec4 tmp = new Vec4();
+		for (int a = 0; a < polygon.size()-1; a++) {
+			int min = a;
+			for (int b = a+1; b < polygon.size(); b++) 
+				if (Vec4.getDistance(v, polygon.get(b)) > Vec4.getDistance(v, polygon.get(min))) min = b;
+			tmp = polygon.get(min);
+		}
+		return tmp;
+	}
 	/** Paints the Polygon.
 	 * @param g the Graphics component.
 	 * @param width the width.
