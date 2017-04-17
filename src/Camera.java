@@ -85,15 +85,17 @@ public class Camera extends GameObject implements Serializable {
 		return viewMatrix;
 	}
 	/** The Camera Perspective projection Matrix.
+	 * @param width the width.
+	 * @param height the height.
 	 * @return the projection matrix.
 	 */
-    public Matrix perspectiveMatrix () 
+    public Matrix perspectiveMatrix (double width, double height) 
     {
         Matrix projectionMatrix = new Matrix ();
            
         projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 0, 0);
         
-        projectionMatrix.set(1/Math.tan(Math.toRadians(FOV/2)), 1, 1);
+        projectionMatrix.set(1/(Math.tan(Math.toRadians(FOV/2))*Math.abs(height/width)), 1, 1);
         
         projectionMatrix.set(farClip/farClip-nearClip, 2, 2);
         projectionMatrix.set(-1, 3, 2);

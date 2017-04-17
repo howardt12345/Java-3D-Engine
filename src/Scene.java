@@ -44,7 +44,7 @@ public class Scene implements Serializable {
 			}
 		}
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
-			Polyhedron.MVP (((Polyhedron) gameObject), mainCamera, lights).paint(g, mainCamera, width, height, shiftX, shiftY, wire, shade);
+			((Polyhedron) gameObject).paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
 		}
 		g.drawRect(shiftX, shiftY, width, height);
 	}

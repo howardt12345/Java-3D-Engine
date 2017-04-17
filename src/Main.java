@@ -206,6 +206,7 @@ public class Main extends JPanel {
 	}
 	public void paint (Graphics g) {
 		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade);
+		g.drawString(f.getWidth() + " X " + f.getHeight(), f.getWidth()-75, 15);
 		g.drawString("Camera:", 5, 15);
 		g.drawString("Position: " + scene.getCamera().getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
 		g.drawString("Rotation: " + scene.getCamera().getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);

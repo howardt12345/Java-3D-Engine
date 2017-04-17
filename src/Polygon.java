@@ -184,7 +184,7 @@ public class Polygon implements Serializable {
 		yCoord = new int [size()];
 		for (int b = 0; b < size(); b++) {
 			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+(width/2)+shiftX);
-			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*width/2)+(height/2)+shiftY);
+			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*height/2)+(height/2)+shiftY);
 		}
 		if (shade) {
 			g.setColor(Color.getHSBColor(0, 0, getIntensity()));

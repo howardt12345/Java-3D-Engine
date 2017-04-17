@@ -53,8 +53,10 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param polyhedron the Polyhedron to transform.
 	 * @param cam the Camera to transform to.
 	 * @param lights the lights in scene.
+	 * @param width the width.
+	 * @param height the height.
 	 */
-	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights) 
+	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights, double width, double height) 
 	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
@@ -64,7 +66,7 @@ public class Polyhedron extends GameObject implements Serializable {
 			m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
 			float tmp = m.object.get(a).getIntensity(); //stores in tmp value.
 			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
-			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix()).Normalized());// Transforms Polygon to Projection space.
+			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix(width, height)).Normalized()); //Transforms Polygon to Projection space.
 			m.object.get(a).setVisible(isVisible); //loads tmp value.
 			m.object.get(a).setIntensity(tmp); //loads tmp value.
 		}
@@ -73,6 +75,7 @@ public class Polyhedron extends GameObject implements Serializable {
 	/** Paints the Polyhedron.
 	 * @param g the Graphics component.
 	 * @param cam the Camera.
+	 * @param lights the lights.
 	 * @param width the width.
 	 * @param height the height.
 	 * @param shiftX the screen shift on X axis
@@ -80,9 +83,10 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param wire if wireframe enabled.
 	 * @param shade if shading enabled.
 	 */
-	public void paint (Graphics g, Camera cam, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
+	public void paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
-		for (Polygon p : object) {
+		Polyhedron m = Polyhedron.MVP (this, cam, lights, width, height);
+		for (Polygon p : m.object) {
 			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
 				&& p.getCenter().getY() > -0.9 && p.getCenter().getY() < 0.9
 				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
