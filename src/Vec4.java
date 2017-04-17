@@ -253,7 +253,11 @@ public class Vec4 extends Transformation implements Serializable {
 	 */
 	public boolean equals (Vec4 v) 
 	{
-		return X == v.X && Y == v.Y && Z == v.Z && W == v.W;
+		return Double.compare(X, v.X) == 0 
+				&& Double.compare(Y, v.Y) == 0 
+				&& Double.compare(Z, v.Z) == 0
+				&& Double.compare(W, v.W) == 0
+				? true : false;
 	}
 	/** Prints out the values of the Vec4, structured as "X, Y, Z, W".*/
 	public void print() 

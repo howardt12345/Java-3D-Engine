@@ -329,6 +329,17 @@ public class Matrix {
 			}
 		}
 	}
+	/** Returns true if the 2 Matrices are equal.
+	 * @param m the Matrix to compare.
+	 */
+	public boolean equals (Matrix m) {
+		for (int a = 0; a < m.getRow(); a++) {
+			for (int b = 0; b < m.getColumn(); b++) {
+				if (Double.compare(matrix[a][b], m.matrix[a][b]) != 0) return false;
+			}
+		}
+		return true;
+	}
 	/** Sets the Matrix at the provided index.
 	 * @param value the value to set.
 	 * @param row the row index.

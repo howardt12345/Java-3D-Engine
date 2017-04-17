@@ -80,7 +80,7 @@ public class Transformation implements Serializable {
 	 */
 	public boolean equals (Transformation t) 
 	{
-		return X == t.X && Y == t.Y && Z == t.Z ? true : false;
+		return Double.compare(X, t.X) == 0 && Double.compare(Y, t.Y) == 0 && Double.compare(Z, t.Z) == 0 ? true : false;
 	}
 	/** Prints out the values of the Transformation, structured as "X, Y, Z".*/
 	public void print () 
@@ -93,7 +93,7 @@ public class Transformation implements Serializable {
 		return X + ", " + Y + ", " + Z;
 	}
 	/** Gets the values of the Transformation as a formatted String.
-	 * Recommended format: "%1$d, %2$d, %3$d"
+	 * Recommended format: "%1$f, %2$f, %3$f"
 	 * @param format the formatting of the string.
 	 */
 	public String asString (String format) 
