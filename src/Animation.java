@@ -158,25 +158,24 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	{
 		while (loopInfinite || System.currentTimeMillis() < (startTime + (end*1000))) {
 			if (System.currentTimeMillis() > startTime+(start*1000)) {
-				f.repaint();
 				for (Transformation t : transformations) {
-					if (t instanceof Vec4 && ((Vec4)t).getW() == 0) {
+					if (t instanceof Vec4 && Double.compare(((Vec4)t).getW(), 0) == 0) {
 						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					else if (t instanceof Rotation && !(target instanceof Light)) {
+					if (t instanceof Rotation && !(target instanceof Light)) {
 						target.addRotate((((Rotation)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addRotate((((Rotation)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addRotate((((Rotation)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					else if (t instanceof Scale) {
+					if (t instanceof Scale) {
 						target.addScale((((Scale)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addScale((((Scale)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addScale((((Scale)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					else throw new IllegalArgumentException ("Not a Transformation.");
 				}
+				f.repaint();
 			}
 			Thread.sleep(10);
 		}
