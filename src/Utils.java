@@ -69,7 +69,7 @@ public class Utils {
 	{
 		try {
 			Polyhedron tmp = data;
-			quickSort (tmp.object, 0, tmp.object.size()-1);
+			quickSort (tmp.getPolygons(), 0, tmp.getPolygons().size()-1);
 			return tmp;
 		}
 		catch (Exception e) {

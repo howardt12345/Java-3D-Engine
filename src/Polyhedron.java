@@ -59,17 +59,26 @@ public class Polyhedron extends GameObject implements Serializable {
 	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights, double width, double height) 
 	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
+		ArrayList<Polygon> tmp = new ArrayList<Polygon>();
 		for (int a = 0; a < m.object.size(); a++) { //Goes through all polygons.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
 			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
-			m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
-			float tmp = m.object.get(a).getIntensity(); //stores in tmp value.
+			float intensity = 0;
+			if (isVisible) {
+				m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
+				intensity = m.object.get(a).getIntensity(); //stores in tmp value.
+			}
 			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
 			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix(width, height)).Normalized()); //Transforms Polygon to Projection space.
-			m.object.get(a).setVisible(isVisible); //loads tmp value.
-			m.object.get(a).setIntensity(tmp); //loads tmp value.
+			if (isVisible && m.object.get(a).getClosest(Vec4.center).getX() > -0.9 && m.object.get(a).getClosest(Vec4.center).getX() <= 0.9
+					&& m.object.get(a).getClosest(Vec4.center).getY() >= -0.9 && m.object.get(a).getClosest(Vec4.center).getY() <= 0.9
+					&& m.object.get(a).getClosest(Vec4.center).getZ() < -cam.getNearClip() && m.object.get(a).getClosest(Vec4.center).getZ() > -cam.getFarClip()) {
+				m.object.get(a).setIntensity(intensity); //loads tmp value.
+				tmp.add(m.object.get(a));
+			}
 		}
+		m.object = tmp;
 		return m;
 	}
 	/** Paints the Polyhedron.
@@ -85,13 +94,8 @@ public class Polyhedron extends GameObject implements Serializable {
 	 */
 	public void paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
-		Polyhedron m = Polyhedron.MVP (this, cam, lights, width, height);
-		for (Polygon p : m.object) {
-			if (p.isVisible() && p.getCenter().getX() >= -0.9 && p.getCenter().getX() <= 0.9
-				&& p.getCenter().getY() > -0.9 && p.getCenter().getY() < 0.9
-				&& p.getCenter().getZ() < -cam.getNearClip() && p.getCenter().getZ() > -cam.getFarClip()) {
-				p.paint(g, width, height, shiftX, shiftY, wire, shade);
-			}
+		for (Polygon p : Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height)).object) {
+			p.paint(g, width, height, shiftX, shiftY, wire, shade);
 		}
 	}
 	/** Prints the information on the Polyhedron.*/
@@ -109,6 +113,10 @@ public class Polyhedron extends GameObject implements Serializable {
 			object.get(a).detailedPrint();
 			System.out.println("**********");
 		}
+	}
+	/** Gets the polygons in the Polyhedron.*/
+	public ArrayList<Polygon> getPolygons () {
+		return object;
 	}
 	/** Gets the fileName of the Polyhedron.
 	 * @return the fileName
