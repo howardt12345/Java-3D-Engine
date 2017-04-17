@@ -4,7 +4,7 @@ import java.util.*;
 
 /** The utility Class. */
 public class Utils {
-	/** Sorts an ArrayList of GameObjects in order on the Z Axis.
+	/** Sorts an ArrayList of GameObjects relative to the Camera.
 	 * @param data the input data.
 	 * @return the sorted ArrayList.
 	 */
@@ -21,7 +21,7 @@ public class Utils {
 	 */
 	private static void QuickSort (ArrayList<GameObject> data, Camera c, int left, int right) 
 	{
-		int index = partition(data, c, left, right);
+		int index = Partition(data, c, left, right);
 		if (left < index - 1)
 			QuickSort(data, c, left, index - 1);
 		if (index < right)
@@ -32,7 +32,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int partition (ArrayList<GameObject> data, Camera c, int left, int right) 
+	private static int Partition (ArrayList<GameObject> data, Camera c, int left, int right) 
 	{
 		int a = left, b = right;
 		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
@@ -40,6 +40,68 @@ public class Utils {
 			while (Vec4.getDistance(c.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
 				a++;
 			while (Vec4.getDistance(c.getLookFrom(), data.get(b).getTransform().getPosition()) < pivot)
+				b--;
+			if (a <= b) {
+				Swap (data, a, b);
+				a++;
+				b--;
+			}
+		}
+		return a;
+	}
+	/** Swaps the elements in the ArrayList.
+	 * @param array the array.
+	 * @param a the first index
+	 * @param b the second index.
+	 */
+	private static void Swap (ArrayList<GameObject> array, int a, int b) 
+	{
+		GameObject tmp = array.get(a);
+		array.set(a, array.get(b));
+		array.set(b, tmp);
+	}
+	
+	/** Sorts the polygons in a Polyhedron relative to the Origin.
+	 * @param data the input data.
+	 * @return the sorted ArrayList.
+	 */
+	public static Polyhedron polygonSort (Polyhedron data)
+	{
+		try {
+			Polyhedron tmp = data;
+			quickSort (tmp.object, 0, tmp.object.size()-1);
+			return tmp;
+		}
+		catch (Exception e) {
+			return data;
+		}
+	}
+	/** Quick Sort.
+	 * @param data the input data.
+	 * @param left the left.
+	 * @param right the right.
+	 */
+	private static void quickSort (ArrayList<Polygon> data, int left, int right) 
+	{
+		int index = partition(data, left, right);
+		if (left < index - 1)
+			quickSort(data, left, index - 1);
+		if (index < right)
+			quickSort(data, index, right);
+	}
+	/** Partitions the Array.
+	 * @param data the data.
+	 * @param left the left.
+	 * @param right the right.
+	 */
+	private static int partition (ArrayList<Polygon> data, int left, int right) 
+	{
+		int a = left, b = right;
+		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int)Math.rint((left + right) / 2)).getCenter());
+		while (a <= b) {
+			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getCenter()) > pivot)
+				a++;
+			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getCenter()) < pivot)
 				b--;
 			if (a <= b) {
 				swap (data, a, b);
@@ -54,12 +116,13 @@ public class Utils {
 	 * @param a the first index
 	 * @param b the second index.
 	 */
-	private static void swap (ArrayList<GameObject> array, int a, int b) 
+	private static void swap (ArrayList<Polygon> array, int a, int b) 
 	{
-		GameObject tmp = array.get(a);
+		Polygon tmp = array.get(a);
 		array.set(a, array.get(b));
 		array.set(b, tmp);
 	}
+	
 	/** Checks if a String is numeric.
 	 * @param str the input string.
 	 */
