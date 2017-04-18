@@ -14,6 +14,9 @@ public class Main extends JPanel {
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
     static boolean wire = true, shade = true;
+    /*public static void main (String[] args) {
+    	
+    }*/
 	public static void main (String[] args) {
 		scene = new Scene (new Camera (new Transform (new Vec4 (0, 2, -4))));
 
