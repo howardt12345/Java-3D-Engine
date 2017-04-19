@@ -56,13 +56,11 @@ public class Vec4 extends Transformation implements Serializable {
 	 */
 	public static double getDistance (Vec4 v1, Vec4 v2) 
 	{
-		return Math.abs(
-		Math.sqrt(
+		return Math.sqrt(
 				Math.pow(v2.X - v1.X, 2) + 
 				Math.pow(v2.Y - v1.Y, 2) + 
 				Math.pow(v2.Z - v1.Z, 2)
-			)
-		);
+			);
 	}
 	/** Returns the Magnitude of this Vec4.*/
 	public double magnitude () 
