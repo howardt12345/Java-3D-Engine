@@ -55,7 +55,7 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param lights the lights in scene.
 	 * @param width the width.
 	 * @param height the height.
-	 */
+	 * */
 	public static Polyhedron MVP (Polyhedron polyhedron, Camera cam, ArrayList<Light> lights, double width, double height) 
 	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
@@ -64,18 +64,17 @@ public class Polyhedron extends GameObject implements Serializable {
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
 			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
 			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
-			float intensity = 0;
 			if (isVisible) {
 				m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
-				intensity = m.object.get(a).getIntensity(); //stores in tmp value.
-			}
-			m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
-			m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix(width, height)).Normalized()); //Transforms Polygon to Projection space.
-			if (isVisible && m.object.get(a).getClosest(Vec4.center).getX() > -0.9 && m.object.get(a).getClosest(Vec4.center).getX() <= 0.9
-					&& m.object.get(a).getClosest(Vec4.center).getY() >= -0.9 && m.object.get(a).getClosest(Vec4.center).getY() <= 0.9
-					&& m.object.get(a).getClosest(Vec4.center).getZ() < -cam.getNearClip() && m.object.get(a).getClosest(Vec4.center).getZ() > -cam.getFarClip()) {
-				m.object.get(a).setIntensity(intensity); //loads tmp value.
-				tmp.add(m.object.get(a));
+				float intensity = m.object.get(a).getIntensity(); //stores in tmp value.
+				m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
+				m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix(width, height)).Normalized()); //Transforms Polygon to Projection space.
+				if (m.object.get(a).getClosest(Vec4.center).getX() > -0.9 && m.object.get(a).getClosest(Vec4.center).getX() < 0.9
+						&& m.object.get(a).getClosest(Vec4.center).getY() > -0.9 && m.object.get(a).getClosest(Vec4.center).getY() < 0.9
+						&& m.object.get(a).getClosest(Vec4.center).getZ() < -cam.getNearClip() && m.object.get(a).getClosest(Vec4.center).getZ() > -cam.getFarClip()) {
+					m.object.get(a).setIntensity(intensity); //loads tmp value.
+					tmp.add(m.object.get(a));
+				}
 			}
 		}
 		m.object = tmp;
@@ -114,7 +113,33 @@ public class Polyhedron extends GameObject implements Serializable {
 			System.out.println("**********");
 		}
 	}
-	/** Gets the polygons in the Polyhedron.*/
+	/** Gets the closest polygon to a Vec4.
+	 * @param v the Vec4.
+	 * @return the closest polygon.
+	 */
+	public Polygon getClosest (Vec4 v) {
+		Polygon tmp = object.get(0);
+		for (int a = 0; a < object.size(); a++) { 
+				if (Vec4.getDistance(v, object.get(a).getClosest(v)) < Vec4.getDistance(v, tmp.getClosest(v)))
+			tmp = object.get(a);
+		}
+		return tmp;
+	}
+	/** Gets the farthest polygon to a Vec4.
+	 * @param v the Vec4.
+	 * @return the fathest polygon.
+	 */
+	public Polygon getFarthest (Vec4 v) {
+		Polygon tmp = object.get(0);
+		for (int a = 0; a < object.size(); a++) { 
+				if (Vec4.getDistance(v, object.get(a).getClosest(v)) > Vec4.getDistance(v, tmp.getClosest(v)))
+			tmp = object.get(a);
+		}
+		return tmp;
+	}
+	/** Gets the polygons in the Polyhedron.
+	 * @return the Polygons in the Polyhedron.
+	 */
 	public ArrayList<Polygon> getPolygons () {
 		return object;
 	}
