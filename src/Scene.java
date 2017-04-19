@@ -33,6 +33,7 @@ public class Scene implements Serializable {
 	 */
 	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
+		long start = System.currentTimeMillis();
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
@@ -43,10 +44,18 @@ public class Scene implements Serializable {
 					tmp.add(gameObject);
 			}
 		}
+		int ctr = 0;
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
-			((Polyhedron) gameObject).paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
+			Polyhedron p = (Polyhedron) gameObject; 
+			if (Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).normalized(), 
+					Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()).normalized()) > 0) {
+				p.paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
+				ctr++;
+			}
 		}
 		g.drawRect(shiftX, shiftY, width, height);
+		g.drawString(ctr + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 50);
+		g.drawString(""+(System.currentTimeMillis() - start), width + 2*shiftX - 40, 30);
 	}
 	/** Sets the Main Camera in the Scene.
 	 * @param cam the Camera.
