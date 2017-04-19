@@ -174,12 +174,10 @@ public class Polygon implements Serializable {
 	 */
 	public Vec4 getClosest (Vec4 v) 
 	{
-		Vec4 tmp = new Vec4();
-		for (int a = polygon.size()-1; a > 0; a--) {
-			int min = 0;
-			for (int b = 1; b <= a; b++) 
-				if (Vec4.getDistance(v, polygon.get(b)) < Vec4.getDistance(v, polygon.get(min))) min = b;
-			tmp = polygon.get(min);
+		Vec4 tmp = polygon.get(0);
+		for (int a = 0; a < polygon.size(); a++) {
+			if (Vec4.getDistance(v, polygon.get(a)) < Vec4.getDistance(v, tmp))
+			tmp = polygon.get(a);
 		}
 		return tmp;
 	}
@@ -188,12 +186,10 @@ public class Polygon implements Serializable {
 	 */
 	public Vec4 getFarthest (Vec4 v) 
 	{
-		Vec4 tmp = new Vec4();
-		for (int a = 0; a < polygon.size()-1; a++) {
-			int min = a;
-			for (int b = a+1; b < polygon.size(); b++) 
-				if (Vec4.getDistance(v, polygon.get(b)) > Vec4.getDistance(v, polygon.get(min))) min = b;
-			tmp = polygon.get(min);
+		Vec4 tmp = polygon.get(0);
+		for (int a = 0; a < polygon.size(); a++) {
+			if (Vec4.getDistance(v, polygon.get(a)) > Vec4.getDistance(v, tmp))
+			tmp = polygon.get(a);
 		}
 		return tmp;
 	}
