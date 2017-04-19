@@ -21,7 +21,7 @@ public class Matrix {
 	/** New Matrix from 2D array.*/
 	public Matrix (double[][] matrix) 
 	{
-		this.matrix = matrix;
+		this.setMatrix(matrix);
 	}
 	/** New Translation Matrix from Transformation.
 	 * @param t the Transformation.
@@ -38,10 +38,10 @@ public class Matrix {
 	 */
 	public Matrix (int rows, int columns) 
 	{
-		matrix = new double[rows][columns];
+		setMatrix(new double[rows][columns]);
 		for (int a = 0; a < rows; a++) {
 			for (int b = 0; b < columns; b++) {
-				matrix[a][b] = a == b ? 1 : 0;
+				getMatrix()[a][b] = a == b ? 1 : 0;
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class Matrix {
 		Matrix m = new Matrix ();
 		for (int a = 0; a < m.getRow(); a++) {
 			for (int b = 0; b < m.getColumn(); b++) {
-				m.matrix[a][b] = 0;
+				m.getMatrix()[a][b] = 0;
 			}
 		}
 		return m;
@@ -97,10 +97,10 @@ public class Matrix {
 	public static Matrix zero (int rows, int columns) 
 	{
 		Matrix m = new Matrix (rows, columns);
-		m.matrix = new double[rows][columns];
+		m.setMatrix(new double[rows][columns]);
 		for (int a = 0; a < rows; a++) {
 			for (int b = 0; b < columns; b++) {
-				m.matrix[a][b] = 0;
+				m.getMatrix()[a][b] = 0;
 			}
 		}
 		return m;
@@ -110,7 +110,7 @@ public class Matrix {
 	{
 		for (int a = 0; a < getRow(); a++) {
 			for (int b = 0; b < getColumn(); b++) {
-				matrix[a][b] = 0;
+				getMatrix()[a][b] = 0;
 			}
 		}
 	}
@@ -278,7 +278,7 @@ public class Matrix {
 			Matrix m = new Matrix (m1.getRow(), m2.getColumn());
 			for (int a = 0; a < m1.getRow(); a++) {
 				for (int b = 0; b < m2.getColumn(); b++) {
-					int sum = 0;
+					double sum = 0;
 					for (int c = 0; c < m2.getRow(); c++) {
 						sum += m1.get(a, c)*m2.get(c, b);
 					}
@@ -299,7 +299,7 @@ public class Matrix {
 			Matrix m = new Matrix (getRow(), m1.getColumn());
 			for (int a = 0; a < getRow(); a++) {
 				for (int b = 0; b < m1.getColumn(); b++) {
-					int sum = 0;
+					double sum = 0;
 					for (int c = 0; c < m1.getRow(); c++) {
 						sum += get(a, c)*m1.get(c, b);
 					}
@@ -319,7 +319,7 @@ public class Matrix {
 		else {
 			for (int a = 0; a < getRow(); a++) {
 				for (int b = 0; b < m1.getColumn(); b++) {
-					int sum = 0;
+					double sum = 0;
 					for (int c = 0; c < m1.getRow(); c++) {
 						sum += get(a, c)*m1.get(c, b);
 					}
@@ -335,7 +335,7 @@ public class Matrix {
 	public boolean equals (Matrix m) {
 		for (int a = 0; a < m.getRow(); a++) {
 			for (int b = 0; b < m.getColumn(); b++) {
-				if (Double.compare(matrix[a][b], m.matrix[a][b]) != 0) return false;
+				if (Double.compare(getMatrix()[a][b], m.getMatrix()[a][b]) != 0) return false;
 			}
 		}
 		return true;
@@ -347,7 +347,19 @@ public class Matrix {
 	 */
 	public void set (double value, int row, int column) 
 	{
-		matrix[row][column] = value;
+		getMatrix()[row][column] = value;
+	}
+	/** Gets the Matrix.
+	 * @return the matrix.
+	 */
+	public double[][] getMatrix() {
+		return matrix;
+	}
+	/** Sets the Matrix.
+	 * @param matrix the matrix to set.
+	 */
+	public void setMatrix(double[][] matrix) {
+		this.matrix = matrix;
 	}
 	/** Gets the Matrix value at the provided index.
 	 * @param row the row index.
@@ -356,21 +368,21 @@ public class Matrix {
 	 */
 	public double get (int row, int column) 
 	{
-		return matrix[row][column];
+		return getMatrix()[row][column];
 	}
 	/** Returns the length of the rows in the Matrix.*/
 	public int getRow () 
 	{
-		return matrix.length;
+		return getMatrix().length;
 	}
 	/** Returns the length of the columns in the Matrix.*/
 	public int getColumn () 
 	{
-		return matrix[0].length;
+		return getMatrix()[0].length;
 	}
 	/** Prints the Matrix.*/
 	public void print () 
 	{
-		Utils.print(matrix);
+		Utils.print(getMatrix());
 	}
 }
