@@ -46,9 +46,14 @@ public class Scene implements Serializable {
 		}
 		int ctr = 0;
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
-			Polyhedron p = (Polyhedron) gameObject; 
-			if (Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).normalized(), 
-					Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()).normalized()) > 0) {
+			Polyhedron p = (Polyhedron) gameObject;
+			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
+			double d1 = Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).normalized(), 
+					Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()).normalized()) > 0
+					? Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).magnitude()
+						: -Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).magnitude();
+			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(mainCamera.getLookAt(), mainCamera.getLookFrom()), d + d1), mainCamera.getLookFrom());
+			if (Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()), Vec4.subtract(mainCamera.getLookFrom(), v)) > 0) {
 				p.paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
 				ctr++;
 			}
@@ -79,7 +84,7 @@ public class Scene implements Serializable {
 	{
 		return Utils.isNumeric (""+index) ? (Integer.parseInt(""+index) < 0 || Integer.parseInt(""+index) >= scene.size()
 			?  scene.get(0) : scene.get(Integer.parseInt(""+index))) : scene.get(0);
-	}	
+	}
 	/** Gets the gameObject located at the index.
 	 * @param index the index.
 	 */
