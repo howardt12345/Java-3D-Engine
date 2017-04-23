@@ -65,11 +65,13 @@ public class Vec4 extends Transformation implements Serializable {
 	/** Returns the Magnitude of this Vec4.*/
 	public double magnitude () 
 	{
-		return Math.abs(
-		Math.sqrt(
+		return Math.sqrt(
 				Math.pow(X, 2) + Math.pow(Y, 2) + Math.pow(Z, 2)
-			)
-		);
+			);
+	}
+	/** Returns the square magnitude of this Vec4.*/
+	public double sqrMagnitude () {
+		return Math.pow(X, 2) + Math.pow(Y, 2) + Math.pow(Z, 2);
 	}
 	/** Returns a normalized Vec4 through dividing by W.*/
 	public Vec4 Normalized () 
@@ -161,6 +163,24 @@ public class Vec4 extends Transformation implements Serializable {
 	{
 		return new Vec4 (v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 	}
+	/** Multiplies a Vec4 by a scalar.
+	 * @param v the Vec4.
+	 * @param scalar the scalar.
+	 */
+	public static Vec4 multiply (Vec4 v, double scalar) {
+		return new Vec4 (v.X * scalar, v.Y * scalar, v.Z * scalar);
+	}
+	/** Sets the magnitude of the Vec4.
+	 * @param value the value.
+	 */
+	public Vec4 SetMagnitude (double value) {
+		double m = magnitude();
+		return new Vec4 (
+				X /= (m/value),
+				Y /= (m/value),
+				Z /= (m/value)
+			);
+	}
 	/** Returns a Vec4 of the getMidpoint of 2 Vec4s.
 	 * @param v1 Vec4 #1.
 	 * @param v2 Vec4 #2.
@@ -218,6 +238,26 @@ public class Vec4 extends Transformation implements Serializable {
 				tmpY/v.size(), 
 				tmpZ/v.size(),
 				tmpW/v.size());
+	}
+	/** Gets the Vec4 on the line defined by 2 Vec4s.
+	 * @param v the Vec4.
+	 * @param p1 the first point on the line.
+	 * @param p2 the second point on the line.
+	 */
+	public static Vec4 pointOnLine (Vec4 v, Vec4 p1, Vec4 p2) {
+		Vec4 u = Vec4.subtract(p2, p1);
+    	Vec4 pq = Vec4.subtract(v, p1);
+    	Vec4 w2 = Vec4.subtract(pq, Vec4.multiply(u, Vec4.dot(pq, u) / u.sqrMagnitude()));
+    	return Vec4.subtract(v, w2);
+	}
+	/** Gets the Vec4 on the line defined by 2 Vec4s.
+	 * @param p1 the first point on the line.
+	 * @param p2 the second point on the line.*/
+	public Vec4 onLine (Vec4 p1, Vec4 p2) {
+		Vec4 u = Vec4.subtract(p2, p1);
+    	Vec4 pq = Vec4.subtract(this, p1);
+    	Vec4 w2 = Vec4.subtract(pq, Vec4.multiply(u, Vec4.dot(pq, u) / u.sqrMagnitude()));
+    	return Vec4.subtract(this, w2);
 	}
 	/** Transforms a Vec4 by a Matrix.
 	 * @param v the Vec4 to Tranaform.
