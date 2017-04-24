@@ -30,10 +30,11 @@ public class Scene implements Serializable {
 	 * @param shiftY the screen shift on Y axis.
 	 * @param wire if wireframe enabled.
 	 * @param shade if shading enabled.
+	 * @param debug if debugging enabled.
 	 */
-	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade, boolean debug) 
 	{
-		long start = System.currentTimeMillis();
+		long start = System.currentTimeMillis(), end;
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
 		for (GameObject gameObject : scene) {
@@ -44,8 +45,9 @@ public class Scene implements Serializable {
 					tmp.add(gameObject);
 			}
 		}
-		int ctr = 0;
+		int total = 0, calculated = 0;
 		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
+			total++;
 			Polyhedron p = (Polyhedron) gameObject;
 			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
 			double d1 = Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).normalized(), 
@@ -55,12 +57,27 @@ public class Scene implements Serializable {
 			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(mainCamera.getLookAt(), mainCamera.getLookFrom()), d + d1), mainCamera.getLookFrom());
 			if (Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()), Vec4.subtract(mainCamera.getLookFrom(), v)) > 0) {
 				p.paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
-				ctr++;
+				calculated++;
 			}
 		}
-		g.drawRect(shiftX, shiftY, width, height);
-		g.drawString(ctr + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 50);
-		g.drawString(""+(System.currentTimeMillis() - start), width + 2*shiftX - 40, 30);
+		end = System.currentTimeMillis();
+		if (debug) {
+			g.drawRect(shiftX, shiftY, width, height);
+			g.drawString(calculated + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 60);
+			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 45);
+			g.drawString((end - start) + "ms", width + 2*shiftX - 60, 30);
+			g.setColor(Color.black);
+			g.drawString(width + " X " + height, width > 1000 ? width-100 : width-75, 15);
+			g.drawString("Camera:", 5, 15);
+			g.drawString("Position: " + mainCamera.getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
+			g.drawString("Rotation: " + mainCamera.getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
+			for (int a = 0; a < scene.size(); a++) {
+				g.drawString("Object " + a + ": " + scene.get(a).getClass().getName(), 5, (a+1)*70);
+				g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+15);
+				g.drawString("Rotation: " + scene.get(a).getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+30);
+				g.drawString("Scale: " + scene.get(a).getTransform().getScale().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+45);
+			}
+		}
 	}
 	/** Sets the Main Camera in the Scene.
 	 * @param cam the Camera.
