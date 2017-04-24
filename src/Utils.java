@@ -4,13 +4,13 @@ import java.util.*;
 
 /** The utility Class. */
 public class Utils {
-	/** Sorts an ArrayList of GameObjects relative to the Camera.
+	/** Sorts an ArrayList of Polyhedrons relative to the Camera.
 	 * @param data the input data.
 	 * @return the sorted ArrayList.
 	 */
-	public static ArrayList<GameObject> zSort (ArrayList<GameObject> data, Camera c)
+	public static ArrayList<Polyhedron> zSort (ArrayList<Polyhedron> data, Camera c)
 	{
-		ArrayList<GameObject> tmp = data;
+		ArrayList<Polyhedron> tmp = data;
 		QuickSort (tmp, c, 0, data.size()-1);
 		return tmp;
 	}
@@ -19,7 +19,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static void QuickSort (ArrayList<GameObject> data, Camera c, int left, int right) 
+	private static void QuickSort (ArrayList<Polyhedron> data, Camera c, int left, int right) 
 	{
 		int index = Partition(data, c, left, right);
 		if (left < index - 1)
@@ -32,7 +32,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int Partition (ArrayList<GameObject> data, Camera c, int left, int right) 
+	private static int Partition (ArrayList<Polyhedron> data, Camera c, int left, int right) 
 	{
 		int a = left, b = right;
 		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
@@ -54,16 +54,14 @@ public class Utils {
 	 * @param a the first index
 	 * @param b the second index.
 	 */
-	private static void Swap (ArrayList<GameObject> array, int a, int b) 
+	private static void Swap (ArrayList<Polyhedron> array, int a, int b) 
 	{
-		GameObject tmp = array.get(a);
+		Polyhedron tmp = array.get(a);
 		array.set(a, array.get(b));
 		array.set(b, tmp);
 	}
-	
 	/** Sorts the polygons in a Polyhedron relative to the Origin.
 	 * @param data the input data.
-	 * @return the sorted ArrayList.
 	 */
 	public static Polyhedron polygonSort (Polyhedron data)
 	{
@@ -97,11 +95,11 @@ public class Utils {
 	private static int partition (ArrayList<Polygon> data, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int)Math.rint((left + right) / 2)).getCenter());
+		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int)Math.rint((left + right) / 2)).getClosest(Vec4.center));
 		while (a <= b) {
-			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getCenter()) > pivot)
+			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getClosest(Vec4.center)) > pivot)
 				a++;
-			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getCenter()) < pivot)
+			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getClosest(Vec4.center)) < pivot)
 				b--;
 			if (a <= b) {
 				swap (data, a, b);
@@ -122,7 +120,6 @@ public class Utils {
 		array.set(a, array.get(b));
 		array.set(b, tmp);
 	}
-	
 	/** Checks if a String is numeric.
 	 * @param str the input string.
 	 */
