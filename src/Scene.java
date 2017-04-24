@@ -7,13 +7,13 @@ public class Scene implements Serializable {
 	/** The GameObjects in the Scene.*/
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	/** The main camera.*/
-	private Camera mainCamera = new Camera ();
+	private Camera cam = new Camera ();
 	/** Creates a Scene with a Camera. 
 	 * @param cam the main camera.
 	 */
 	public Scene (Camera cam) 
 	{
-		mainCamera = cam;
+		this.cam = cam;
 	}
 	/** Adds a gameObject to the scene.
 	 * @param g the gameObject to add.
@@ -36,41 +36,42 @@ public class Scene implements Serializable {
 	{
 		long start = System.currentTimeMillis(), end;
 		ArrayList<Light> lights = new ArrayList<Light>();
-		ArrayList<GameObject> tmp = new ArrayList<GameObject>();
+		ArrayList<Polyhedron> tmp = new ArrayList<Polyhedron>();
+		int total = 0, active = 0, calculated = 0;
 		for (GameObject gameObject : scene) {
+			total++;
 			if (gameObject.isActive()) {
+				active++;
 				if (gameObject instanceof Light) 
 					lights.add((Light) gameObject);
 				else if (gameObject instanceof Polyhedron)
-					tmp.add(gameObject);
+					tmp.add((Polyhedron) gameObject);
 			}
 		}
-		int total = 0, calculated = 0;
-		for (GameObject gameObject : Utils.zSort(tmp, mainCamera)) {
-			total++;
-			Polyhedron p = (Polyhedron) gameObject;
+		for (Polyhedron p : Utils.zSort(tmp, cam)) {
 			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
-			double d1 = Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).normalized(), 
-					Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()).normalized()) > 0
-					? Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).magnitude()
-						: -Vec4.subtract(mainCamera.getLookFrom(), p.transform.getPosition()).magnitude();
-			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(mainCamera.getLookAt(), mainCamera.getLookFrom()), d + d1), mainCamera.getLookFrom());
-			if (Vec4.dot(Vec4.subtract(mainCamera.getLookFrom(), mainCamera.getLookAt()), Vec4.subtract(mainCamera.getLookFrom(), v)) > 0) {
-				p.paint(g, mainCamera, lights, width, height, shiftX, shiftY, wire, shade);
+			double d1 = Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
+					Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0
+					? Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude()
+						: -Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude();
+			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());
+			if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getLookFrom(), v)) > 0) {
+				p.paint(g, cam, lights, width, height, shiftX, shiftY, wire, shade);
 				calculated++;
 			}
 		}
 		end = System.currentTimeMillis();
 		if (debug) {
 			g.drawRect(shiftX, shiftY, width, height);
-			g.drawString(calculated + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 60);
-			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 45);
+			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 75);
+			g.drawString(active + " objects active", width + 2*shiftX - 150, height + 2*shiftY - 60);
+			g.drawString(calculated + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 45);
 			g.drawString((end - start) + "ms", width + 2*shiftX - 60, 30);
 			g.setColor(Color.black);
 			g.drawString(width + " X " + height, width > 1000 ? width-100 : width-75, 15);
 			g.drawString("Camera:", 5, 15);
-			g.drawString("Position: " + mainCamera.getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
-			g.drawString("Rotation: " + mainCamera.getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
+			g.drawString("Position: " + cam.getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
+			g.drawString("Rotation: " + cam.getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
 			for (int a = 0; a < scene.size(); a++) {
 				g.drawString("Object " + a + ": " + scene.get(a).getClass().getName(), 5, (a+1)*70);
 				g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+15);
@@ -84,7 +85,7 @@ public class Scene implements Serializable {
 	 */
 	public void setCamera (Camera cam) 
 	{
-		mainCamera = cam;
+		this.cam = cam;
 	}
 	/** Gets the gameObject located at the index.
 	 * @param index the index.
@@ -135,7 +136,7 @@ public class Scene implements Serializable {
 	/** Gets the main camera of the scene.*/
 	public Camera getCamera () 
 	{
-		return mainCamera;
+		return cam;
 	}
 	/** Gets the amount of GameObjects in scene.*/
 	public int size () 

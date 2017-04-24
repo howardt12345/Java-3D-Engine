@@ -68,6 +68,22 @@ public class Polygon implements Serializable {
 			polygon.set(a, polygon.get(a).Transform(m));
 		}
 	}
+	/** Returns the Vec4 at the specified index.
+	 * @param index the index.
+	 * @return the Vec4 at the index.
+	 */
+	public Vec4 get (int index) 
+	{
+		return polygon.get(index);
+	}
+	/** Replaces the Vec4 at the specified position with the specified Vec4.
+	 * @param index the index.
+	 * @param v the Vec4.
+	 */
+	public void set (int index, Vec4 v) 
+	{
+		polygon.set(index, v);
+	}
 	/** Normalizes the Polygon Vec4s by W.*/
 	public void Normalize () 
 	{
@@ -99,22 +115,6 @@ public class Polygon implements Serializable {
 			p.add(v.normalized());
 		}
 		return p;
-	}
-	/** Returns the Vec4 at the specified index.
-	 * @param index the index.
-	 * @return the Vec4 at the index.
-	 */
-	public Vec4 get (int index) 
-	{
-		return polygon.get(index);
-	}
-	/** Replaces the Vec4 at the specified position with the specified Vec4.
-	 * @param index the index.
-	 * @param v the Vec4.
-	 */
-	public void set (int index, Vec4 v) 
-	{
-		polygon.set(index, v);
 	}
 	/** Whether or not the polygon is visible.
 	 */

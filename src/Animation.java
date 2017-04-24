@@ -183,7 +183,7 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		return 1;
 	}
 	/** Gets whether or not the Animation loops infinitely.*/
-	public boolean isloopInfinteing ()
+	public boolean loopingInfinite ()
 	{
 		return loopInfinite;
 	}
