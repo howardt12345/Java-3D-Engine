@@ -13,7 +13,7 @@ public class Main extends JPanel {
     public static double oldX, newX, oldY, newY;
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
-    static boolean wire = true, shade = true;
+    static boolean wire = true, shade = true, debug = true;
     /*public static void main (String[] args) {
     	
     }*/
@@ -133,6 +133,9 @@ public class Main extends JPanel {
 				case KeyEvent.VK_SHIFT:
 					shade = !shade;
 					break;
+				case KeyEvent.VK_CONTROL:
+					debug = !debug;
+					break;
 				case KeyEvent.VK_SPACE:
 					Animator animator = new Animator (f);
 					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
@@ -208,17 +211,6 @@ public class Main extends JPanel {
 		f.setVisible(true);
 	}
 	public void paint (Graphics g) {
-		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade);
-		g.setColor(Color.black);
-		g.drawString(f.getWidth() + " X " + f.getHeight(), f.getWidth() > 1000 ? f.getWidth()-100 : f.getWidth()-75, 15);
-		g.drawString("Camera:", 5, 15);
-		g.drawString("Position: " + scene.getCamera().getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
-		g.drawString("Rotation: " + scene.getCamera().getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
-		for (int a = 0; a < scene.size(); a++) {
-			g.drawString("Object " + a + ":", 5, (a+1)*70);
-			g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+15);
-			g.drawString("Rotation: " + scene.get(a).getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+30);
-			g.drawString("Scale: " + scene.get(a).getTransform().getScale().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+45);
-		}
+		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade, debug);
 	}
 }
