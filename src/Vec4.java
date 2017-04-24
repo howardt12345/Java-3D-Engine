@@ -131,24 +131,6 @@ public class Vec4 extends Transformation implements Serializable {
 				Z*v.X - X*v.Z,
 				X*v.Y - Y*v.X);
 	}
-	/** Adds a Vec4 to the current Vec4.
-	 * @param v the Vec4 to add.
-	 * */
-	public void add (Vec4 v) 
-	{
-		X += v.X;
-		Y += v.Y;
-		Z += v.Z;
-	}
-	/** Subtracts a Vec4 to the current Vec4.
-	 * @param v the Vec4 to subtract.
-	 * */
-	public void subtract (Vec4 v) 
-	{
-		X -= v.X;
-		Y -= v.Y;
-		Z -= v.Z;
-	}
 	/** Adds two Vec4s.
 	 * @param v1 Vec4 #1.
 	 * @param v2 Vec4 #2*/
