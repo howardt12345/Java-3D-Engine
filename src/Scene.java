@@ -50,8 +50,8 @@ public class Scene implements Serializable {
 		}
 		for (Polyhedron p : Utils.zSort(tmp, cam)) {
 			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
-			double d1 = Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
-					Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0
+			double d1 = (Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
+					Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0)
 					? Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude()
 						: -Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude();
 			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());

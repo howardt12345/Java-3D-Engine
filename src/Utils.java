@@ -95,11 +95,11 @@ public class Utils {
 	private static int partition (ArrayList<Polygon> data, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int)Math.rint((left + right) / 2)).getClosest(Vec4.center));
+		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int) (left + right)/2).getClosest(Vec4.center));
 		while (a <= b) {
-			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getClosest(Vec4.center)) > pivot)
+			while (Double.compare(Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getClosest(Vec4.center)), pivot) > 0)
 				a++;
-			while (Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getClosest(Vec4.center)) < pivot)
+			while (Double.compare(Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getClosest(Vec4.center)), pivot) < 0)
 				b--;
 			if (a <= b) {
 				swap (data, a, b);
