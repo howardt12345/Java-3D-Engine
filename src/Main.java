@@ -170,7 +170,6 @@ public class Main extends JPanel {
 		});
 		f.addMouseMotionListener(new MouseMotionListener() 
 		{
-			@Override
 			public void mouseDragged(MouseEvent e) 
 			{
 				oldX = newX; 
@@ -198,7 +197,6 @@ public class Main extends JPanel {
 				}
 				f.repaint();
 			}
-			@Override
 			public void mouseMoved(MouseEvent e) 
 			{
 				oldX = newX = e.getX();
