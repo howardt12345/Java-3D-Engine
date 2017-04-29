@@ -1,19 +1,106 @@
 import java.util.*;
 import java.awt.*;
 import java.io.*;
-@SuppressWarnings({ "serial" })
+@SuppressWarnings("serial")
 /** The Scene class, implements Serializable.*/
 public class Scene implements Serializable {
 	/** The GameObjects in the Scene.*/
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	/** The main camera.*/
 	private Camera cam = new Camera ();
-	/** Creates a Scene with a Camera. 
-	 * @param cam the main camera.
+	/** Creates a Scene with a filename. 
+	 * @param filename the filename.
 	 */
-	public Scene (Camera cam) 
+	public Scene (String filename) 
 	{
-		this.cam = cam;
+		ReadFile(filename);
+	}
+	/** Creates a Scene with a a file containing filenames. 
+	 * @param filename the filename.
+	 * @param multipleFiles if file contains multiple filenames.
+	 */
+	public Scene (String filename, boolean multipleFiles) 
+	{
+		if (multipleFiles) {
+			try {
+				Scanner input = new Scanner(new FileReader(filename));
+				while (input.hasNextLine()) {
+					String next = input.nextLine();
+					if (next.toLowerCase().contains("ignore")) {
+						try {
+							continue;
+						}
+						catch (Exception e) {
+							break;
+						}
+					}
+					else ReadFile (next);
+				}
+				input.close();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else ReadFile (filename);
+	}
+	/** Reads the file and adds to Scene.
+	 * @param filename
+	 */
+	private void ReadFile (String filename) 
+	{
+		try {
+			Scanner input = new Scanner(new FileReader(filename));
+			Scanner line = new Scanner(input.nextLine());
+			while (input.hasNextLine() || line.hasNext()) {		
+				String next = line.next().toLowerCase();
+				if (next.equals("ignore")) {
+					try {
+						line = new Scanner(input.nextLine());			
+						continue;
+					}
+					catch (Exception e) {
+						break;
+					}
+				}
+				else {
+					if (next.equals("light")) {
+						Light l = new Light (new Transform (
+								new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
+								new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
+						if (line.hasNextDouble()) l.setIntensity(line.nextDouble());
+						if (line.hasNextDouble()) l.setRange(line.nextDouble());
+						scene.add(l);
+					}
+					else if (next.equals("polyhedron")) {
+						Vec4 v = new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble());
+						Rotation r = new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble());
+						Scale s = new Scale (line.nextDouble());
+						if (line.hasNextDouble()) s.setY(line.nextDouble());
+						if (line.hasNextDouble()) s.setZ(line.nextDouble());
+						scene.add(new Polyhedron (new Transform (v, r, s), line.next(), line.nextBoolean()));
+					}
+					else if (next.equals("camera")) {
+						cam = new Camera (new Transform (
+								new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
+								new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
+					}
+					else {
+						input.close();
+						line.close();
+						throw new IllegalArgumentException ("Line does not contain a GameObject.");
+					}
+				}
+				if (input.hasNextLine()) {
+					line = new Scanner(input.nextLine());			
+				}
+			}
+			input.close();
+			line.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/** Adds a gameObject to the scene.
 	 * @param g the gameObject to add.
