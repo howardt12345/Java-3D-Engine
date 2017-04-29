@@ -32,14 +32,14 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int Partition (ArrayList<Polyhedron> data, Camera c, int left, int right) 
+	private static int Partition (ArrayList<Polyhedron> data, Camera cam, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = Vec4.getDistance(c.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
+		double pivot = Vec4.getDistance(cam.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
 		while (a <= b) {
-			while (Vec4.getDistance(c.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
+			while (Vec4.getDistance(cam.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
 				a++;
-			while (Vec4.getDistance(c.getLookFrom(), data.get(b).getTransform().getPosition()) < pivot)
+			while (Vec4.getDistance(cam.getLookFrom(), data.get(b).getTransform().getPosition()) < pivot)
 				b--;
 			if (a <= b) {
 				Swap (data, a, b);

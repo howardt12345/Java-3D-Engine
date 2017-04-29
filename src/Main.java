@@ -14,42 +14,8 @@ public class Main extends JPanel {
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
     static boolean wire = true, shade = true, debug = true;
-    /*public static void main (String[] args) {
-    	
-    }*/
 	public static void main (String[] args) {
-		scene = new Scene (new Camera (new Transform (new Vec4 (0, 2, -4))));
-
-		scene.add(new Light (new Transform (0, 4, 0)));
-		
-		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "Spaceship01.txt", true));*/
-		
-		/*scene.add(new Polyhedron (new Transform (new Vec4 (-7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
-		scene.add(new Polyhedron (new Transform (new Vec4 (0, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));*/
-		scene.add(new Polyhedron (new Transform (new Vec4 (7, 2, 20),
-				new Rotation (-90, 90, 0), new Scale (2)), "house.txt", true));
-		/*scene.add(new Light (new Transform (20, 2, 0)));
-		scene.add(new Light (new Transform (-20, 2, 0)));
-		scene.add(new Light (new Transform (0, 2, 20)));
-		scene.add(new Light (new Transform (0, 2, -20)));*/
-		/*scene.add(new Polyhedron (new Transform (
-				new Vec4 (0, 0, 0), new Rotation (90, 0, 0), 
-				new Scale (2)),
-				"plane.txt", true));*/
-		scene.add(new Polyhedron (new Transform 
-				(new Vec4 (0, 25, 25), new Rotation (-90, 90, 0), new Scale (1)
-				), "Enterprise.txt", true));
-		
-		for (int a = -10; a < 10; a++) {
-			for (int b = -10; b < 10; b++) {
-				scene.add(new Polyhedron (new Transform (
-						new Vec4 (a*10, 0, b*10), new Rotation (0, 45, 0)), 
-						"cube.txt", true));
-			}
-		}
+		scene = new Scene ("scene.txt", true);
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -138,7 +104,8 @@ public class Main extends JPanel {
 					break;
 				case KeyEvent.VK_SPACE:
 					Animator animator = new Animator (f);
-					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
+					animator.add(new Animation (scene.getCamera(), new Vec4 (0, 0, 1, true), 0.1, true));
+					/*animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
 					animator.add(new Animation (scene.get(1), new Rotation (0, 90, 0), 3, 6, 1));
 					animator.add(new Animation (scene.get(1), new Vec4 (-10, 5, 0, true), 5, 8, 1));
 					animator.add(new Animation (scene.get(2), new Rotation (-180, 0, 0), 3));
@@ -148,7 +115,7 @@ public class Main extends JPanel {
 					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, 10, true), 2));
 					animator.add(new Animation (scene.get(3), new Vec4 (10, 0, 0, true), 2, 4, 1));
 					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, -10, true), 4, 6, 1));
-					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));
+					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));*/
 					animator.play();
 					break;
 				}
