@@ -160,9 +160,9 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 			if (System.currentTimeMillis() > startTime+(start*1000)) {
 				for (Transformation t : transformations) {
 					if (t instanceof Vec4 && Double.compare(((Vec4)t).getW(), 0) == 0) {
-						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Axis.X);
-						target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Axis.Y);
-						target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Axis.Z);
+						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Direction.Right);
+						target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Direction.Down);
+						target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Direction.Forward);
 					}
 					if (t instanceof Rotation && !(target instanceof Light)) {
 						target.addRotate((((Rotation)t).getX()/(end-start)/100)*loop, Axis.X);
