@@ -116,8 +116,10 @@ public class Camera extends GameObject implements Serializable {
 	private void Transform () 
 	{
 		lookFrom = Vec4.Transform(new Vec4 (0, 0, 0), new Matrix (transform));
-		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (transform));
-		lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (transform.getRotation()));
+		lookAt = Vec4.Transform(new Vec4 (0, 0, 1), Matrix.multiply(new Matrix (transform.getPosition()), new Matrix (new Rotation (transform.getRotX(), transform.getRotY(), 0))));
+		lookUp = Vec4.cross(Vec4.subtract(lookAt, lookFrom), Vec4.Transform(new Vec4 (1, 0, 0), Matrix.rotationXYZ(new Rotation (0, transform.getRotY(), transform.getRotZ()))));
+		//lookAt = Vec4.Transform(new Vec4 (0, 0, 1), new Matrix (transform));
+		//lookUp = Vec4.Transform(new Vec4 (0, 1, 0), new Matrix (transform.getRotation()));
 	}
 	/** Checks whether or not the Polygon is visible to the Camera.
 	 * @param p the Polygon.
