@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.Timer;
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,13 +9,14 @@ import java.text.*;
 @SuppressWarnings({ "serial", "unused" })
 /** The Main Class, used to test the program. Anything in this class does not affect
  * the renderer.*/
-public class Main extends JPanel {
+public class Main extends JPanel implements ActionListener {
 	public static Scene scene;
 	public static JFrame f = new JFrame();
     public static double oldX, newX, oldY, newY;
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
     static boolean wire = true, shade = true, debug = true;
+    static Timer t = new Timer (1, new Main ());
 	public static void main (String[] args) {
 		scene = new Scene ("scene.txt", true);
 		f.addKeyListener(new KeyListener () 
@@ -102,6 +105,24 @@ public class Main extends JPanel {
 				case KeyEvent.VK_CONTROL:
 					debug = !debug;
 					break;
+				case KeyEvent.VK_MINUS:
+					scene.getCamera().addRotate(1, Axis.Z);
+					break;
+				case KeyEvent.VK_EQUALS:
+					scene.getCamera().addRotate(-1, Axis.Z);
+					break;
+				case KeyEvent.VK_7:
+					scene.getCamera().addRotate(-1, Axis.X);
+					break;
+				case KeyEvent.VK_8:
+					scene.getCamera().addRotate(1, Axis.X);
+					break;
+				case KeyEvent.VK_9:
+					scene.getCamera().addRotate(-1, Axis.Y);
+					break;
+				case KeyEvent.VK_0:
+					scene.getCamera().addRotate(1, Axis.Y);
+					break;
 				case KeyEvent.VK_SPACE:
 					Animator animator = new Animator (f);
 					animator.add(new Animation (scene.getCamera(), new Vec4 (0, 0, 1, true), 0.1, true));
@@ -174,8 +195,14 @@ public class Main extends JPanel {
 		f.add(new Main());
 		f.setSize(800, 600);
 		f.setVisible(true);
+		t.start();
 	}
 	public void paint (Graphics g) {
-		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade, debug);
+		scene.paint(g, f.getWidth()-200, f.getHeight()-200, 100, 100, wire, shade, debug);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		f.repaint();
 	}
 }
