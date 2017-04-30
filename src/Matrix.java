@@ -28,9 +28,12 @@ public class Matrix {
 	 */
 	public Matrix (Transformation t) 
 	{
-		if (t instanceof Vec4) Translate ((Vec4) t);
-		else if (t instanceof Rotation) RotateXYZ ((Rotation) t);
-		else if (t instanceof Scale) Scale ((Scale) t);
+		if (t instanceof Vec4) 
+			Translate ((Vec4) t);
+		else if (t instanceof Rotation) 
+			RotateXYZ ((Rotation) t);
+		else if (t instanceof Scale) 
+			Scale ((Scale) t);
 	}
 	/** New Matrix from rows and columns.
 	 * @param rows the number of rows.
@@ -39,20 +42,20 @@ public class Matrix {
 	public Matrix (int rows, int columns) 
 	{
 		setMatrix(new double[rows][columns]);
-		for (int a = 0; a < rows; a++) {
-			for (int b = 0; b < columns; b++) {
+		for (int a = 0; a < rows; a++) 
+		{
+			for (int b = 0; b < columns; b++) 
 				getMatrix()[a][b] = a == b ? 1 : 0;
-			}
 		}
 	}
 	/** Identity Matrix. */
 	public static Matrix identity () 
 	{
 		Matrix m = new Matrix ();
-		for (int a = 0; a < m.getRow(); a++) {
-			for (int b = 0; b < m.getColumn(); b++) {
+		for (int a = 0; a < m.getRow(); a++) 
+		{
+			for (int b = 0; b < m.getColumn(); b++) 
 				m.set (a == b ? 1 : 0, a, b);
-			}
 		}
 		return m;
 	}
@@ -63,20 +66,20 @@ public class Matrix {
 	public static Matrix identity (int rows, int columns) 
 	{
 		Matrix m = new Matrix (rows, columns);
-		for (int a = 0; a < m.getRow(); a++) {
-			for (int b = 0; b < m.getColumn(); b++) {
+		for (int a = 0; a < m.getRow(); a++) 
+		{
+			for (int b = 0; b < m.getColumn(); b++) 
 				m.set (a == b ? 1 : 0, a, b);
-			}
 		}
 		return m;
 	}
 	/** Overrides values of Matrix with identity Matrix.*/
 	public void toIdentity () 
 	{
-		for (int a = 0; a < getRow(); a++) {
-			for (int b = 0; b < getColumn(); b++) {
+		for (int a = 0; a < getRow(); a++) 
+		{
+			for (int b = 0; b < getColumn(); b++) 
 				set (a == b ? 1 : 0, a, b);
-			}
 		}
 	}
 	/** Matrix with all values at 0.*/
@@ -84,9 +87,8 @@ public class Matrix {
 	{
 		Matrix m = new Matrix ();
 		for (int a = 0; a < m.getRow(); a++) {
-			for (int b = 0; b < m.getColumn(); b++) {
+			for (int b = 0; b < m.getColumn(); b++) 
 				m.getMatrix()[a][b] = 0;
-			}
 		}
 		return m;
 	}
@@ -98,20 +100,20 @@ public class Matrix {
 	{
 		Matrix m = new Matrix (rows, columns);
 		m.setMatrix(new double[rows][columns]);
-		for (int a = 0; a < rows; a++) {
-			for (int b = 0; b < columns; b++) {
+		for (int a = 0; a < rows; a++) 
+		{
+			for (int b = 0; b < columns; b++) 
 				m.getMatrix()[a][b] = 0;
-			}
 		}
 		return m;
 	}
 	/** Overrides values of Matrix with Matrix with all values at 0.*/
 	public void toZero () 
 	{
-		for (int a = 0; a < getRow(); a++) {
-			for (int b = 0; b < getColumn(); b++) {
+		for (int a = 0; a < getRow(); a++) 
+		{
+			for (int b = 0; b < getColumn(); b++) 
 				getMatrix()[a][b] = 0;
-			}
 		}
 	}
 	/** Applies translation to matrix.
@@ -280,15 +282,18 @@ public class Matrix {
 	 */
 	public static Matrix multiply (Matrix m1, Matrix m2) 
 	{
-		if (m1.getColumn() != m2.getRow()) return null;
-		else {
+		if (m1.getColumn() != m2.getRow()) 
+			return null;
+		else 
+		{
 			Matrix m = new Matrix (m1.getRow(), m2.getColumn());
-			for (int a = 0; a < m1.getRow(); a++) {
-				for (int b = 0; b < m2.getColumn(); b++) {
+			for (int a = 0; a < m1.getRow(); a++) 
+			{
+				for (int b = 0; b < m2.getColumn(); b++) 
+				{
 					double sum = 0;
-					for (int c = 0; c < m2.getRow(); c++) {
+					for (int c = 0; c < m2.getRow(); c++) 
 						sum += m1.get(a, c)*m2.get(c, b);
-					}
 					m.set(sum, a, b);
 					sum = 0;
 				}
@@ -301,15 +306,18 @@ public class Matrix {
 	 */
 	public Matrix multiply (Matrix m1) 
 	{
-		if (getColumn() != m1.getRow()) return null;
-		else {
+		if (getColumn() != m1.getRow()) 
+			return null;
+		else 
+		{
 			Matrix m = new Matrix (getRow(), m1.getColumn());
-			for (int a = 0; a < getRow(); a++) {
-				for (int b = 0; b < m1.getColumn(); b++) {
+			for (int a = 0; a < getRow(); a++) 
+			{
+				for (int b = 0; b < m1.getColumn(); b++) 
+				{
 					double sum = 0;
-					for (int c = 0; c < m1.getRow(); c++) {
+					for (int c = 0; c < m1.getRow(); c++) 
 						sum += get(a, c)*m1.get(c, b);
-					}
 					m.set(sum, a, b);
 					sum = 0;
 				}
@@ -322,14 +330,16 @@ public class Matrix {
 	 */
 	public void Multiply (Matrix m1) 
 	{
-		if (getColumn() != m1.getRow());
-		else {
-			for (int a = 0; a < getRow(); a++) {
-				for (int b = 0; b < m1.getColumn(); b++) {
+		if (getColumn() != m1.getRow()) return;
+		else 
+		{
+			for (int a = 0; a < getRow(); a++) 
+			{
+				for (int b = 0; b < m1.getColumn(); b++) 
+				{
 					double sum = 0;
-					for (int c = 0; c < m1.getRow(); c++) {
+					for (int c = 0; c < m1.getRow(); c++) 
 						sum += get(a, c)*m1.get(c, b);
-					}
 					set(sum, a, b);
 					sum = 0;
 				}
@@ -339,11 +349,13 @@ public class Matrix {
 	/** Returns true if the 2 Matrices are equal.
 	 * @param m the Matrix to compare.
 	 */
-	public boolean equals (Matrix m) {
-		for (int a = 0; a < m.getRow(); a++) {
-			for (int b = 0; b < m.getColumn(); b++) {
-				if (Double.compare(getMatrix()[a][b], m.getMatrix()[a][b]) != 0) return false;
-			}
+	public boolean equals (Matrix m) 
+	{
+		for (int a = 0; a < m.getRow(); a++) 
+		{
+			for (int b = 0; b < m.getColumn(); b++) 
+				if (Double.compare(getMatrix()[a][b], m.getMatrix()[a][b]) != 0) 
+					return false;
 		}
 		return true;
 	}
@@ -359,13 +371,15 @@ public class Matrix {
 	/** Gets the Matrix.
 	 * @return the matrix.
 	 */
-	public double[][] getMatrix() {
+	public double[][] getMatrix()
+	{
 		return matrix;
 	}
 	/** Sets the Matrix.
 	 * @param matrix the matrix to set.
 	 */
-	public void setMatrix(double[][] matrix) {
+	public void setMatrix(double[][] matrix) 
+	{
 		this.matrix = matrix;
 	}
 	/** Gets the Matrix value at the provided index.

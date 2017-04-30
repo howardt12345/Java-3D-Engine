@@ -29,7 +29,8 @@ public class Animator implements Serializable {
 	/** Runs all the Animations in the Animator.*/
 	public void play () 
 	{
-		for (Animation a : anim) {
+		for (Animation a : anim) 
+		{
 			a.play(f);
 		}
 	}

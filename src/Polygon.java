@@ -55,18 +55,16 @@ public class Polygon implements Serializable {
 	 */
 	public void transform (Transform t) 
 	{
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
 			polygon.set(a, polygon.get(a).Transform(new Matrix (t)));
-		}
 	}
 	/** Transforms the Polygon.
 	 * @param t the Matrix to Transform with.
 	 */
 	public void transform (Matrix m) 
 	{
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
 			polygon.set(a, polygon.get(a).Transform(m));
-		}
 	}
 	/** Returns the Vec4 at the specified index.
 	 * @param index the index.
@@ -87,33 +85,29 @@ public class Polygon implements Serializable {
 	/** Normalizes the Polygon Vec4s by W.*/
 	public void Normalize () 
 	{
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
 			polygon.set(a, polygon.get(a).Normalized());
-		}
 	}
 	/** Returns a Polygon with normalized Vec4s by W.*/
 	public Polygon Normalized () 
 	{
 		Polygon p = new Polygon ();
-		for (Vec4 v : polygon) {
+		for (Vec4 v : polygon) 
 			p.add(v.Normalized());
-		}
 		return p;
 	}
 	/** Normalizes the Polygon Vec4s by dividing by magnitude.*/
 	public void normalize () 
 	{
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
 			polygon.set(a, polygon.get(a).Normalized());
-		}
 	}
 	/** Returns a polygon with normalized Vec4s by dividing by magnitude.*/
 	public Polygon normalized () 
 	{
 		Polygon p = new Polygon ();
-		for (Vec4 v : polygon) {
+		for (Vec4 v : polygon) 
 			p.add(v.normalized());
-		}
 		return p;
 	}
 	/** Whether or not the polygon is visible.
@@ -149,9 +143,8 @@ public class Polygon implements Serializable {
 	public void calculateIntensity (ArrayList<Light> lights) 
 	{
 		float tmp = 0.15f;
-		for(int a = 1; a <= lights.size(); a++) {
+		for(int a = 1; a <= lights.size(); a++) 
 			tmp += (lights.get(a-1).diffuse(this)/(a+1));
-		}
 		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
 	}
 	/** Returns the number of vertices in polygon.*/
@@ -175,7 +168,8 @@ public class Polygon implements Serializable {
 	public Vec4 getClosest (Vec4 v) 
 	{
 		Vec4 tmp = polygon.get(0);
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
+		{
 			if (Vec4.getDistance(v, polygon.get(a)) < Vec4.getDistance(v, tmp))
 			tmp = polygon.get(a);
 		}
@@ -187,7 +181,8 @@ public class Polygon implements Serializable {
 	public Vec4 getFarthest (Vec4 v) 
 	{
 		Vec4 tmp = polygon.get(0);
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
+		{
 			if (Vec4.getDistance(v, polygon.get(a)) > Vec4.getDistance(v, tmp))
 			tmp = polygon.get(a);
 		}
@@ -206,15 +201,18 @@ public class Polygon implements Serializable {
 	{
 		int[] xCoord = new int [size()],
 		yCoord = new int [size()];
-		for (int b = 0; b < size(); b++) {
+		for (int b = 0; b < size(); b++) 
+		{
 			xCoord[b] = (int) Math.rint((get(b).getX()/get(b).getZ()*width/2)+(width/2)+shiftX);
 			yCoord[b] = (int) Math.rint((get(b).getY()/get(b).getZ()*height/2)+(height/2)+shiftY);
 		}
-		if (shade) {
+		if (shade) 
+		{
 			g.setColor(Color.getHSBColor(0, 0, getIntensity()));
 			g.fillPolygon(xCoord, yCoord, xCoord.length);
 		}
-		if (wire) {
+		if (wire) 
+		{
 			g.setColor(Color.BLACK);
 			g.drawPolygon(xCoord, yCoord, xCoord.length);
 		}
@@ -222,14 +220,14 @@ public class Polygon implements Serializable {
 	/** Prints out the vertices of the Polygon.*/
 	public void print () 
 	{
-		for (Vec4 v : polygon) {
+		for (Vec4 v : polygon) 
 			v.print();
-		}
 	}
 	/** Prints out detailed information on the Polygon.*/
 	public void detailedPrint () 
 	{
-		for (int a = 0; a < polygon.size(); a++) {
+		for (int a = 0; a < polygon.size(); a++) 
+		{
 			System.out.println("Vertex " + (a+1) + ":");
 			polygon.get(a).print();
 		}

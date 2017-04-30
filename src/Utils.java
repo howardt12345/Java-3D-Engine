@@ -10,12 +10,14 @@ public class Utils {
 	 */
 	public static ArrayList<Polyhedron> zSort (ArrayList<Polyhedron> data, Camera c)
 	{
-		try {
+		try
+		{
 			ArrayList<Polyhedron> tmp = data;
 			QuickSort (tmp, c, 0, data.size()-1);
 			return tmp;
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			return data;
 		}
 	}
@@ -41,12 +43,14 @@ public class Utils {
 	{
 		int a = left, b = right;
 		double pivot = Vec4.getDistance(cam.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getTransform().getPosition());
-		while (a <= b) {
+		while (a <= b) 
+		{
 			while (Vec4.getDistance(cam.getLookFrom(), data.get(a).getTransform().getPosition()) > pivot)
 				a++;
 			while (Vec4.getDistance(cam.getLookFrom(), data.get(b).getTransform().getPosition()) < pivot)
 				b--;
-			if (a <= b) {
+			if (a <= b) 
+			{
 				Swap (data, a, b);
 				a++;
 				b--;
@@ -70,12 +74,14 @@ public class Utils {
 	 */
 	public static Polyhedron polygonSort (Polyhedron data)
 	{
-		try {
+		try 
+		{
 			Polyhedron tmp = data;
 			quickSort (tmp.getPolygons(), 0, tmp.getPolygons().size()-1);
 			return tmp;
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			return data;
 		}
 	}
@@ -101,12 +107,14 @@ public class Utils {
 	{
 		int a = left, b = right;
 		double pivot = Vec4.getDistance(new Vec4 (0, 0, 1), data.get((int) (left + right)/2).getClosest(Vec4.center));
-		while (a <= b) {
+		while (a <= b) 
+		{
 			while (Double.compare(Vec4.getDistance(new Vec4 (0, 0, 1), data.get(a).getClosest(Vec4.center)), pivot) > 0)
 				a++;
 			while (Double.compare(Vec4.getDistance(new Vec4 (0, 0, 1), data.get(b).getClosest(Vec4.center)), pivot) < 0)
 				b--;
-			if (a <= b) {
+			if (a <= b) 
+			{
 				swap (data, a, b);
 				a++;
 				b--;
@@ -140,19 +148,18 @@ public class Utils {
 	 */
 	public static void print (int[] in) 
 	{
-		for (int a = 0; a < in.length; a++) {
+		for (int a = 0; a < in.length; a++) 
 			System.out.println(in[a]);
-		}
 	}
 	/** Print method for a 2D Array.
 	 * @param in the 2D Array to print.
 	 */
 	public static void print (int[][] in) 
 	{
-		for (int i = 0; i < in.length; i++) {
-			for (int j = 0; j < in[i].length; j++) {
+		for (int i = 0; i < in.length; i++) 
+		{
+			for (int j = 0; j < in[i].length; j++) 
 				System.out.print(" " + in[i][j]);
-			}
 			System.out.println();
 		}
 	}
@@ -161,19 +168,18 @@ public class Utils {
 	 */
 	public static void print (double[] in) 
 	{
-		for (int a = 0; a < in.length; a++) {
+		for (int a = 0; a < in.length; a++) 
 			System.out.println(in[a]);
-		}
 	}
 	/** Print method for a 2D Array.
 	 * @param in the 2D Array to print.
 	 */
 	public static void print (double[][] in) 
 	{
-		for (int i = 0; i < in.length; i++) {
-			for (int j = 0; j < in[i].length; j++) {
+		for (int i = 0; i < in.length; i++) 
+		{
+			for (int j = 0; j < in[i].length; j++) 
 				System.out.print(" " + in[i][j]);
-			}
 			System.out.println();
 		}
 	}
@@ -182,19 +188,18 @@ public class Utils {
 	 */
 	public static void print (String[] in) 
 	{
-		for (int a = 0; a < in.length; a++) {
+		for (int a = 0; a < in.length; a++) 
 			System.out.println(in[a]);
-		}
 	}
 	/** Print method for a 2D Array.
 	 * @param in the 2D Array to print.
 	 */
 	public static void print (String[][] in) 
 	{
-		for (int i = 0; i < in.length; i++) {
-			for (int j = 0; j < in[i].length; j++) {
+		for (int i = 0; i < in.length; i++)
+		{
+			for (int j = 0; j < in[i].length; j++) 
 				System.out.print(" " + in[i][j]);
-			}
 			System.out.println();
 		}
 	}
@@ -208,7 +213,8 @@ public class Utils {
 	*/
 	public static Object deepClone (Object object) 
 	{
-		try {
+		try 
+		{
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
 			oos.writeObject(object);
@@ -216,7 +222,8 @@ public class Utils {
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			return null;
 		}

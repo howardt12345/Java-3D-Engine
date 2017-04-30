@@ -151,13 +151,15 @@ public class Vec4 extends Transformation implements Serializable {
 	 * @param v the Vec4.
 	 * @param scalar the scalar.
 	 */
-	public static Vec4 multiply (Vec4 v, double scalar) {
+	public static Vec4 multiply (Vec4 v, double scalar) 
+	{
 		return new Vec4 (v.X * scalar, v.Y * scalar, v.Z * scalar);
 	}
 	/** Sets the magnitude of the Vec4.
 	 * @param value the value.
 	 */
-	public Vec4 SetMagnitude (double value) {
+	public Vec4 SetMagnitude (double value) 
+	{
 		double m = magnitude();
 		return new Vec4 (
 				X /= (m/value),
@@ -212,7 +214,8 @@ public class Vec4 extends Transformation implements Serializable {
 	public static Vec4 getCenter (ArrayList<Vec4> v) 
 	{
 		double tmpX = 0, tmpY = 0, tmpZ = 0, tmpW = 0;
-		for (Vec4 V : v) {
+		for (Vec4 V : v) 
+		{
 			tmpX += V.X;
 			tmpY += V.Y;
 			tmpZ += V.Z;
@@ -228,7 +231,8 @@ public class Vec4 extends Transformation implements Serializable {
 	 * @param p1 the first point on the line.
 	 * @param p2 the second point on the line.
 	 */
-	public static Vec4 pointOnLine (Vec4 v, Vec4 p1, Vec4 p2) {
+	public static Vec4 pointOnLine (Vec4 v, Vec4 p1, Vec4 p2) 
+	{
 		Vec4 u = Vec4.subtract(p2, p1);
     	Vec4 pq = Vec4.subtract(v, p1);
     	Vec4 w2 = Vec4.subtract(pq, Vec4.multiply(u, Vec4.dot(pq, u) / u.sqrMagnitude()));
@@ -237,7 +241,8 @@ public class Vec4 extends Transformation implements Serializable {
 	/** Gets the Vec4 on the line defined by 2 Vec4s.
 	 * @param p1 the first point on the line.
 	 * @param p2 the second point on the line.*/
-	public Vec4 onLine (Vec4 p1, Vec4 p2) {
+	public Vec4 onLine (Vec4 p1, Vec4 p2) 
+	{
 		Vec4 u = Vec4.subtract(p2, p1);
     	Vec4 pq = Vec4.subtract(this, p1);
     	Vec4 w2 = Vec4.subtract(pq, Vec4.multiply(u, Vec4.dot(pq, u) / u.sqrMagnitude()));

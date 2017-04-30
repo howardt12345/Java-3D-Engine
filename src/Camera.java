@@ -135,7 +135,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void addTranslate (double amount, Axis axis) 
 	{
-		switch (axis) {
+		switch (axis) 
+		{
 		case X:
 			transform.setPosX(transform.getPosX()+amount);
 			break;
@@ -154,7 +155,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void setTranslate (double amount, Axis axis) 
 	{
-		switch (axis) {
+		switch (axis) 
+		{
 		case X:
 			transform.setPosX(amount);
 			break;
@@ -173,7 +175,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void addRotate (double amount, Axis axis) 
 	{
-		switch (axis) {
+		switch (axis) 
+		{
 		case X:
 			transform.setRotX(transform.getRotX()+amount);
 			break;
@@ -192,7 +195,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void setRotate (double value, Axis axis) 
 	{
-		switch (axis) {
+		switch (axis) 
+		{
 		case X:
 			transform.setRotX(value);
 			break;
@@ -212,7 +216,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void addTranslate (double amount, Direction dir) 
 	{
-		switch (dir) {
+		switch (dir) 
+		{
 		case Forward:
 			transform.setPosX(transform.getPosX()+(Math.sin(transform.getRotation().getRadianY()) * 
 							Math.cos(transform.getRotation().getRadianX()) * amount));
@@ -258,7 +263,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void setTranslate (double value, Direction dir) 
 	{
-		switch (dir) {
+		switch (dir) 
+		{
 		case Forward:
 			transform.setPosZ(value);
 			break;
@@ -286,7 +292,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void addRotate (double amount, Direction dir) 
 	{
-		switch (dir) {
+		switch (dir) 
+		{
 		case Forward:
 			transform.setRotZ(transform.getRotZ()+amount);
 			break;
@@ -314,7 +321,8 @@ public class Camera extends GameObject implements Serializable {
 	 */
 	public void setRotate (double value, Direction dir) 
 	{
-		switch (dir) {
+		switch (dir) 
+		{
 		case Forward:
 			transform.setRotZ(value);
 			break;

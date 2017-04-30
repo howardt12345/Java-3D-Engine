@@ -21,16 +21,22 @@ public class Scene implements Serializable {
 	 */
 	public Scene (String filename, boolean multipleFiles) 
 	{
-		if (multipleFiles) {
-			try {
+		if (multipleFiles) 
+		{
+			try 
+			{
 				Scanner input = new Scanner(new FileReader(filename));
-				while (input.hasNextLine()) {
+				while (input.hasNextLine()) 
+				{
 					String next = input.nextLine();
-					if (next.toLowerCase().contains("ignore ")) {
-						try {
+					if (next.toLowerCase().contains("ignore ")) 
+					{
+						try 
+						{
 							continue;
 						}
-						catch (Exception e) {
+						catch (Exception e) 
+						{
 							break;
 						}
 					}
@@ -38,7 +44,8 @@ public class Scene implements Serializable {
 				}
 				input.close();
 			}
-			catch (Exception e) {
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}
@@ -49,56 +56,72 @@ public class Scene implements Serializable {
 	 */
 	private void ReadFile (String filename) 
 	{
-		try {
+		try 
+		{
 			Scanner input = new Scanner(new FileReader(filename));
 			Scanner line = new Scanner(input.nextLine());
-			while (input.hasNextLine() || line.hasNext()) {		
+			while (input.hasNextLine() || line.hasNext()) 
+			{		
 				String next = line.next().toLowerCase();
-				if (next.equals("ignore")) {
-					try {
+				if (next.equals("ignore")) 
+				{
+					try 
+					{
 						line = new Scanner(input.nextLine());			
 						continue;
 					}
-					catch (Exception e) {
+					catch (Exception e) 
+					{
 						break;
 					}
 				}
-				else {
-					if (next.equals("light")) {
+				else 
+				{
+					if (next.equals("light")) 
+					{
 						Light l = new Light (new Transform (
 								new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
 								new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
-						if (line.hasNextDouble()) l.setIntensity(line.nextDouble());
-						if (line.hasNextDouble()) l.setRange(line.nextDouble());
+						if (line.hasNextDouble()) 
+							l.setIntensity(line.nextDouble());
+						if (line.hasNextDouble()) 
+							l.setRange(line.nextDouble());
 						scene.add(l);
 					}
-					else if (next.equals("polyhedron")) {
+					else if (next.equals("polyhedron")) 
+					{
 						Vec4 v = new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble());
 						Rotation r = new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble());
 						Scale s = new Scale (line.nextDouble());
-						if (line.hasNextDouble()) s.setY(line.nextDouble());
-						if (line.hasNextDouble()) s.setZ(line.nextDouble());
+						if (line.hasNextDouble()) 
+							s.setY(line.nextDouble());
+						if (line.hasNextDouble()) 
+							s.setZ(line.nextDouble());
 						scene.add(new Polyhedron (new Transform (v, r, s), line.next(), line.nextBoolean()));
 					}
-					else if (next.equals("camera")) {
+					else if (next.equals("camera")) 
+					{
 						cam = new Camera (new Transform (
 								new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
 								new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
 					}
-					else {
+					else 
+					{
 						input.close();
 						line.close();
 						throw new IllegalArgumentException ("Line does not contain a GameObject.");
 					}
 				}
-				if (input.hasNextLine()) {
+				if (input.hasNextLine()) 
+				{
 					line = new Scanner(input.nextLine());			
 				}
 			}
 			input.close();
 			line.close();
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -125,9 +148,11 @@ public class Scene implements Serializable {
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<Polyhedron> tmp = new ArrayList<Polyhedron>();
 		int total = 0, active = 0, calculated = 0;
-		for (GameObject gameObject : scene) {
+		for (GameObject gameObject : scene) 
+		{
 			total++;
-			if (gameObject.isActive()) {
+			if (gameObject.isActive()) 
+			{
 				active++;
 				if (gameObject instanceof Light) 
 					lights.add((Light) gameObject);
@@ -135,20 +160,23 @@ public class Scene implements Serializable {
 					tmp.add((Polyhedron) gameObject);
 			}
 		}
-		for (Polyhedron p : Utils.zSort(tmp, cam)) {
+		for (Polyhedron p : Utils.zSort(tmp, cam)) 
+		{
 			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
 			double d1 = (Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
 					Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0)
 					? Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude()
 						: -Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude();
 			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());
-			if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getLookFrom(), v)) > 0) {
+			if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getLookFrom(), v)) > 0) 
+			{
 				p.paint(g, cam, lights, width, height, shiftX, shiftY, wire, shade);
 				calculated++;
 			}
 		}
 		end = System.currentTimeMillis();
-		if (debug) {
+		if (debug) 
+		{
 			g.setColor(Color.black);
 			g.drawRect(shiftX, shiftY, width, height);
 			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 75);
@@ -162,7 +190,8 @@ public class Scene implements Serializable {
 			g.drawString("LookFrom: " + cam.getLookFrom().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 60);
 			g.drawString("LookAt: " + cam.getLookAt().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 75);
 			g.drawString("LookUp: " + cam.getLookUp().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 90);
-			for (int a = 0; a < scene.size(); a++) {
+			for (int a = 0; a < scene.size(); a++) 
+			{
 				g.drawString("Object " + a + ": " + scene.get(a).getClass().getName(), 5, (a+1)*70+45);
 				g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+60);
 				g.drawString("Rotation: " + scene.get(a).getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+75);

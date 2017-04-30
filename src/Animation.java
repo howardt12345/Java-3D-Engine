@@ -156,20 +156,25 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 	/** Note that all transformations in Animation runs simultaneously. */
 	protected Integer doInBackground() throws Exception
 	{
-		while (loopInfinite || System.currentTimeMillis() < (startTime + (end*1000))) {
-			if (System.currentTimeMillis() > startTime+(start*1000)) {
+		while (loopInfinite || System.currentTimeMillis() < (startTime + (end*1000))) 
+		{
+			if (System.currentTimeMillis() > startTime+(start*1000)) 
+			{
 				for (Transformation t : transformations) {
-					if (t instanceof Vec4 && Double.compare(((Vec4)t).getW(), 0) == 0) {
+					if (t instanceof Vec4 && Double.compare(((Vec4)t).getW(), 0) == 0) 
+					{
 						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Direction.Right);
 						target.addTranslate((((Vec4)t).getY()/(end-start)/100)*loop, Direction.Down);
 						target.addTranslate((((Vec4)t).getZ()/(end-start)/100)*loop, Direction.Forward);
 					}
-					if (t instanceof Rotation && !(target instanceof Light)) {
+					if (t instanceof Rotation && !(target instanceof Light)) 
+					{
 						target.addRotate((((Rotation)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addRotate((((Rotation)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addRotate((((Rotation)t).getZ()/(end-start)/100)*loop, Axis.Z);
 					}
-					if (t instanceof Scale) {
+					if (t instanceof Scale) 
+					{
 						target.addScale((((Scale)t).getX()/(end-start)/100)*loop, Axis.X);
 						target.addScale((((Scale)t).getY()/(end-start)/100)*loop, Axis.Y);
 						target.addScale((((Scale)t).getZ()/(end-start)/100)*loop, Axis.Z);
@@ -179,7 +184,8 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 			}
 			Thread.sleep(10);
 		}
-		if (System.currentTimeMillis() > startTime + (end*1000)) this.cancel(true);
+		if (System.currentTimeMillis() > startTime + (end*1000)) 
+			this.cancel(true);
 		return 1;
 	}
 	/** Gets whether or not the Animation loops infinitely.*/
