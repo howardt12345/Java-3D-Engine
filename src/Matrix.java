@@ -160,7 +160,7 @@ public class Matrix {
 	/** Returns the XYZ Rotational matrix of the Rotation.
 	 * @param r the Rotation.
 	 */
-	public Matrix rotationXYZ (Rotation r) 
+	public static Matrix rotationXYZ (Rotation r) 
 	{
 		Matrix m = Matrix.multiply(Matrix.multiply(rotationX(r), rotationY(r)), rotationZ(r));
 		return m;
@@ -193,7 +193,7 @@ public class Matrix {
 	/** Returns the ZYX Rotational matrix of the Rotation.
 	 * @param r the Rotation.
 	 */
-	public Matrix rotationZYX (Rotation r) 
+	public static Matrix rotationZYX (Rotation r) 
 	{
 		Matrix m = Matrix.multiply(Matrix.multiply(rotationZ(r), rotationY(r)), rotationX(r));
 		return m;
@@ -201,7 +201,7 @@ public class Matrix {
 	/** Returns the Rotational Matrix on the X Axis of the Rotation.
 	 * @param r the rotation.
 	 */
-	public Matrix rotationX (Rotation r) 
+	public static Matrix rotationX (Rotation r) 
 	{
 		Matrix m = new Matrix ();
 		m.set(Math.cos(r.getRadianX()), 1, 1);
@@ -213,7 +213,7 @@ public class Matrix {
 	/** Returns the Rotational Matrix on the Y Axis of the Rotation.
 	 * @param r the rotation.
 	 */
-	public Matrix rotationY (Rotation r) 
+	public static Matrix rotationY (Rotation r) 
 	{
 		Matrix m = new Matrix ();
 		m.set(Math.cos(r.getRadianY()), 0, 0);
@@ -225,7 +225,7 @@ public class Matrix {
 	/** Returns the Rotational Matrix on the Z Axis of the Rotation.
 	 * @param r the rotation.
 	 */
-	public Matrix rotationZ (Rotation r) 
+	public static Matrix rotationZ (Rotation r) 
 	{
 		Matrix m = new Matrix ();
 		m.set(Math.cos(r.getRadianZ()), 0, 0);
@@ -266,6 +266,13 @@ public class Matrix {
 				get(2, 0)*v.getX() + get(2, 1)*v.getY() + get(2, 2)*v.getZ() + get(2, 3)*v.getW(),
 				get(3, 0)*v.getX() + get(3, 1)*v.getY() + get(3, 2)*v.getZ() + get(3, 3)*v.getW()
 			);
+	}
+	public void Multiply (Vec4 v)
+	{
+		v.setX(get(0, 0)*v.getX() + get(0, 1)*v.getY() + get(0, 2)*v.getZ() + get(0, 3)*v.getW()); 
+		v.setY(get(1, 0)*v.getX() + get(1, 1)*v.getY() + get(1, 2)*v.getZ() + get(1, 3)*v.getW());
+		v.setZ(get(2, 0)*v.getX() + get(2, 1)*v.getY() + get(2, 2)*v.getZ() + get(2, 3)*v.getW());
+		v.setW(get(3, 0)*v.getX() + get(3, 1)*v.getY() + get(3, 2)*v.getZ() + get(3, 3)*v.getW());
 	}
 	/** Multiplies two Matrices together.
 	 * @param m1 the first Matrix.
