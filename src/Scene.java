@@ -26,7 +26,7 @@ public class Scene implements Serializable {
 				Scanner input = new Scanner(new FileReader(filename));
 				while (input.hasNextLine()) {
 					String next = input.nextLine();
-					if (next.toLowerCase().contains("ignore")) {
+					if (next.toLowerCase().contains("ignore ")) {
 						try {
 							continue;
 						}
@@ -149,21 +149,24 @@ public class Scene implements Serializable {
 		}
 		end = System.currentTimeMillis();
 		if (debug) {
+			g.setColor(Color.black);
 			g.drawRect(shiftX, shiftY, width, height);
 			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 75);
 			g.drawString(active + " objects active", width + 2*shiftX - 150, height + 2*shiftY - 60);
 			g.drawString(calculated + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 45);
-			g.drawString((end - start) + "ms", width + 2*shiftX - 60, 30);
-			g.setColor(Color.black);
-			g.drawString(width + " X " + height, width > 1000 ? width-100 : width-75, 15);
+			g.drawString(1000/(end - start)+ "fps", width + 2*shiftX - 60, 30);
+			g.drawString(width + " X " + height, width > 1000 ? width-100+2*shiftX : width-75+2*shiftX, 15);
 			g.drawString("Camera:", 5, 15);
 			g.drawString("Position: " + cam.getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
 			g.drawString("Rotation: " + cam.getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, 45);
+			g.drawString("LookFrom: " + cam.getLookFrom().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 60);
+			g.drawString("LookAt: " + cam.getLookAt().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 75);
+			g.drawString("LookUp: " + cam.getLookUp().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 90);
 			for (int a = 0; a < scene.size(); a++) {
-				g.drawString("Object " + a + ": " + scene.get(a).getClass().getName(), 5, (a+1)*70);
-				g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+15);
-				g.drawString("Rotation: " + scene.get(a).getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+30);
-				g.drawString("Scale: " + scene.get(a).getTransform().getScale().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+45);
+				g.drawString("Object " + a + ": " + scene.get(a).getClass().getName(), 5, (a+1)*70+45);
+				g.drawString("Position: " + scene.get(a).getTransform().getPosition().asString("%1$.2f, %2$.2f, %3$.2f, %4$.0f"), 5, (a+1)*70+60);
+				g.drawString("Rotation: " + scene.get(a).getTransform().getRotation().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+75);
+				g.drawString("Scale: " + scene.get(a).getTransform().getScale().asString("%1$.2f, %2$.2f, %3$.2f"), 5, (a+1)*70+90);
 			}
 		}
 	}
