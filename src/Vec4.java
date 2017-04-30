@@ -88,14 +88,16 @@ public class Vec4 extends Transformation implements Serializable {
 	/** Returns a normalized directional Vec4 through dividing by the magnitude.*/
 	public Vec4 normalized () 
 	{
-		return new Vec4 (X/magnitude(), Y/magnitude(), Z/magnitude(), 0);
+		double m = magnitude();
+		return new Vec4 (X/m, Y/m, Z/m, 0);
 	}
 	/** Normalizes the directional Vec4 through dividing by the magnitude.*/
 	public void normalize () 
 	{
-		X /= magnitude();
-		Y /= magnitude();
-		Z /= magnitude();
+		double m = magnitude();
+		X /= m;
+		Y /= m;
+		Z /= m;
 	}
 	/** Dot Product of two Vec4s.
 	 * @param v1 Vec4 #1.
@@ -255,6 +257,10 @@ public class Vec4 extends Transformation implements Serializable {
 	public Vec4 Transform (Matrix m) 
 	{
 		return m.multiply(this);
+	}
+	public void transform (Matrix m)
+	{
+		m.Multiply(this);
 	}
 	/** Gets the normal of the 3 Vec4s.
 	 * @param v1 the first Vec4.
