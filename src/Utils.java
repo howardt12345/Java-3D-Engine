@@ -10,9 +10,14 @@ public class Utils {
 	 */
 	public static ArrayList<Polyhedron> zSort (ArrayList<Polyhedron> data, Camera c)
 	{
-		ArrayList<Polyhedron> tmp = data;
-		QuickSort (tmp, c, 0, data.size()-1);
-		return tmp;
+		try {
+			ArrayList<Polyhedron> tmp = data;
+			QuickSort (tmp, c, 0, data.size()-1);
+			return tmp;
+		}
+		catch (Exception e) {
+			return data;
+		}
 	}
 	/** Quick Sort.
 	 * @param data the input data.
