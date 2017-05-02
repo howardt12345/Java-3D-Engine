@@ -66,8 +66,7 @@ public class Polyhedron extends GameObject implements Serializable {
 		ArrayList<Polygon> tmp = new ArrayList<Polygon>();
 		for (int a = 0; a < m.object.size(); a++) 
 		{ //Goes through all polygons.
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
+			m.object.set(a, m.object.get(a).Transform(m.getTransformationMatrix())); //Translates and Rotates Polygon.
 			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
 			if (isVisible) 
 			{
@@ -97,11 +96,14 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param shiftY the screen shift on Y axis.
 	 * @param wire if wireframe enabled.
 	 * @param shade if shading enabled.
+	 * @return the number of polygons rendered.
 	 */
-	public void paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
+	public int paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
-		for (Polygon p : Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height)).object) 
+		Polyhedron P = Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height));
+		for (Polygon p : P.object) 
 			p.paint(g, width, height, shiftX, shiftY, wire, shade);
+		return P.object.size();
 	}
 	/** Prints the information on the Polyhedron.*/
 	public void print () 
