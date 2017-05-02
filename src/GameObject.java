@@ -35,6 +35,10 @@ public class GameObject implements Serializable {
 	{
 		this.transform = transform;
 	}
+	public Matrix getTransformationMatrix ()
+	{
+		return new Matrix (transform);
+	}
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
 	 * @param axis the Axis.
