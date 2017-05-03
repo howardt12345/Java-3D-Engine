@@ -1,6 +1,6 @@
 camera 0.0 2.0 -4.0 0.0 0.0 0.0
 light 0 4 0 0 0 0
-ignore polyhedron -7 2 20 -90 90 0 2 Spaceship01.txt true
+polyhedron -7 2 20 -90 90 0 2 Spaceship01.txt true
 polyhedron -7 2 20 -90 90 0 2 house.txt true
 polyhedron 0 2 20 -90 90 0 2 house.txt true
 polyhedron 7 2 20 -90 90 0 2 house.txt true
@@ -9,5 +9,5 @@ ignore light -20 4 0 0 0 0
 ignore light 0 4 20 0 0 0
 ignore light 0 4 -20 0 0 0
 polyhedron 0 0 0 90 0 0 4 4 2 plane.txt true
-polyhedron 0 8 0 90 0 0 4 4 2 plane.txt true
+ignore polyhedron 0 8 0 90 0 0 4 4 2 plane.txt true
 ignore polyhedron 0 25 25 -90 90 0 1 1 1 Enterprise.txt true

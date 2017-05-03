@@ -16,9 +16,11 @@ public class Main extends JPanel implements ActionListener {
     public static double dx = 0, dy = 0, speed = 0.3;
     static int tmp = 0;
     static boolean wire = true, shade = true, debug = true;
-    static Timer t = new Timer (1, new Main ());
+    static Timer t = new Timer (0, new Main ());
 	public static void main (String[] args) {
 		scene = new Scene ("scene.txt", true);
+		Animator anim = new Animator (f);
+		anim.add(new Animation (scene.getCamera(), new Vec4 (0, 0, 1, true), 0.1, true));
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -112,10 +114,10 @@ public class Main extends JPanel implements ActionListener {
 					scene.getCamera().addRotate(-1, Axis.Z);
 					break;
 				case KeyEvent.VK_7:
-					scene.getCamera().addRotate(-1, Axis.X);
+					scene.getCamera().addRotate(1, Axis.X);
 					break;
 				case KeyEvent.VK_8:
-					scene.getCamera().addRotate(1, Axis.X);
+					scene.getCamera().addRotate(-1, Axis.X);
 					break;
 				case KeyEvent.VK_9:
 					scene.getCamera().addRotate(-1, Axis.Y);
@@ -123,10 +125,16 @@ public class Main extends JPanel implements ActionListener {
 				case KeyEvent.VK_0:
 					scene.getCamera().addRotate(1, Axis.Y);
 					break;
+				case KeyEvent.VK_X:
+					anim.play();
+					break;
+				case KeyEvent.VK_Z:
+					anim.get(0).setloopInfinte(!anim.get(0).loopingInfinite());
+					System.out.println(anim.get(0).loopingInfinite());
+					break;
 				case KeyEvent.VK_SPACE:
 					Animator animator = new Animator (f);
-					animator.add(new Animation (scene.getCamera(), new Vec4 (0, 0, 1, true), 0.1, true));
-					/*animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
+					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
 					animator.add(new Animation (scene.get(1), new Rotation (0, 90, 0), 3, 6, 1));
 					animator.add(new Animation (scene.get(1), new Vec4 (-10, 5, 0, true), 5, 8, 1));
 					animator.add(new Animation (scene.get(2), new Rotation (-180, 0, 0), 3));
@@ -136,7 +144,7 @@ public class Main extends JPanel implements ActionListener {
 					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, 10, true), 2));
 					animator.add(new Animation (scene.get(3), new Vec4 (10, 0, 0, true), 2, 4, 1));
 					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, -10, true), 4, 6, 1));
-					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));*/
+					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));
 					animator.play();
 					break;
 				}
@@ -182,6 +190,7 @@ public class Main extends JPanel implements ActionListener {
 				else {
 					scene.getCamera().addRotate(dy, Axis.X);
 					scene.getCamera().addRotate(dx, Axis.Y);
+					scene.getCamera().addRotate(-dx, Axis.Z);
 				}
 				f.repaint();
 			}
@@ -198,11 +207,19 @@ public class Main extends JPanel implements ActionListener {
 		t.start();
 	}
 	public void paint (Graphics g) {
-		scene.paint(g, f.getWidth()-200, f.getHeight()-200, 100, 100, wire, shade, debug);
+		scene.paint(g, f.getWidth(), f.getHeight(), 0, 0, wire, shade, debug);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		if (Math.rint(scene.getCamera().getTransform().getRotZ()) > 0 ||
+				Math.rint(scene.getCamera().getTransform().getRotZ()) < 0) {
+			if (Math.rint(scene.getCamera().getTransform().getRotZ()) > 0) 
+				scene.getCamera().addRotate(-1, Axis.Z);
+			else scene.getCamera().addRotate(1, Axis.Z);
+			if (scene.getCamera().getTransform().getRotZ() > 45) scene.getCamera().setRotate(45, Axis.Z);
+			if (scene.getCamera().getTransform().getRotZ() < -45) scene.getCamera().setRotate(-45, Axis.Z);
+		}
 		f.repaint();
 	}
 }

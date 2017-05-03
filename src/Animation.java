@@ -160,7 +160,8 @@ public class Animation extends SwingWorker <Integer, String> implements Serializ
 		{
 			if (System.currentTimeMillis() > startTime+(start*1000)) 
 			{
-				for (Transformation t : transformations) {
+				for (Transformation t : transformations) 
+				{
 					if (t instanceof Vec4 && Double.compare(((Vec4)t).getW(), 0) == 0) 
 					{
 						target.addTranslate((((Vec4)t).getX()/(end-start)/100)*loop, Direction.Right);

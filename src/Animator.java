@@ -41,4 +41,11 @@ public class Animator implements Serializable {
 	{
 		anim.add(a);
 	}
+	/** Gets the Animation at the index.
+	 * @param index the index.
+	 */
+	public Animation get (int index)
+	{
+		return anim.get(index);
+	}
 }

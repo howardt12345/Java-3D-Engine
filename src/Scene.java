@@ -144,7 +144,7 @@ public class Scene implements Serializable {
 	 */
 	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade, boolean debug) 
 	{
-		long start = System.currentTimeMillis(), end;
+		long start = System.nanoTime(), end;
 		ArrayList<Light> lights = new ArrayList<Light>();
 		ArrayList<Polyhedron> tmp = new ArrayList<Polyhedron>();
 		int total = 0, active = 0, calculated = 0;
@@ -156,25 +156,26 @@ public class Scene implements Serializable {
 				active++;
 				if (gameObject instanceof Light) 
 					lights.add((Light) gameObject);
-				else if (gameObject instanceof Polyhedron)
-					tmp.add((Polyhedron) gameObject);
+				else if (gameObject instanceof Polyhedron) 
+				{
+					Polyhedron p = (Polyhedron) gameObject;
+					double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
+					double d1 = (Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
+							Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0)
+							? Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude()
+								: -Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude();
+					Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());
+					if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getLookFrom(), v)) > 0) 
+						tmp.add(p);
+				}
 			}
 		}
 		for (Polyhedron p : Utils.zSort(tmp, cam)) 
 		{
-			double d = p.getFarthest(Vec4.center).getFarthest(Vec4.center).magnitude();
-			double d1 = (Vec4.dot(Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).normalized(), 
-					Vec4.subtract(cam.getLookFrom(), cam.getLookAt()).normalized()) > 0)
-					? Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude()
-						: -Vec4.subtract(cam.getLookFrom(), p.transform.getPosition()).magnitude();
-			Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());
-			if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getLookFrom(), v)) > 0) 
-			{
-				p.paint(g, cam, lights, width, height, shiftX, shiftY, wire, shade);
-				calculated++;
-			}
+			p.paint(g, cam, lights, width, height, shiftX, shiftY, wire, shade);
+			calculated++;
 		}
-		end = System.currentTimeMillis();
+		end = System.nanoTime();
 		if (debug) 
 		{
 			g.setColor(Color.black);
@@ -182,7 +183,7 @@ public class Scene implements Serializable {
 			g.drawString(total + " objects total", width + 2*shiftX - 150, height + 2*shiftY - 75);
 			g.drawString(active + " objects active", width + 2*shiftX - 150, height + 2*shiftY - 60);
 			g.drawString(calculated + " objects calculated", width + 2*shiftX - 150, height + 2*shiftY - 45);
-			g.drawString(1000/(end - start)+ "fps", width + 2*shiftX - 60, 30);
+			g.drawString(1000000000/(end - start)+ "fps", width + 2*shiftX - 70, 30);
 			g.drawString(width + " X " + height, width > 1000 ? width-100+2*shiftX : width-75+2*shiftX, 15);
 			g.drawString("Camera:", 5, 15);
 			g.drawString("Position: " + cam.getTransform().getPosition().asString("%1$.5f, %2$.5f, %3$.5f, %4$.0f"), 5, 30);
