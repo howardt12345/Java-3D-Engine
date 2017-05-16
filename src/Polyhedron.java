@@ -64,17 +64,17 @@ public class Polyhedron extends GameObject implements Serializable {
 	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
 		ArrayList<Polygon> tmp = new ArrayList<Polygon>();
+		Matrix globalTM = m.getGlobalTransformationMatrix(),
+				viewPerspective = Matrix.multiply(cam.getPerspectiveMatrix(width, height), cam.getLookAtMatrix());
 		for (int a = 0; a < m.object.size(); a++) 
 		{ //Goes through all polygons.
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform.getScale()))); //Scales Polygon.
-			m.object.set(a, m.object.get(a).Transform(new Matrix (m.transform))); //Translates and Rotates Polygon.
+			m.object.set(a, m.object.get(a).Transform(globalTM)); //Translates and Rotates Polygon.
 			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
 			if (isVisible) 
 			{
 				m.object.get(a).calculateIntensity(lights); //Calculates light intensity.
 				float intensity = m.object.get(a).getIntensity(); //stores in tmp value.
-				m.object.set(a, m.object.get(a).Transform(cam.LookAtMatrix())); //Transforms Polygon to Camera space.
-				m.object.set(a, m.object.get(a).Transform(cam.perspectiveMatrix(width, height)).Normalized()); //Transforms Polygon to Projection space.
+				m.object.set(a, m.object.get(a).Transform(viewPerspective).Normalized()); //Transforms Polygon to Projection space.
 				if (m.object.get(a).getClosest(Vec4.center).getX() > -0.9 && m.object.get(a).getClosest(Vec4.center).getX() < 0.9
 						&& m.object.get(a).getClosest(Vec4.center).getY() > -0.9 && m.object.get(a).getClosest(Vec4.center).getY() < 0.9
 						&& m.object.get(a).getClosest(Vec4.center).getZ() < -cam.getNearClip() && m.object.get(a).getClosest(Vec4.center).getZ() > -cam.getFarClip()) 
@@ -97,11 +97,14 @@ public class Polyhedron extends GameObject implements Serializable {
 	 * @param shiftY the screen shift on Y axis.
 	 * @param wire if wireframe enabled.
 	 * @param shade if shading enabled.
+	 * @return the number of polygons rendered.
 	 */
-	public void paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
+	public int paint (Graphics g, Camera cam, ArrayList<Light> lights, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
 	{
-		for (Polygon p : Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height)).object) 
+		Polyhedron P = Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height));
+		for (Polygon p : P.object) 
 			p.paint(g, width, height, shiftX, shiftY, wire, shade);
+		return P.object.size();
 	}
 	/** Prints the information on the Polyhedron.*/
 	public void print () 

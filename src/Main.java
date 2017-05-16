@@ -60,43 +60,43 @@ public class Main extends JPanel implements ActionListener {
 					break;
 				case KeyEvent.VK_UP:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, 0.5, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_DOWN:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, -0.5, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_LEFT:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (-0.5, 0, 0, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_RIGHT:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0.5, 0, 0, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_COMMA:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0, -0.5, 0, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_PERIOD:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0.5, 0, true), 0.25), f).play();
-					scene.get(tmp).getTransform().getPosition().print();
+					scene.get(tmp).getLocalTransform().getLocalPosition().print();
 					break;
 				case KeyEvent.VK_OPEN_BRACKET:
 					new Animator (new Animation (scene.get(tmp), new Rotation (0, 15, 0), 0.5), f).play();
-					scene.get(tmp).getTransform().getRotation().print();
+					scene.get(tmp).getLocalTransform().getLocalRotation().print();
 					break;
 				case KeyEvent.VK_CLOSE_BRACKET:
 					new Animator (new Animation (scene.get(tmp), new Rotation (0, -15, 0), 0.5), f).play();
-					scene.get(tmp).getTransform().getRotation().print();
+					scene.get(tmp).getLocalTransform().getLocalRotation().print();
 					break;
 				case KeyEvent.VK_QUOTE:
 					new Animator (new Animation (scene.get(tmp), new Rotation (-15, 0, 0), 0.5), f).play();
-					scene.get(tmp).getTransform().getRotation().print();
+					scene.get(tmp).getLocalTransform().getLocalRotation().print();
 					break;
 				case KeyEvent.VK_SEMICOLON:
 					new Animator (new Animation (scene.get(tmp), new Rotation (15, 0, 0), 0.5), f).play();
-					scene.get(tmp).getTransform().getRotation().print();
+					scene.get(tmp).getLocalTransform().getLocalRotation().print();
 					break;
 				case KeyEvent.VK_SLASH:
 					wire = !wire;
@@ -212,13 +212,13 @@ public class Main extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		if (Math.rint(scene.getCamera().getTransform().getRotZ()) > 0 ||
-				Math.rint(scene.getCamera().getTransform().getRotZ()) < 0) {
-			if (Math.rint(scene.getCamera().getTransform().getRotZ()) > 0) 
+		if (Math.rint(scene.getCamera().getLocalTransform().getRotZ()) > 0 ||
+				Math.rint(scene.getCamera().getLocalTransform().getRotZ()) < 0) {
+			if (Math.rint(scene.getCamera().getLocalTransform().getRotZ()) > 0) 
 				scene.getCamera().addRotate(-1, Axis.Z);
 			else scene.getCamera().addRotate(1, Axis.Z);
-			if (scene.getCamera().getTransform().getRotZ() > 45) scene.getCamera().setRotate(45, Axis.Z);
-			if (scene.getCamera().getTransform().getRotZ() < -45) scene.getCamera().setRotate(-45, Axis.Z);
+			if (scene.getCamera().getLocalTransform().getRotZ() > 45) scene.getCamera().setRotate(45, Axis.Z);
+			if (scene.getCamera().getLocalTransform().getRotZ() < -45) scene.getCamera().setRotate(-45, Axis.Z);
 		}
 		f.repaint();
 	}

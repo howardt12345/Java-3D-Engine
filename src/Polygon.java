@@ -142,7 +142,7 @@ public class Polygon implements Serializable {
 	 */
 	public void calculateIntensity (ArrayList<Light> lights) 
 	{
-		float tmp = 0.15f;
+		float tmp = 0;
 		for(int a = 1; a <= lights.size(); a++) 
 			tmp += (lights.get(a-1).diffuse(this)/(a+1));
 		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
