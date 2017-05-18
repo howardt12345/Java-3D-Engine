@@ -52,7 +52,7 @@ public class Matrix {
 	/** Identity Matrix. */
 	public static Matrix identity () 
 	{
-		Matrix m = new Matrix ();
+		Matrix m = new Matrix (); 
 		for (int a = 0; a < m.getRow(); a++) 
 		{
 			for (int b = 0; b < m.getColumn(); b++) 
