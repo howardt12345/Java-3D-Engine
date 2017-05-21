@@ -15,9 +15,15 @@ public class Matrix {
 	 */
 	public Matrix (Transform t) 
 	{
+<<<<<<< HEAD
 		this.matrix = this.multiply(new Matrix (t.getLocalPosition()))
 				.multiply(new Matrix (t.getLocalRotation()))
 				.multiply(new Matrix (t.getLocalScale())).matrix;
+=======
+		this.matrix = this.multiply(new Matrix (t.getPosition()))
+				.multiply(new Matrix (t.getRotation()))
+				.multiply(new Matrix (t.getScale())).matrix;
+>>>>>>> origin/master
 	}
 	/** New Matrix from 2D array.*/
 	public Matrix (double[][] matrix) 
