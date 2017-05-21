@@ -32,7 +32,7 @@ public class Matrix {
 		if (t instanceof Vec4) 
 			Translate ((Vec4) t);
 		else if (t instanceof Rotation) 
-			RotateYXZ ((Rotation) t);
+			RotateXYZ ((Rotation) t);
 		else if (t instanceof Scale) 
 			Scale ((Scale) t);
 	}
@@ -142,11 +142,11 @@ public class Matrix {
 	/** Applies YXZ rotation to Matrix.
 	 * @param r the Rotation.
 	 */
-	private void RotateYXZ (Rotation r) 
+	private void RotateXYZ (Rotation r) 
 	{
 		this.matrix = Matrix.multiply(Matrix.multiply(
-				rotationY(r), 
-				rotationX(r)), 
+				rotationX(r), 
+				rotationY(r)), 
 				rotationZ(r)).matrix;
 	}
 	/** Returns the XYZ Rotational matrix of the Rotation.
