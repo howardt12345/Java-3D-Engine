@@ -68,11 +68,8 @@ public class Polyhedron extends GameObject implements Serializable {
 				viewPerspective = Matrix.multiply(cam.getPerspectiveMatrix(width, height), cam.getLookAtMatrix());
 		for (int a = 0; a < m.object.size(); a++) 
 		{ //Goes through all polygons.
-<<<<<<< HEAD
 			m.object.set(a, m.object.get(a).Transform(globalTM)); //Translates and Rotates Polygon.
-=======
 			m.object.set(a, m.object.get(a).Transform(m.getTransformationMatrix())); //Translates and Rotates Polygon.
->>>>>>> origin/master
 			boolean isVisible = cam.isVisible(m.object.get(a)); //Calculates Polygon visibility.
 			if (isVisible) 
 			{

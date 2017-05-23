@@ -46,7 +46,6 @@ public class GameObject implements Serializable {
 	{
 		this.transform = transform;
 	}
-<<<<<<< HEAD
 	/** Gets the local transformation matrix of this GameObject.*/
 	public Matrix getLocalTransformationMatrix ()
 	{
@@ -113,12 +112,10 @@ public class GameObject implements Serializable {
 		}
 		return s;
 	}
-=======
 	public Matrix getTransformationMatrix ()
 	{
 		return new Matrix (transform);
 	}
->>>>>>> origin/master
 	/** Adds an amount to the specified Axis. 
 	 * @param amount the amount.
 	 * @param axis the Axis.
@@ -375,7 +372,6 @@ public class GameObject implements Serializable {
 	{
 		active = value;
 	}
-<<<<<<< HEAD
 	/** Sets the parent of this GameObject.
 	 * @param g the new parent.
 	 */
@@ -385,6 +381,3 @@ public class GameObject implements Serializable {
 		//transform = new Transform (getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	}
 }
-=======
-}
->>>>>>> origin/master
