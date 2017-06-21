@@ -58,6 +58,9 @@ public class Main extends JPanel implements ActionListener {
 				case KeyEvent.VK_E:
 					scene.getCamera().addTranslate(speed, Direction.Up);
 					break;
+				case KeyEvent.VK_R:
+					scene = new Scene("scene.txt", true);
+					break;
 				case KeyEvent.VK_UP:
 					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, 0.5, true), 0.25), f).play();
 					scene.get(tmp).getLocalTransform().getLocalPosition().print();
@@ -190,7 +193,6 @@ public class Main extends JPanel implements ActionListener {
 				else {
 					scene.getCamera().addRotate(dy, Axis.X);
 					scene.getCamera().addRotate(dx, Axis.Y);
-					scene.getCamera().addRotate(-dx, Axis.Z);
 				}
 				f.repaint();
 			}
@@ -212,14 +214,6 @@ public class Main extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		if (Math.rint(scene.getCamera().getLocalTransform().getRotZ()) > 0 ||
-				Math.rint(scene.getCamera().getLocalTransform().getRotZ()) < 0) {
-			if (Math.rint(scene.getCamera().getLocalTransform().getRotZ()) > 0) 
-				scene.getCamera().addRotate(-1, Axis.Z);
-			else scene.getCamera().addRotate(1, Axis.Z);
-			if (scene.getCamera().getLocalTransform().getRotZ() > 45) scene.getCamera().setRotate(45, Axis.Z);
-			if (scene.getCamera().getLocalTransform().getRotZ() < -45) scene.getCamera().setRotate(-45, Axis.Z);
-		}
 		f.repaint();
 	}
 }

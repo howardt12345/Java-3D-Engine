@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ public class Polygon implements Serializable {
 	private ArrayList <Vec4> polygon;
 	/** Whether or not the Polygon is visible.*/
 	private boolean visible = true;
-	/** The Light Intensity on a Polygon.*/
+	/** The light intensity on the Polygon.*/
 	private float intensity;
 	/** new Polygon.*/
 	public Polygon () 
@@ -144,7 +145,12 @@ public class Polygon implements Serializable {
 	{
 		float tmp = 0;
 		for(int a = 1; a <= lights.size(); a++) 
-			tmp += (lights.get(a-1).diffuse(this)/(a+1));
+		{
+			if (lights.get(a-1) instanceof Light_Point)
+				tmp += (((Light_Point) lights.get(a-1)).calculate(this)/(a+1));
+			else if (lights.get(a-1) instanceof Light_Directional)
+				tmp += (((Light_Directional) lights.get(a-1)).calculate(this)/(a+1));
+		}
 		setIntensity (tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp);
 	}
 	/** Returns the number of vertices in polygon.*/
@@ -196,8 +202,9 @@ public class Polygon implements Serializable {
 	 * @param shiftY the screen shift on Y axis.
 	 * @param wire if wireframe enabled.
 	 * @param shade if shading enabled.
+	 * @param color the Color of the Polyhedron.
 	 */
-	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade) 
+	public void paint (Graphics g, int width, int height, int shiftX, int shiftY, boolean wire, boolean shade, Color color) 
 	{
 		int[] xCoord = new int [size()],
 		yCoord = new int [size()];
@@ -208,7 +215,9 @@ public class Polygon implements Serializable {
 		}
 		if (shade) 
 		{
-			g.setColor(Color.getHSBColor(0, 0, getIntensity()));
+			float[] hsb = new float[3];
+			hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(),color.getBlue(), hsb);
+			g.setColor(Color.getHSBColor(hsb[0], hsb[1], getIntensity()*hsb[2]));
 			g.fillPolygon(xCoord, yCoord, xCoord.length);
 		}
 		if (wire) 

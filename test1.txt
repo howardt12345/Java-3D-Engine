@@ -1,2 +1,0 @@
-polyhedron 0 -3 0 0 0 0 1 terrain.txt true
-ignore polyhedron 0 0 0 -90 0 0 5 grid.txt true

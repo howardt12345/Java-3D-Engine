@@ -1,8 +1,7 @@
-import java.io.*;
 
 @SuppressWarnings("serial")
-/** The Rotation Class, extends Transformation and implements Serializable.*/
-public class Rotation extends Transformation implements Serializable {
+/** The Rotation Class, extends Transformation.*/
+public class Rotation extends Transformation {
 	/** Creates a new Rotation with a X value, Y value, and Z value.
 	 * @param x the X value.
 	 * @param y the Y value.

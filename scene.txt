@@ -1,3 +1,2 @@
 test.txt
 ignore CubeGrid.txt
-ignore test1.txt

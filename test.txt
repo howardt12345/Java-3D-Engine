@@ -1,13 +1,13 @@
-camera 0.0 2.0 -4.0 0.0 0.0 0.0
-light 0 4 0 0 0 0
-polyhedron -7 2 20 -90 90 0 2 Spaceship01.txt true
-polyhedron -7 2 20 -90 90 0 2 house.txt true
-polyhedron 0 2 20 -90 90 0 2 house.txt true
-polyhedron 7 2 20 -90 90 0 2 house.txt true
-ignore light 20 4 0 0 0 0
-ignore light -20 4 0 0 0 0
-ignore light 0 4 20 0 0 0
-ignore light 0 4 -20 0 0 0
-polyhedron 0 0 0 90 0 0 4 4 2 plane.txt true
-ignore polyhedron 0 8 0 90 0 0 4 4 2 plane.txt true
-ignore polyhedron 0 25 25 -90 90 0 1 1 1 Enterprise.txt true
+add: camera 0.0 2.0 -4.0 0.0 0.0 0.0
+add: light point 0 4 0 0 0 0
+ignore add: polyhedron -7 2 20 -90 90 0 2 Spaceship01.txt true true
+add: polyhedron -7 2 20 -90 90 0 2 house.txt true true red
+add: polyhedron 0 2 20 -90 90 0 2 house.txt true true green
+add: polyhedron 7 2 20 -90 90 0 2 house.txt true true #0000FF
+ignore add: light point 20 4 0 0 0 0
+ignore add: light point -20 4 0 0 0 0
+ignore add: light point 0 4 20 0 0 0
+ignore add: light point 0 4 -20 0 0 0
+add: polyhedron 0 0 0 90 0 0 4 4 2 plane.txt true false gray
+ignore add: polyhedron 0 8 0 90 0 0 4 4 2 plane.txt true false gray
+ignore polyhedron 0 25 25 -90 90 0 1 1 1 Enterprise.txt true true 

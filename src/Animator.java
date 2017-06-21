@@ -1,9 +1,10 @@
+
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 /** The Animator class, implements Serializable. */
+@SuppressWarnings("serial")
 public class Animator implements Serializable {
 	/** The Animations to run.*/
 	private ArrayList<Animation> anim = new ArrayList<Animation>();
@@ -45,6 +46,14 @@ public class Animator implements Serializable {
 	public void add (Animation a) 
 	{
 		anim.add(a);
+	}
+	/** Clears all the animations in the Animator. */
+	public void clear ()
+	{
+		for (Animation a : anim) 
+		{
+			anim.remove(a);
+		}
 	}
 	/** Gets the Animation at the index.
 	 * @param index the index.

@@ -1,8 +1,7 @@
-import java.io.*;
 
 @SuppressWarnings("serial")
-/** The Scale class, extends Transformation and implements Serializable.*/
-public class Scale extends Transformation implements Serializable {
+/** The Scale class, extends Transformation.*/
+public class Scale extends Transformation {
 	/** Creates a new Scale from 3 scale values.
 	 * @param x The scale along the X axis.
 	 * @param y The scale along the Y axis.

@@ -1,3 +1,4 @@
+
 /** The Matrix class.*/
 public class Matrix {
 	/** The Matrix.*/
@@ -18,9 +19,6 @@ public class Matrix {
 		this.matrix = this.multiply(new Matrix (t.getLocalPosition()))
 				.multiply(new Matrix (t.getLocalRotation()))
 				.multiply(new Matrix (t.getLocalScale())).matrix;
-		this.matrix = this.multiply(new Matrix (t.getLocalPosition()))
-				.multiply(new Matrix (t.getLocalRotation()))
-				.multiply(new Matrix (t.getLocalScale())).matrix;
 	}
 	/** New Matrix from 2D array.*/
 	public Matrix (double[][] matrix) 
@@ -35,7 +33,7 @@ public class Matrix {
 		if (t instanceof Vec4) 
 			Translate ((Vec4) t);
 		else if (t instanceof Rotation) 
-			RotateXYZ ((Rotation) t);
+			RotateZYX ((Rotation) t);
 		else if (t instanceof Scale) 
 			Scale ((Scale) t);
 	}
@@ -55,7 +53,7 @@ public class Matrix {
 	/** Identity Matrix. */
 	public static Matrix identity () 
 	{
-		Matrix m = new Matrix (); 
+		Matrix m = new Matrix ();
 		for (int a = 0; a < m.getRow(); a++) 
 		{
 			for (int b = 0; b < m.getColumn(); b++) 
@@ -145,12 +143,12 @@ public class Matrix {
 	/** Applies YXZ rotation to Matrix.
 	 * @param r the Rotation.
 	 */
-	private void RotateXYZ (Rotation r) 
+	private void RotateZYX (Rotation r) 
 	{
 		this.matrix = Matrix.multiply(Matrix.multiply(
-				rotationX(r), 
+				rotationZ(r), 
 				rotationY(r)), 
-				rotationZ(r)).matrix;
+				rotationX(r)).matrix;
 	}
 	/** Returns the XYZ Rotational matrix of the Rotation.
 	 * @param r the Rotation.
