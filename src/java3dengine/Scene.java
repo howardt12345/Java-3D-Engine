@@ -98,44 +98,81 @@ public class Scene implements Serializable {
 							switch (next)
 							{
 							case "point": //If point light
-								Light_Point lp = new Light_Point (new Transform (
-										new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
-										new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
-								if (line.hasNextDouble()) 
-									lp.setIntensity(line.nextDouble());
-								if (line.hasNextDouble()) 
-									lp.setRange(line.nextDouble());
-								scene.add(lp);
-								System.out.println("Add: Light_Point to index " + scene.indexOf(lp));
+								try 
+								{
+									Light_Point lp = new Light_Point (new Transform (
+											new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
+											new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
+									if (line.hasNextDouble()) 
+										lp.setIntensity(line.nextDouble());
+									if (line.hasNextDouble()) 
+										lp.setRange(line.nextDouble());
+									scene.add(lp);
+									System.out.println("Add: Light_Point to index " + scene.indexOf(lp));
+								}
+								catch (Exception e)
+								{
+									input.close();
+									line.close();
+									throw new IllegalArgumentException ("Invalid definitions for: Light_Point.");
+								}
 								break;
 							case "directional"://If directional light
-								Light_Directional ld = new Light_Directional (new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble()));
-								if (line.hasNextDouble()) 
-									ld.setIntensity(line.nextDouble());
-								scene.add(ld);
-								System.out.println("Add: Light_Directional to index " + scene.indexOf(ld));
+								try
+								{
+									Light_Directional ld = new Light_Directional (new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble()));
+									if (line.hasNextDouble()) 
+										ld.setIntensity(line.nextDouble());
+									scene.add(ld);
+									System.out.println("Add: Light_Directional to index " + scene.indexOf(ld));
+								}
+								catch (Exception e)
+								{
+									input.close();
+									line.close();
+									throw new IllegalArgumentException ("Invalid definitions for: Light_Directional.");
+								}
 								break;
 							}
+							
 							break;
 						case "polyhedron": //If Polyhedron
-							Vec4 v = new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble());
-							Rotation r = new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble());
-							Scale s = new Scale (line.nextDouble());
-							if (line.hasNextDouble()) 
-								s.setY(line.nextDouble());
-							if (line.hasNextDouble()) 
-								s.setZ(line.nextDouble());
-							String fn = line.next();
-							Polyhedron p = new Polyhedron (new Transform (v, r, s), fn, line.nextBoolean(), line.nextBoolean());
-							if (line.hasNext()) p.setColor(line.next());
-							scene.add(p);
-							System.out.println("Add: " + fn + " to index " + scene.indexOf(p));
+							try 
+							{
+								Vec4 v = new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble());
+								Rotation r = new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble());
+								Scale s = new Scale (line.nextDouble());
+								if (line.hasNextDouble()) 
+									s.setY(line.nextDouble());
+								if (line.hasNextDouble()) 
+									s.setZ(line.nextDouble());
+								String fn = line.next();
+								Polyhedron p = new Polyhedron (new Transform (v, r, s), fn, line.nextBoolean(), line.nextBoolean());
+								if (line.hasNext()) p.setColor(line.next());
+								scene.add(p);
+								System.out.println("Add: " + fn + " to index " + scene.indexOf(p));
+							}
+							catch (Exception e)
+							{
+								input.close();
+								line.close();
+								throw new IllegalArgumentException ("Invalid definitions for: Polyhedron.");
+							}
 							break;
 						case "camera": //if Camera
-							cam = new Camera (new Transform (
-									new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
-									new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
-							System.out.println("Add: Camera.");
+							try
+							{
+								cam = new Camera (new Transform (
+										new Vec4 (line.nextDouble(), line.nextDouble(), line.nextDouble()), 
+										new Rotation (line.nextDouble(), line.nextDouble(), line.nextDouble())));
+								System.out.println("Add: Camera.");
+							}
+							catch (Exception e)
+							{
+								input.close();
+								line.close();
+								throw new IllegalArgumentException ("Invalid definitions for: Camera.");
+							}
 							break;
 						default: //If anything else
 							input.close();
