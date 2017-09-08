@@ -1,6 +1,6 @@
+import java3dengine.*;
 import javax.swing.*;
 import javax.swing.Timer;
-
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,8 +19,6 @@ public class Main extends JPanel implements ActionListener {
     static Timer t = new Timer (0, new Main ());
 	public static void main (String[] args) {
 		scene = new Scene ("scene.txt", true);
-		Animator anim = new Animator (f);
-		anim.add(new Animation (scene.getCamera(), new Vec4 (0, 0, 1, true), 0.1, true));
 		f.addKeyListener(new KeyListener () 
 		{
 			public void keyTyped(KeyEvent e) 
@@ -62,44 +60,44 @@ public class Main extends JPanel implements ActionListener {
 					scene = new Scene("scene.txt", true);
 					break;
 				case KeyEvent.VK_UP:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, 0.5, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(0.5, Axis.Z);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_DOWN:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0, -0.5, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(-0.5, Axis.Z);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_LEFT:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (-0.5, 0, 0, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(0.5, Axis.X);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_RIGHT:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (0.5, 0, 0, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(-0.5, Axis.X);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_COMMA:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (0, -0.5, 0, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(0.5, Axis.Y);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_PERIOD:
-					new Animator (new Animation (scene.get(tmp), new Vec4 (0, 0.5, 0, true), 0.25), f).play();
-					scene.get(tmp).getLocalTransform().getLocalPosition().print();
+					scene.get(tmp).addTranslate(-0.5, Axis.Y);
+					scene.get(tmp).getLocalT().getLocalP().print();
 					break;
 				case KeyEvent.VK_OPEN_BRACKET:
-					new Animator (new Animation (scene.get(tmp), new Rotation (0, 15, 0), 0.5), f).play();
-					scene.get(tmp).getLocalTransform().getLocalRotation().print();
+					scene.get(tmp).addRotate(1, Axis.Y);
+					scene.get(tmp).getLocalT().getLocalR().print();
 					break;
 				case KeyEvent.VK_CLOSE_BRACKET:
-					new Animator (new Animation (scene.get(tmp), new Rotation (0, -15, 0), 0.5), f).play();
-					scene.get(tmp).getLocalTransform().getLocalRotation().print();
+					scene.get(tmp).addRotate(-1, Axis.Y);
+					scene.get(tmp).getLocalT().getLocalR().print();
 					break;
 				case KeyEvent.VK_QUOTE:
-					new Animator (new Animation (scene.get(tmp), new Rotation (-15, 0, 0), 0.5), f).play();
-					scene.get(tmp).getLocalTransform().getLocalRotation().print();
+					scene.get(tmp).addRotate(1, Axis.X);
+					scene.get(tmp).getLocalT().getLocalR().print();
 					break;
 				case KeyEvent.VK_SEMICOLON:
-					new Animator (new Animation (scene.get(tmp), new Rotation (15, 0, 0), 0.5), f).play();
-					scene.get(tmp).getLocalTransform().getLocalRotation().print();
+					scene.get(tmp).addRotate(-1, Axis.X);
+					scene.get(tmp).getLocalT().getLocalR().print();
 					break;
 				case KeyEvent.VK_SLASH:
 					wire = !wire;
@@ -128,27 +126,14 @@ public class Main extends JPanel implements ActionListener {
 				case KeyEvent.VK_0:
 					scene.getCamera().addRotate(1, Axis.Y);
 					break;
-				case KeyEvent.VK_X:
-					anim.play();
-					break;
-				case KeyEvent.VK_Z:
-					anim.get(0).setloopInfinte(!anim.get(0).loopingInfinite());
-					System.out.println(anim.get(0).loopingInfinite());
-					break;
 				case KeyEvent.VK_SPACE:
-					Animator animator = new Animator (f);
-					animator.add(new Animation (scene.get(1), new Vec4 (10, 0, 10, true), 5));
-					animator.add(new Animation (scene.get(1), new Rotation (0, 90, 0), 3, 6, 1));
-					animator.add(new Animation (scene.get(1), new Vec4 (-10, 5, 0, true), 5, 8, 1));
-					animator.add(new Animation (scene.get(2), new Rotation (-180, 0, 0), 3));
-					animator.add(new Animation (scene.get(2), new Rotation (270, 90, 0), 3, 6, 1));
-					animator.add(new Animation (scene.get(2), new Rotation (-90, 90, 0), 6, 8, 1));
-					animator.add(new Animation (scene.get(2), new Vec4 (0, 5, 0, true), 6, 8, 1));
-					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, 10, true), 2));
-					animator.add(new Animation (scene.get(3), new Vec4 (10, 0, 0, true), 2, 4, 1));
-					animator.add(new Animation (scene.get(3), new Vec4 (0, 0, -10, true), 4, 6, 1));
-					animator.add(new Animation (scene.get(3), new Vec4 (-10, 0, 0, true), 6, 8, 1));
-					animator.play();
+					Animator anim = new Animator (f);
+					anim.add(new Animation(new AnimationClip() {
+						public void animate() throws Exception {
+							scene.getCamera().addTranslate(0.01, Direction.Forward);
+						}
+					}, 5));
+					anim.play();
 					break;
 				}
 				System.out.println(e.getKeyChar());
