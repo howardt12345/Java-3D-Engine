@@ -35,10 +35,7 @@ public class Polyhedron extends GameObject {
 	 * @param cull whether or not this Polyhedron will be culled.
 	 * @param color the Color of this Polyhedron.
 	 */
-	public Polyhedron (Transform t, 
-			String filename, 
-			boolean active, boolean cull, 
-			Color color)
+	public Polyhedron (Transform t, String filename, boolean active, boolean cull, Color color)
 	{
 		super (t, cull);
 		super.setActive(active);
@@ -53,10 +50,7 @@ public class Polyhedron extends GameObject {
 	 * @param cull whether or not this Polyhedron will be culled.
 	 * @param color the Color of this Polyhedron.
 	 */
-	public Polyhedron (Transform t, 
-			String filename, 
-			boolean active, boolean cull, 
-			String color)
+	public Polyhedron (Transform t, String filename, boolean active, boolean cull, String color)
 	{
 		super (t, cull);
 		super.setActive(active);
