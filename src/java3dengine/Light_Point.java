@@ -47,7 +47,7 @@ public class Light_Point extends Light {
 	 * @param p the Polygon.
 	 * @return the diffuse intensity.
 	 */
-	public double calculate (Polygon p) 
+	public synchronized double calculate (Polygon p) 
 	{
 		return (range/Vec4.getDistance(getLocalT().getLocalP(), p.getCenter()))*intensity
 				*(Vec4.dot(Vec4.subtract(getLocalT().getLocalP(), p.getCenter()).normalized(), p.getNormal().normalized()));

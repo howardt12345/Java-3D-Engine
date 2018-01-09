@@ -3,7 +3,10 @@ package java3dengine;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.List;
 import java.awt.*;
+import java.util.stream.IntStream;
+
 
 @SuppressWarnings("serial")
 /** The Polyhedron Class, extends GameObject.*/
@@ -122,16 +125,15 @@ public class Polyhedron extends GameObject {
 			double width, double height)
 	{
 		Polyhedron m = (Polyhedron) Utils.deepClone(polyhedron); //Deep Clones model.
-		ArrayList<Polygon> tmp = new ArrayList<Polygon>();
+		List<Polygon> tmp = Collections.synchronizedList(new ArrayList<Polygon>());
 		Matrix globalTM = m.getGlobalTM(),
 				viewPerspective = Matrix.multiply(cam.getPerspectiveMatrix(width, height), cam.getLookAtMatrix());
-		for (int a = 0; a < m.polygons.size(); a++)
-		{ //Goes through all polygons.
+		IntStream.range(0, m.polygons.size()).forEach(a -> {
 			boolean isVisible = cam.isVisible(m.polygons.get(a).getCenter().Transform(globalTM), m.polygons.get(a).getNormal().Transform(globalTM)); //Calculates Polygon visibility.
 			if (isVisible)
 			{
 				m.polygons.get(a).transform(globalTM);//Translates and Rotates Polygon.
-				float intensity = m.polygons.get(a).calculateIntensity(lights); //Calculates light intensity.
+				m.polygons.get(a).calculateIntensity(lights); //Calculates light intensity.
 				m.polygons.get(a).transform(viewPerspective);//Transforms Polygon to Projection space.
 				m.polygons.get(a).Normalize();
 				if (m.polygons.get(a).getClosest(Vec4.center).getX() > -0.9
@@ -141,13 +143,13 @@ public class Polyhedron extends GameObject {
 					&& m.polygons.get(a).getClosest(Vec4.center).getZ() < -cam.getNearClip() 
 					&& m.polygons.get(a).getClosest(Vec4.center).getZ() > -cam.getFarClip())
 				{
-					m.polygons.get(a).setIntensity(intensity); //loads tmp value.
 					tmp.add(m.polygons.get(a));
 				}
 			}
-		}
-		Utils.polygonSort(tmp);
-		m.polygons = tmp;
+		});
+		ArrayList<Polygon> tmp1 = new ArrayList<Polygon>();
+		tmp1.addAll(tmp);
+		m.polygons = tmp1;
 		return m;
 	}
 	/** Paints the Polyhedron.
@@ -169,9 +171,13 @@ public class Polyhedron extends GameObject {
 			int width, int height, int shiftX, int shiftY, 
 			boolean wire, boolean shade)
 	{
-		Polyhedron P = Polyhedron.MVP (this, cam, lights, width, height);
+		Polyhedron P = Utils.polygonSort(Polyhedron.MVP (this, cam, lights, width, height));
 		for (Polygon p : P.polygons)
-			p.paint(g, width, height, shiftX, shiftY, wire, shade, color);
+		{
+			try { 
+				p.paint(g, width, height, shiftX, shiftY, wire, shade, color);
+			} catch (Exception e) {}
+		}
 		return P.polygons.size();
 	}
 	/** Prints the information on the Polyhedron.*/

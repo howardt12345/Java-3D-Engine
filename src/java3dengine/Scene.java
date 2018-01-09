@@ -1,6 +1,9 @@
 package java3dengine;
 
 import java.util.*;
+import java.util.List;
+
+
 import java.awt.*;
 import java.io.*;
 /** The Scene class, implements Serializable.*/
@@ -114,7 +117,7 @@ public class Scene implements Serializable {
 								{
 									input.close();
 									line.close();
-									throw new IllegalArgumentException ("Invalid definitions for: Light_Point.");
+									throw new InputMismatchException ("Invalid definitions for: Light_Point.");
 								}
 								break;
 							case "directional"://If directional light
@@ -130,7 +133,7 @@ public class Scene implements Serializable {
 								{
 									input.close();
 									line.close();
-									throw new IllegalArgumentException ("Invalid definitions for: Light_Directional.");
+									throw new InputMismatchException ("Invalid definitions for: Light_Directional.");
 								}
 								break;
 							}
@@ -156,7 +159,7 @@ public class Scene implements Serializable {
 							{
 								input.close();
 								line.close();
-								throw new IllegalArgumentException ("Invalid definitions for: Polyhedron.");
+								throw new InputMismatchException ("Invalid definitions for: Polyhedron.");
 							}
 							break;
 						case "camera": //if Camera
@@ -171,7 +174,7 @@ public class Scene implements Serializable {
 							{
 								input.close();
 								line.close();
-								throw new IllegalArgumentException ("Invalid definitions for: Camera.");
+								throw new InputMismatchException ("Invalid definitions for: Camera.");
 							}
 							break;
 						default: //If anything else
@@ -228,7 +231,7 @@ public class Scene implements Serializable {
 					default:
 						input.close();
 						line.close();
-						throw new IllegalArgumentException ("Unable to load file.");
+						throw new IllegalArgumentException ("Unable to load line.");
 					}
 				}
 				if (input.hasNextLine()) //If input has next line
@@ -270,8 +273,8 @@ public class Scene implements Serializable {
 	{
 		long start = System.nanoTime();
 		ArrayList<Light> lights = new ArrayList<Light>();
-		ArrayList<Polyhedron> tmp = new ArrayList<Polyhedron>();
-		int active = 0, ctr = 0;
+		List<Polyhedron> tmp = new ArrayList<Polyhedron>();
+		int ctr = 0, active = 0;
 		for (GameObject gameObject : scene) /** For every GameObject in scene.*/
 		{
 			if (gameObject.isActive()) //If active
@@ -291,7 +294,7 @@ public class Scene implements Serializable {
 								? Vec4.subtract(cam.getGlobalTP(), p.getGlobalTP()).magnitude()
 									: -Vec4.subtract(cam.getGlobalTP(), p.getGlobalTP()).magnitude();
 						Vec4 v = Vec4.add(Vec4.multiply(Vec4.subtract(cam.getLookAt(), cam.getLookFrom()), d + d1), cam.getLookFrom());
-						if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getGlobalTP(), v)) > 0) 
+						if (Vec4.dot(Vec4.subtract(cam.getLookFrom(), cam.getLookAt()), Vec4.subtract(cam.getGlobalTP(), v)) > (height/width)*cam.getFOV()) 
 							tmp.add(p);
 					}
 					else 

@@ -7,20 +7,20 @@ import java.util.*;
 /** The utility Class. */
 public class Utils {
 	/** Sorts an ArrayList of Polyhedrons relative to the Camera.
-	 * @param data the input data.
+	 * @param tmp2 the input data.
 	 * @return the sorted ArrayList.
 	 */
-	public static ArrayList<Polyhedron> zSort (ArrayList<Polyhedron> data, Camera c)
+	public static List<Polyhedron> zSort (List<Polyhedron> tmp2, Camera c)
 	{
 		try
 		{
-			ArrayList<Polyhedron> tmp = data;
-			QuickSort (tmp, c, 0, data.size()-1);
+			List<Polyhedron> tmp = tmp2;
+			QuickSort (tmp, c, 0, tmp2.size()-1);
 			return tmp;
 		}
 		catch (Exception e) 
 		{
-			return data;
+			return tmp2;
 		}
 	}
 	/** Quick Sort.
@@ -28,7 +28,7 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static void QuickSort (ArrayList<Polyhedron> data, Camera c, int left, int right) 
+	private static void QuickSort (List<Polyhedron> data, Camera c, int left, int right) 
 	{
 		int index = Partition(data, c, left, right);
 		if (left < index - 1)
@@ -41,15 +41,15 @@ public class Utils {
 	 * @param left the left.
 	 * @param right the right.
 	 */
-	private static int Partition (ArrayList<Polyhedron> data, Camera cam, int left, int right) 
+	private static int Partition (List<Polyhedron> data, Camera cam, int left, int right) 
 	{
 		int a = left, b = right;
-		double pivot = Vec4.getDistance(cam.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getLocalT().getLocalP());
+		double pivot = Vec4.getDistance(cam.getLookFrom(), data.get((int)Math.rint((left + right) / 2)).getGlobalTP());
 		while (a <= b) 
 		{
-			while (Vec4.getDistance(cam.getLookFrom(), data.get(a).getLocalT().getLocalP()) > pivot)
+			while (Vec4.getDistance(cam.getLookFrom(), data.get(a).getGlobalTP()) > pivot)
 				a++;
-			while (Vec4.getDistance(cam.getLookFrom(), data.get(b).getLocalT().getLocalP()) < pivot)
+			while (Vec4.getDistance(cam.getLookFrom(), data.get(b).getGlobalTP()) < pivot)
 				b--;
 			if (a <= b) 
 			{
@@ -65,7 +65,7 @@ public class Utils {
 	 * @param a the first index
 	 * @param b the second index.
 	 */
-	private static void Swap (ArrayList<Polyhedron> array, int a, int b) 
+	private static void Swap (List<Polyhedron> array, int a, int b) 
 	{
 		Polyhedron tmp = array.get(a);
 		array.set(a, array.get(b));

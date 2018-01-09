@@ -83,4 +83,8 @@ class Light extends GameObject {
 	{
 		this.range = range;
 	}
+	public synchronized double calculate (Polygon p)
+	{
+		return 0;
+	}
 }

@@ -57,7 +57,7 @@ public class Light_Directional extends Light {
 	 * @param p the Polygon to calculate.
 	 * @return the light intensity on the Polygon.
 	 */
-	public double calculate (Polygon p) 
+	public synchronized double calculate (Polygon p) 
 	{
 		direction = Vec4.Transform(new Vec4(0, 0, 1), new Matrix (getGlobalR()));
 		return -Vec4.dot(direction, p.getNormal().normalized())*intensity;

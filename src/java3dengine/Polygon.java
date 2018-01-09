@@ -142,17 +142,14 @@ class Polygon implements Serializable {
 	/** Calculates the light intensity on the Polygon.
 	 * @param lights the lights in the scene.
 	 */
-	public float calculateIntensity (ArrayList<Light> lights) 
+	public void calculateIntensity (ArrayList<Light> lights) 
 	{
-		float tmp = 0;
+		intensity = 0;
 		for(int a = 1; a <= lights.size(); a++) 
 		{
-			if (lights.get(a-1) instanceof Light_Point)
-				tmp += (((Light_Point) lights.get(a-1)).calculate(this)/(a+1));
-			else if (lights.get(a-1) instanceof Light_Directional)
-				tmp += (((Light_Directional) lights.get(a-1)).calculate(this)/(a+1));
+			intensity += lights.get(a-1).calculate(this)/(a+1);
 		}
-		return tmp < 0 || tmp > 1 ? tmp <= 0 ? 0 : 1 : tmp;
+		intensity = intensity < 0 || intensity > 1 ? intensity <= 0 ? 0 : 1 : intensity;
 	}
 	/** Returns the number of vertices in polygon.*/
 	public int size () 

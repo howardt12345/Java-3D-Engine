@@ -128,11 +128,10 @@ public class Main extends JPanel implements ActionListener {
 					break;
 				case KeyEvent.VK_SPACE:
 					Animator anim = new Animator (f);
-					anim.add(new Animation(new AnimationClip() {
-						public void animate() throws Exception {
-							scene.getCamera().addTranslate(0.01, Direction.Forward);
-						}
-					}, 5));
+					anim.add(new Animation(
+							scene.getCamera(), 
+							new Vec4 (0, 0, 5, 0), 
+							true));
 					anim.play();
 					break;
 				}
@@ -201,4 +200,6 @@ public class Main extends JPanel implements ActionListener {
 	{
 		f.repaint();
 	}
+	
+	
 }
