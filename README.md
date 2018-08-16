@@ -1,3 +1,3 @@
-# Java-3D-Pipeline
-A 3D Pipeline made using Java.
+# Java-3D-Engine
+A 3D Engine made using Java.
 # Getting Started
